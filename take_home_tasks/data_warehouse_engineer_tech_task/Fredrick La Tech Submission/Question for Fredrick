@@ -1,0 +1,4 @@
+1. You don't appear to have tackled the conversion task, why is that?
+2. Your current sessionisation is regenerative, how would you adapt it to be incremental?
+3. You've used member id for sessionisation, what made you arrive at that decision?
+4. You've created a user session id, how would you create a session id?

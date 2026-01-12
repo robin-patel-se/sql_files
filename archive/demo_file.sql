@@ -1,0 +1,1 @@
+SELECT * FROM se.data.se_sale_tags sst

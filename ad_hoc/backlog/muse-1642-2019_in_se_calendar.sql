@@ -1,0 +1,113 @@
+SELECT sc.date_value,
+       sc.day_name,
+       sc.year,
+       sc.se_year,
+       sc.se_week,
+       sc.month,
+       sc.month_name,
+       sc.day_of_month,
+       sc.day_of_week,
+       sc.week_start,
+       sc.this_year,
+       sc.last_year,
+       sc.last_year_wda,
+       sc.last_last_year,
+       sc.last_last_year_wda,
+       sc.this_year_ytd,
+       sc.last_year_ytd,
+       sc.last_last_year_ytd,
+       sc.last_year_ytd_wda,
+       sc.last_last_year_ytd_wda,
+       sc.this_quarter,
+       sc.last_quarter,
+       sc.this_quarter_ly,
+       sc.last_quarter_ly,
+       sc.this_quarter_lly,
+       sc.last_quarter_lly,
+       sc.this_quarter_qtd,
+       sc.this_quarter_qtd_ly,
+       sc.this_quarter_qtd_lly,
+       sc.this_month,
+       sc.last_month,
+       sc.last_month_wda,
+       sc.this_month_ly,
+       sc.this_month_ly_wda,
+       sc.last_month_ly,
+       sc.last_month_ly_wda,
+       sc.this_month_lly,
+       sc.this_month_lly_wda,
+       sc.last_month_lly,
+       sc.last_month_lly_wda,
+       sc.this_month_mtd,
+       sc.last_month_mtd,
+       sc.this_month_mtd_ly,
+       sc.last_month_mtd_ly,
+       sc.this_month_mtd_lly,
+       sc.last_month_mtd_lly,
+       sc.last_month_mtd_wda,
+       sc.this_month_mtd_ly_wda,
+       sc.last_month_mtd_ly_wda,
+       sc.this_month_mtd_lly_wda,
+       sc.last_month_mtd_lly_wda,
+       sc.this_week,
+       sc.last_week,
+       sc.last_last_week,
+       sc.this_week_ly,
+       sc.last_week_ly,
+       sc.last_last_week_ly,
+       sc.this_week_lly,
+       IFF(YEAR(DATE_TRUNC(WEEK, DATEADD('day', -(YEAR(CURRENT_DATE) - 2019) * 365.25, CURRENT_DATE))) = 2019,
+           sc.week_start = DATE_TRUNC(WEEK, DATEADD('day', -(YEAR(CURRENT_DATE) - 2019) * 365.25, CURRENT_DATE)), NULL) AS this_week_2019,
+       sc.last_week_lly,
+       IFF(YEAR(DATE_TRUNC(WEEK, DATEADD('day', -(YEAR(CURRENT_DATE) - 2019) * 372.25, CURRENT_DATE))) = 2019,
+           sc.week_start = DATE_TRUNC(WEEK, DATEADD('day', -(YEAR(CURRENT_DATE) - 2019) * 372.25, CURRENT_DATE)), NULL) AS last_week_2019,
+       sc.last_last_week_lly,
+       IFF(YEAR(DATE_TRUNC(WEEK, DATEADD('day', -(YEAR(CURRENT_DATE) - 2019) * 379.25, CURRENT_DATE))) = 2019,
+           sc.week_start = DATE_TRUNC(WEEK, DATEADD('day', -(YEAR(CURRENT_DATE) - 2019) * 379.25, CURRENT_DATE)), NULL) AS last_last_week_2019,
+       sc.this_week_wtd,
+       sc.last_week_wtd,
+       sc.last_last_week_wtd,
+       sc.this_week_wtd_ly,
+       sc.last_week_wtd_ly,
+       sc.last_last_week_wtd_ly,
+       sc.this_week_wtd_lly,
+       sc.last_week_wtd_lly,
+       sc.last_last_week_wtd_lly,
+       sc.yesterday,
+       sc.yesterday_last_week,
+       sc.yesterday_last_last_week,
+       sc.yesterday_ly,
+       sc.yesterday_last_week_ly,
+       sc.yesterday_last_last_week_ly,
+       sc.yesterday_lly,
+       sc.yesterday_last_week_lly,
+       sc.yesterday_last_last_week_lly,
+       sc.today,
+       sc.today_last_week,
+       sc.today_last_last_week,
+       sc.today_ly,
+       sc.today_last_week_ly,
+       sc.today_last_last_week_ly,
+       sc.today_lly,
+       sc.today_last_week_lly,
+       sc.today_last_last_week_lly
+FROM data_vault_mvp.dwh.se_calendar sc
+WHERE sc.this_week
+   OR this_week_2019
+   OR last_week_2019;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.dwh.calendar CLONE data_vault_mvp.dwh.calendar;
+
+self_describing_task --include 'dv/dwh/ad_hoc/se_calendar.py'  --method 'run' --start '2022-01-19 00:00:00' --end '2022-01-19 00:00:00'
+
+SELECT *
+FROM data_vault_mvp_dev_robin.dwh.se_calendar sc
+WHERE sc.this_week
+   OR this_week_2019
+
+DROP TABLE hygiene_vault_mvp_dev_robin.snowplow.event_stream;
+CREATE OR REPLACE VIEW hygiene_vault_mvp_dev_robin.snowplow.event_stream AS SELECT * FROM hygiene_vault_mvp.snowplow.event_stream;
+
+self_describing_task --include 'dv/dwh/events/trimmed_event_stream.py'  --method 'run' --start '2022-01-19 00:00:00' --end '2022-01-19 00:00:00'
+
+SELECT COUNT(*) FROM data_vault_mvp.dwh.trimmed_event_stream tes;

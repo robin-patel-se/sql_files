@@ -1,0 +1,1 @@
+SELECT * FROM collab.covid_pii.covid_master_list_catalogue cmlc;

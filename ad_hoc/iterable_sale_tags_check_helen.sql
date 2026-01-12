@@ -1,0 +1,227 @@
+-- on the user profile arrays like salesTagsLast7Days, 60days etc. etc. - when the 7 days rolls over do they get cleared?
+-- because i'm looking at salesTagsLast7Days in conjunction with weeklySpvDeals and the math ain't mathing
+
+SELECT *
+FROM data_vault_mvp.dwh.iterable__user_profile_activity iupa
+WHERE iupa.shiro_user_id = '81213046';
+
+-- two deals in weekly spvs
+-- A50070
+-- A15773
+
+-- check se_sale_tags
+SELECT DISTINCT sst.tag_name
+FROM se.data.se_sale_tags sst
+WHERE sst.se_sale_id IN (
+						 'A50070',
+						 'A15773'
+	);
+/*
+TAG_NAME
+beach
+boutique
+europe
+petfriendly
+relaxing
+romance
+scenery
+zz_5star
+zz_DE_Pools
+zz_DE_earlybird
+zz_MedIslands
+zz_NLBE_NoJetlore
+zz_SE_NoJetlore
+zz_UKsummersaleALL
+zz_adultsonly
+zz_augustavails
+zz_auto_AprilAvails
+zz_auto_JuneAvails
+zz_auto_MayAvails
+zz_auto_NovemberAvails
+zz_auto_OctoberAvails
+zz_auto_augustavails
+zz_auto_de_spring
+zz_auto_easteravails
+zz_auto_julyavails
+zz_auto_lastminute
+zz_auto_latesummer
+zz_auto_nextyear_autumn
+zz_auto_nextyear_spring
+zz_auto_nextyear_summer
+zz_auto_septemberavails
+zz_auto_summeravails
+zz_dinnerincluded
+zz_endingsoon
+zz_greece
+zz_green
+zz_honeymoon
+zz_hotelonly
+zz_islands
+zz_julyavails
+zz_lastminute
+zz_latesummeravails
+zz_mediterranean
+zz_pool
+zz_promotion_de_stornierbar_hotel2_709
+zz_promotion_flash_deals_(all_territories)_845
+zz_promotion_new_dates_(all_territories)_842
+zz_promotion_price_drop_(all_territories)_801
+zz_promotion_price_drop_de_734
+zz_promotion_price_drop_it_763
+zz_promotion_price_drop_swe_765
+zz_promotion_price_drop_uk_264
+zz_promotion_refundable_691
+zz_promotion_rimborsabile_704
+zz_promotion_summer_sale_(all_territories)_843
+zz_promotion_time-limited_(all_territories)_840
+zz_promotion_time-limited_de_789
+zz_promotion_time-limited_it_791
+zz_promotion_time-limited_swe_792
+zz_promotion_time-limited_uk_788
+zz_refundablerates
+zz_santorini
+zz_summer2024
+zz_summeravails
+zz_uk_nojetlore
+zz_weekendavails
+*/
+
+-- array on user profile
+[
+  "beach",
+  "boutique",
+  "europe",
+  "petfriendly",
+  "relaxing",
+  "romance",
+  "scenery",
+  "zz_5star",
+  "zz_DE_Pools",
+  "zz_DE_earlybird",
+  "zz_MedIslands",
+  "zz_NLBE_NoJetlore",
+  "zz_SE_NoJetlore",
+  "zz_UKsummersaleALL",
+  "zz_adultsonly",
+  "zz_augustavails",
+  "zz_auto_AprilAvails",
+  "zz_auto_JuneAvails",
+  "zz_auto_MayAvails",
+  "zz_auto_NovemberAvails",
+  "zz_auto_OctoberAvails",
+  "zz_auto_augustavails",
+  "zz_auto_de_spring",
+  "zz_auto_easteravails",
+  "zz_auto_julyavails",
+  "zz_auto_lastminute",
+  "zz_auto_latesummer",
+  "zz_auto_nextyear_autumn",
+  "zz_auto_nextyear_spring",
+  "zz_auto_nextyear_summer",
+  "zz_auto_septemberavails",
+  "zz_auto_summeravails",
+  "zz_dinnerincluded",
+  "zz_endingsoon",
+  "zz_greece",
+  "zz_green",
+  "zz_honeymoon",
+  "zz_hotelonly",
+  "zz_islands",
+  "zz_julyavails",
+  "zz_lastminute",
+  "zz_latesummeravails",
+  "zz_mediterranean",
+  "zz_pool",
+  "zz_promotion_de_stornierbar_hotel2_709",
+  "zz_promotion_flash_deals_(all_territories)_845",
+  "zz_promotion_new_dates_(all_territories)_842",
+  "zz_promotion_price_drop_(all_territories)_801",
+  "zz_promotion_price_drop_de_734",
+  "zz_promotion_price_drop_it_763",
+  "zz_promotion_price_drop_swe_765",
+  "zz_promotion_price_drop_uk_264",
+  "zz_promotion_refundable_691",
+  "zz_promotion_rimborsabile_704",
+  "zz_promotion_summer_sale_(all_territories)_843",
+  "zz_promotion_time-limited_(all_territories)_840",
+  "zz_promotion_time-limited_de_789",
+  "zz_promotion_time-limited_it_791",
+  "zz_promotion_time-limited_swe_792",
+  "zz_promotion_time-limited_uk_788",
+  "zz_refundablerates",
+  "zz_santorini",
+  "zz_summer2024",
+  "zz_summeravails",
+  "zz_uk_nojetlore",
+  "zz_weekendavails"
+]
+
+SELECT * FROM se.data_pii.se_user_attributes sua WHERE sua.shiro_user_id = 81213046;
+
+-- export from iterable
+"beach",
+"boutique",
+"europe",
+"petfriendly",
+"relaxing",
+"romance",
+"scenery",
+"zz_5star",
+"zz_DE_Pools",
+"zz_DE_earlybird",
+"zz_MedIslands",
+"zz_NLBE_NoJetlore",
+"zz_SE_NoJetlore",
+"zz_UKsummersaleALL",
+"zz_adultsonly",
+"zz_augustavails",
+"zz_auto_AprilAvails",
+"zz_auto_JuneAvails",
+"zz_auto_MayAvails",
+"zz_auto_NovemberAvails",
+"zz_auto_OctoberAvails",
+"zz_auto_augustavails",
+"zz_auto_de_spring",
+"zz_auto_easteravails",
+"zz_auto_julyavails",
+"zz_auto_lastminute",
+"zz_auto_latesummer",
+"zz_auto_nextyear_autumn",
+"zz_auto_nextyear_spring",
+"zz_auto_nextyear_summer",
+"zz_auto_septemberavails",
+"zz_auto_summeravails",
+"zz_dinnerincluded",
+"zz_endingsoon",
+"zz_greece",
+"zz_green",
+"zz_honeymoon",
+"zz_hotelonly",
+"zz_islands",
+"zz_julyavails",
+"zz_lastminute",
+"zz_latesummeravails",
+"zz_mediterranean",
+"zz_pool",
+"zz_promotion_de_stornierbar_hotel2_709",
+"zz_promotion_flash_deals_(all_territories)_845",
+"zz_promotion_new_dates_(all_territories)_842",
+"zz_promotion_price_drop_(all_territories)_801",
+"zz_promotion_price_drop_de_734",
+"zz_promotion_price_drop_it_763",
+"zz_promotion_price_drop_swe_765",
+"zz_promotion_price_drop_uk_264",
+"zz_promotion_refundable_691",
+"zz_promotion_rimborsabile_704",
+"zz_promotion_summer_sale_(all_territories)_843",
+"zz_promotion_time-limited_(all_territories)_840",
+"zz_promotion_time-limited_de_789",
+"zz_promotion_time-limited_it_791",
+"zz_promotion_time-limited_swe_792",
+"zz_promotion_time-limited_uk_788",
+"zz_refundablerates",
+"zz_santorini",
+"zz_summer2024",
+"zz_summeravails",
+"zz_uk_nojetlore",
+"zz_weekendavails"

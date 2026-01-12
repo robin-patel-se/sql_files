@@ -1,0 +1,34 @@
+<templateSet group="SQL">
+  <template name="col" value="$col$ $type$ $null$$END$" description="new column definition" toReformat="true" toShortenFQNames="false" deactivated="true">
+    <variable name="col" expression="" defaultValue="&quot;col&quot;" alwaysStopAt="true" />
+    <variable name="type" expression="" defaultValue="&quot;int&quot;" alwaysStopAt="true" />
+    <variable name="null" expression="" defaultValue="&quot;not null&quot;" alwaysStopAt="true" />
+    <context />
+  </template>
+  <template name="mer" value="MERGE INTO $tables$.$END$ target&#10;USING ()&#10;AS batch&#10;ON&#10;WHEN MATCHED&#10;THEN UPDATE SET&#10;&#10;WHEN NOT MATCHED&#10;THEN INSERT ()&#10;" description="Merge into" toReformat="false" toShortenFQNames="true">
+    <variable name="tables" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="SQL_SNOWFLAKE" value="true" />
+    </context>
+  </template>
+  <template name="dupe" value="SELECT &#10;    $column$.$END$,&#10;    count(*)&#10;FROM $table$&#10;GROUP BY 1&#10;HAVING COUNT(*) &gt;1;    " description="Duplicates in table" toReformat="true" toShortenFQNames="true">
+    <variable name="table" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="column" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="SQL_SNOWFLAKE" value="true" />
+    </context>
+  </template>
+  <template name="count" value="select count(*) from $table$$END$;" description="select all rows from a table" toReformat="true" toShortenFQNames="false">
+    <variable name="table" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="SQL_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="clone" value="CREATE OR REPLACE TRANSIENT TABLE $table$$END$ CLONE $table1$$END$;" description="clone table to transient table" toReformat="false" toShortenFQNames="true">
+    <variable name="table" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="table1" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="SQL" value="true" />
+    </context>
+  </template>
+</templateSet>

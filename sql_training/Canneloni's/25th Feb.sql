@@ -1,0 +1,3 @@
+-- AT SESSION level how many bookings AND spvs did each SESSION make?
+-- - What IS our conversion conversion rate? (FULL aggregate version avg SESSION cvr)
+-- - ADD VARIABLES

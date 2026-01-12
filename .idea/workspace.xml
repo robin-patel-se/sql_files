@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="ana" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseLocalColorSettings">
+    <colors>
+      <entry key="2b8c334e-5030-4827-88e8-1a55dc7e8498" value="Green" />
+    </colors>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2LovTbKPgZpHrtsK5NasfrOntIU" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "database.data.extractors.current.export.id": "01e62ca9-8b58-4213-9e0c-7cab89d1ffbb",
+    "database.data.extractors.current.id": "01e62ca9-8b58-4213-9e0c-7cab89d1ffbb",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/robin/myrepos/sql_files/ad_hoc",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.splitter.proportion": "0.15877771",
+    "two.files.diff.last.used.file": "/Users/robin.patel/Library/Application Support/JetBrains/DataGrip2024.2/consoles/db/9561d350-2f64-4ed1-be51-82313536b813/console_2.sql"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "athena",
+      "postgresql",
+      "oracle",
+      "9e037659-12f2-4f91-918a-0904140684be",
+      "mysql"
+    ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
+      "Oracle",
+      "Snowflake"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ad_hoc" />
+      <recent name="$PROJECT_DIR$/iterable_crm_reporting_efficiency" />
+      <recent name="$PROJECT_DIR$/data_warehouse_engineer_tech_task/Tomasz Wójcik - Tech Submission" />
+      <recent name="$PROJECT_DIR$/cheat_sheet" />
+      <recent name="$PROJECT_DIR$/netsuite_data_extract/uploads" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cortex" />
+      <recent name="$PROJECT_DIR$/tvl_discrepancies" />
+      <recent name="$PROJECT_DIR$/tickets" />
+      <recent name="$PROJECT_DIR$/ad_hoc" />
+      <recent name="$PROJECT_DIR$/marc_booking_intent" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="ana" />
+      <created>1750150260578</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750150260578</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="SHOW_DIRTY_RECURSIVELY" value="true" />
+    <MESSAGE value="gian" />
+    <option name="LAST_COMMIT_MESSAGE" value="gian" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

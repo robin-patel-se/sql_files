@@ -1,0 +1,23 @@
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.offers_offer CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.offers_offer;
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.offers_offerconcept CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.offers_offerconcept;
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.offers_category CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.offers_category;
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.offers_offerstaff CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.offers_offerstaff;
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.offers_accountmanager CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.offers_accountmanager;
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.offers_categorymanager CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.offers_categorymanager;
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.orders_order CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.orders_order;
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.partners_partner CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.partners_partner;
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.dwh.user_booking_review CLONE data_vault_mvp.dwh.user_booking_review;
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.dwh.se_sale CLONE data_vault_mvp.dwh.se_sale;
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.offers_hotelproductlink CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.offers_hotelproductlink;
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.allocations_allocation_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.allocations_allocation_snapshot;
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.products_hotelproduct_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.products_hotelproduct_snapshot;
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.common_sitesettings_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.common_sitesettings_snapshot;
+
+
+self_describing_task --include 'biapp/task_catalogue/se/data/udfs/udf_functions.py'  --method 'run' --start '2022-09-05 00:00:00' --end '2022-09-05 00:00:00'
+
+
+SELECT *
+FROM data_vault_mvp_dev_robin.dwh.tb_offer__step04__participants_customer_fields;

@@ -1,0 +1,16 @@
+CREATE OR REPLACE TABLE data_vault_mvp.single_customer_view_stg.module_touched_spvs_bkup clone data_vault_mvp.single_customer_view_stg.module_touched_spvs;
+CREATE OR REPLACE TABLE data_vault_mvp.single_customer_view_stg.module_touched_spvs_temp clone data_vault_mvp.single_customer_view_stg.module_touched_spvs;
+
+ALTER TABLE data_vault_mvp.single_customer_view_stg.module_touched_spvs_temp ADD COLUMN page_url VARCHAR;
+
+UPDATE data_vault_mvp.single_customer_view_stg.module_touched_spvs_temp target
+SET target.page_url = batch.page_url
+FROM hygiene_vault_mvp.snowplow.event_stream batch
+WHERE target.event_hash = batch.event_hash;
+
+SELECT * FROM data_vault_mvp.single_customer_view_stg.module_touched_spvs_temp;
+
+CREATE OR REPLACE TABLE data_vault_mvp.single_customer_view_stg.module_touched_spvs copy grants clone data_vault_mvp.single_customer_view_stg.module_touched_spvs_temp;
+DROP TABLE data_vault_mvp.single_customer_view_stg.module_touched_spvs_temp;
+
+USE WAREHOUSE pipe_xlarge;

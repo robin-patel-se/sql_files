@@ -1,0 +1,124 @@
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.allocations_allocation_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.allocations_allocation_snapshot
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.dwh.sfsc__rebooking_request_cases CLONE data_vault_mvp.dwh.sfsc__rebooking_request_cases
+;
+
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.finance_gsheets.cash_refunds_stripe CLONE hygiene_snapshot_vault_mvp.finance_gsheets.cash_refunds_stripe
+;
+
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.finance_gsheets.cash_refunds_to_members CLONE hygiene_snapshot_vault_mvp.finance_gsheets.cash_refunds_to_members
+;
+
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.finance_gsheets.cash_refunds_airline_refund_report CLONE hygiene_snapshot_vault_mvp.finance_gsheets.cash_refunds_airline_refund_report
+;
+
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.finance_gsheets.cash_refunds_airline_refund_status CLONE hygiene_snapshot_vault_mvp.finance_gsheets.cash_refunds_airline_refund_status
+;
+
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.finance_gsheets.chargebacks_catalogue CLONE hygiene_snapshot_vault_mvp.finance_gsheets.chargebacks_catalogue
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.dwh.se_credit CLONE data_vault_mvp.dwh.se_credit
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.dwh.dim_sale CLONE data_vault_mvp.dwh.dim_sale
+;
+
+CREATE OR REPLACE TRANSIENT TABLE latest_vault_dev_robin.travelbird_mysql.django_content_type CLONE latest_vault.travelbird_mysql.django_content_type
+;
+
+CREATE OR REPLACE TRANSIENT TABLE latest_vault_dev_robin.travelbird_mysql.django_site CLONE latest_vault.travelbird_mysql.django_site
+;
+
+CREATE OR REPLACE TRANSIENT TABLE latest_vault_dev_robin.cms_mysql.external_booking CLONE latest_vault.cms_mysql.external_booking
+;
+
+CREATE OR REPLACE TRANSIENT TABLE latest_vault_dev_robin.travelbird_mysql.integrations_bookingtransaction CLONE latest_vault.travelbird_mysql.integrations_bookingtransaction
+;
+
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.finance_gsheets.manual_refunds CLONE hygiene_snapshot_vault_mvp.finance_gsheets.manual_refunds
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.offers_hotelproductlink_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.offers_hotelproductlink_snapshot
+;
+
+CREATE OR REPLACE TRANSIENT TABLE latest_vault_dev_robin.travelbird_mysql.offers_offer CLONE latest_vault.travelbird_mysql.offers_offer
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.offers_offer_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.offers_offer_snapshot
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.offers_tourproductlink_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.offers_tourproductlink_snapshot
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.orders_order_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.orders_order_snapshot
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.orders_orderitembase_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.orders_orderitembase_snapshot
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.orders_orderitemintegration_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.orders_orderitemintegration_snapshot
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.orders_mails_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.orders_mails_snapshot
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.orders_payment_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.orders_payment_snapshot
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.orders_paymentsplan_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.orders_paymentsplan_snapshot
+;
+
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.orders_person CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.orders_person
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.orders_paymentmethod_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.orders_paymentmethod_snapshot
+;
+
+CREATE OR REPLACE TRANSIENT TABLE hygiene_snapshot_vault_mvp_dev_robin.travelbird_mysql.orders_refundrequest CLONE hygiene_snapshot_vault_mvp.travelbird_mysql.orders_refundrequest
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.products_hotelproduct_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.products_hotelproduct_snapshot
+;
+
+CREATE OR REPLACE TRANSIENT TABLE latest_vault_dev_robin.sfsc.salesforce_cases CLONE latest_vault.sfsc.salesforce_cases
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.dwh.tb_booking CLONE data_vault_mvp.dwh.tb_booking
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.dwh.tb_offer CLONE data_vault_mvp.dwh.tb_offer
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.touroperating_toursection_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.touroperating_toursection_snapshot
+;
+
+CREATE OR REPLACE TRANSIENT TABLE data_vault_mvp_dev_robin.travelbird_mysql_snapshots.touroperating_toursectionproduct_snapshot CLONE data_vault_mvp.travelbird_mysql_snapshots.touroperating_toursectionproduct_snapshot
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.venues_venue_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.venues_venue_snapshot
+;
+
+CREATE OR REPLACE VIEW data_vault_mvp_dev_robin.travelbird_mysql_snapshots.venues_localizedaddress_snapshot AS
+SELECT *
+FROM data_vault_mvp.travelbird_mysql_snapshots.venues_localizedaddress_snapshot
+;
+
+self_describing_task --include 'biapp/task_catalogue/dv/dwh/master_booking_list/master_tb_booking_list.py'  --method 'run' --start '2023-11-08 00:00:00' --end '2023-11-08 00:00:00'

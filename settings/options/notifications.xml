@@ -1,0 +1,5 @@
+<application>
+  <component name="NotificationConfiguration">
+    <notification groupId="Database queries that took much time" displayType="STICKY_BALLOON" />
+  </component>
+</application>

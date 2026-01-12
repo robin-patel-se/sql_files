@@ -1,0 +1,13 @@
+USE ROLE pipelinerunner;
+
+DROP SCHEMA single_customer_view_historical.event_stream_2025_06_14;
+DROP SCHEMA single_customer_view_historical.single_customer_view_2025_06_14;
+
+CREATE SCHEMA single_customer_view_historical.event_stream_2025_07_01 CLONE hygiene_vault_mvp.snowplow;
+;
+
+CREATE SCHEMA single_customer_view_historical.single_customer_view_2025_07_01 CLONE data_vault_mvp.single_customer_view_stg;
+;
+
+CREATE OR REPLACE TABLE single_customer_view_historical.single_customer_view_2025_07_01.touch_marketing_channel CLONE data_vault_mvp.single_customer_view_stg.module_touch_marketing_channel;
+CREATE OR REPLACE TABLE single_customer_view_historical.single_customer_view_2025_07_01.module_touch_attribution CLONE data_vault_mvp.single_customer_view_stg.module_touch_attribution;

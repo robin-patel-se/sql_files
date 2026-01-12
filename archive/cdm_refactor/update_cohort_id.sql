@@ -1,0 +1,8 @@
+CREATE OR REPLACE TABLE data_vault_mvp_dev_robin.customer_model.customer_model_full_uk_de clone data_vault_mvp.customer_model.customer_model_full_uk_de;
+UPDATE data_vault_mvp_dev_robin.customer_model.customer_model_full_uk_de
+SET member_cohort_id = member_cohort_id + 1;
+
+USE WAREHOUSE pipe_xlarge;
+
+
+DROP TABLE data_vault_mvp_dev_robin.customer_model.customer_model_full_uk_de;

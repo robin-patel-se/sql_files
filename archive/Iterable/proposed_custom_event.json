@@ -1,0 +1,36 @@
+Option 1: Custom event - user level - No history max rows will be number of users in our db. Are nested objects preferred over arrays?
+{
+	email : "john.smith@thatplace.com"
+	userId : 124325
+	dailySpvDeals : {
+		1 : "A1234",
+	    2 : "A4312"
+	}
+	weeklySpvDeals : {
+		1 : "A1234", 
+		2 : "A4312", 
+		3 : "52342", 
+		4 : "23426"
+	}
+	lastUpdated : "2021-10-05 00:00:00"
+}
+
+
+
+Option 2: Update user profile - user level - update the user profile with new columns
+Note, that when we supercede this option these columns may become redundant
+{
+	email : "john.smith@thatplace.com"
+	userId : 124325
+	...
+	dailyDeals : {
+		1 : "A1234",
+	    2 : "A4312"
+	}
+	weeklyDeals : {
+		1 : "A1234", 
+		2 : "A4312", 
+		3 : "52342", 
+		4 : "23426"
+	}
+}

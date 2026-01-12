@@ -1,0 +1,23 @@
+How would you thoroughly test your modelling and queries to ensure faith in the resulting data? 
+	
+	By comparing aggregrations of data from queries used in the tasks (or slight modifications of those queries) 
+	with aggregrations of the deduped datasets. 
+	For example, comparing the sum of the total visits in task 2 (without limiting to 10 rows) against the number of rows in the deduped events dataset.
+	Also, taking small subsets of data (such as events associated with a given cookie_id) from the original dataset and following it through each step to 
+	ensure it is processed and accounted for as expected.
+
+How would you adjust your approach for incremental processing?
+
+	Rather than using views for the sessionised events, for example, run that process once and insert the output into a table with a 
+	'processed_at' timestamp column noting when the new rows were processed. Then when new data is available in the source dataset, only apply the logic
+	and merge into the output table for those rows which have a schedule_tstamp or extracted_at value which is later than the max 'processed_at' timestamp.
+
+Assuming that many of our users have multiple devices and some users will share their devices with other family members, how would you use the cookie_id field in conjunction with the member_id field to improve our understanding of customer journeys?
+
+	Since a cookie_id (assuming the cookies aren't cleared/deleted) can be used to identify a device, we could analyse cases where
+	a given cookie_id is associated with events from multiple unique member_ids to get a picture of cases where a single device is shared by
+	multiple signed-up users, and if the potential context implications (such as more communal, family environments) affect outcomes such as
+	conversion rate, etc. 
+	Similarly, cases when a single member_id has events associated with multiple unique cookie_ids can be analysed, and this implies the user
+	either uses multiple devices or tends to clear their browser cookies. Additional data would be required to identify the specifics, but
+	either way this would have implications regarding potential tech savviness, etc.

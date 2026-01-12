@@ -1,0 +1,47 @@
+<application>
+  <component name="LocalDatabaseDriverManager" version="201">
+    <driver id="mongo">
+      <artifact id="MongoDB" name="MongoDB" use="true" version="1.18" />
+    </driver>
+    <driver id="sqlserver.ms">
+      <artifact id="SQL Server" name="SQL Server" use="true" version="7.2.1" />
+    </driver>
+    <driver id="mysql.8">
+      <artifact />
+      <artifact id="MySQL ConnectorJ" name="MySQL ConnectorJ" use="true" version="8.0.25" />
+    </driver>
+    <driver id="mysql">
+      <artifact />
+      <artifact id="MySQL ConnectorJ" name="MySQL ConnectorJ" use="true" version="5.1.47" />
+    </driver>
+    <driver id="mysql_aurora">
+      <artifact id="MariaDB Connector J" name="MariaDB Connector J" use="true" version="3.0.7" />
+    </driver>
+    <driver id="mysql_aurora_aws">
+      <artifact id="AWS Aurora MySQL" name="AWS Aurora MySQL" use="true" version="1.1.9" />
+    </driver>
+    <driver id="postgresql">
+      <artifact id="PostgreSQL" name="PostgreSQL" use="true" version="42.6.0" />
+    </driver>
+    <driver id="snowflake">
+      <artifact id="jna-platform" name="jna-platform" use="true" version="5.8.0" />
+      <artifact id="Snowflake" name="Snowflake" use="true" version="3.14.4" />
+    </driver>
+    <driver id="java.sql.Driver" name="Custom Snowflake Driver" driver-class="net.snowflake.client.jdbc.SnowflakeDriver">
+      <library>
+        <url>file://$USER_HOME$/snowflake-jdbc-3.6.17.jar</url>
+      </library>
+    </driver>
+    <driver id="57ed42e5-7b87-4147-a8a1-e0a264cfe031" name="Salesforce driver" driver-class="com.reliersoft.sforce.jdbc.Driver">
+      <library>
+        <url>file://$USER_HOME$/jdbc drivers/Reliersoft_Salesforce_SQL_JDBC/sforce-jdbc.jar</url>
+      </library>
+    </driver>
+    <driver id="9e037659-12f2-4f91-918a-0904140684be" name="Netsuite SuiteAnalytics Driver" dialect="Oracle" driver-class="com.netsuite.jdbc.openaccess.OpenAccessDriver">
+      <remarks>Custom driver for Netsuite</remarks>
+      <library>
+        <url>file://$USER_HOME$/NetSuiteJDBCDrivers/NQjc.jar</url>
+      </library>
+    </driver>
+  </component>
+</application>

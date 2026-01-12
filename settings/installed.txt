@@ -1,0 +1,3 @@
+com.markskelton.one-dark-theme
+bundled-datagrip-help
+com.intellij.ml.llm

@@ -1,0 +1,65 @@
+<application>
+  <component name="dataSourceStorage" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="Prod stats db" group="Development" uuid="372584fc-3151-4a5d-8502-f68e7a886967">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://127.0.0.1:25432/datapipeline_stats</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Snowflake" uuid="9561d350-2f64-4ed1-be51-82313536b813">
+      <driver-ref>snowflake</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>net.snowflake.client.jdbc.SnowflakeDriver</jdbc-driver>
+      <jdbc-url>jdbc:snowflake://ae34283.eu-west-1.snowflakecomputing.com/?&amp;warehouse=PIPE_MEDIUM&amp;role=PERSONAL_ROLE__ROBINPATEL&amp;authenticator=externalbrowser</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="TB MySQL" group="Source Systems" uuid="eeac6214-5666-4439-8a2e-97ce1add519e">
+      <driver-ref>mysql_aurora_aws</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>software.aws.rds.jdbc.mysql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql:aws://anon.cluster-ckft4nclnkkm.eu-west-1.rds.amazonaws.com:3306</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="Stats db" group="Development" uuid="29561752-47fb-4ccb-b17a-d088b227dc02">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:54328/cAxI3xra8U5Efq</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="SE MySQL" read-only="true" group="Source Systems" uuid="6625d59c-4bf6-467c-b541-bac45c179fb7">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <remarks>Need to connect via openvpn first</remarks>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://aurora-dataaccess-01-cluster.cluster-ro-cugna2yffdrb.eu-west-1.rds.amazonaws.com:3306/secretescapes</jdbc-url>
+      <vm-options>&quot;-Djdk.tls.disabledAlgorithms=SSLv3, TLSv1.1, RC4, DES, MD5withRSA, DH keySize &lt; 1024, EC keySize &lt; 224, 3DES_EDE_CBC, anon, NULL, include jdk.disabled.namedCurves&quot;</vm-options>
+    </data-source>
+    <data-source source="LOCAL" name="Test Snowflake" group="Development" uuid="a8af3e2b-ca27-4786-a8fc-af0356b70078">
+      <driver-ref>snowflake</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>net.snowflake.client.jdbc.SnowflakeDriver</jdbc-driver>
+      <jdbc-url>jdbc:snowflake://secret_escapes_dev.eu-west-1.snowflakecomputing.com/?&amp;warehouse=PIPE_DEFAULT</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="airflowdb" group="Development" uuid="aca6dd72-0f1f-48d9-9cae-e911fb984b7f">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://robin-dev.d1.escapes.tech:54327/i11Y70596dhNyacH</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Postgres Local" group="Development" uuid="b5367648-7d2b-4290-8f07-616b6ea9fc09">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Snowflake PIPELINERUNNER" single-connection="true" group="Development" uuid="e68052b2-296b-4fe3-9122-664e7d792dd1">
+      <driver-ref>snowflake</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>net.snowflake.client.jdbc.SnowflakeDriver</jdbc-driver>
+      <jdbc-url>jdbc:snowflake://ae34283.eu-west-1.snowflakecomputing.com/?&amp;warehouse=PIPE_MEDIUM&amp;role=PIPELINERUNNER</jdbc-url>
+      <auto-close enable="true" />
+    </data-source>
+  </component>
+</application>

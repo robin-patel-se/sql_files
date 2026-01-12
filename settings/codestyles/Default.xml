@@ -1,0 +1,39 @@
+<code_scheme name="Default" version="173">
+  <MySQLCodeStyleSettings version="7">
+    <option name="USE_GENERAL_STYLE" value="false" />
+    <option name="IDENTIFIER_CASE" value="1" />
+    <option name="CUSTOM_TYPE_CASE" value="0" />
+    <option name="ALIAS_CASE" value="1" />
+  </MySQLCodeStyleSettings>
+  <SqlCodeStyleSettings version="7">
+    <option name="KEYWORD_CASE" value="2" />
+    <option name="IDENTIFIER_CASE" value="1" />
+    <option name="CUSTOM_TYPE_CASE" value="0" />
+    <option name="ALIAS_CASE" value="1" />
+    <option name="QUOTE_IDENTIFIER" value="1" />
+    <option name="QUERY_EL_COMMA" value="2" />
+    <option name="SUBQUERY_OPENING" value="1" />
+    <option name="SUBQUERY_CONTENT" value="2" />
+    <option name="SUBQUERY_CLOSING" value="2" />
+    <option name="WITH_EL_LINE" value="101" />
+    <option name="WITH_EL_COMMA" value="2" />
+    <option name="SELECT_EL_LINE" value="101" />
+    <option name="SELECT_NEW_LINE_AFTER_ALL_DISTINCT" value="true" />
+    <option name="SELECT_USE_AS_WORD" value="1" />
+    <option name="FROM_ALIGN_JOIN_TABLES" value="true" />
+    <option name="FROM_ONLY_JOIN_INDENT" value="1" />
+    <option name="WHERE_EL_WRAP" value="2" />
+    <option name="WHERE_EL_BOUND" value="0" />
+    <option name="ROUTINE_ARG_CLOSING" value="4" />
+    <option name="SCRIPT_STMT_SEMICOLON_WRAP" value="1" />
+    <option name="SCRIPT_STMT_FOLLOWS_BLANK_LINE" value="1" />
+    <option name="IMP_IF_THEN_INDENT_THEN_ELSE" value="true" />
+    <option name="EXPR_CASE_END" value="1" />
+    <option name="EXPR_CASE_KEEP_NL_AFTER_THEN" value="true" />
+  </SqlCodeStyleSettings>
+  <codeStyleSettings language="SQL">
+    <indentOptions>
+      <option name="USE_TAB_CHARACTER" value="true" />
+    </indentOptions>
+  </codeStyleSettings>
+</code_scheme>

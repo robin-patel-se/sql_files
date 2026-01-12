@@ -1,0 +1,2 @@
+airflow backfill --start_date '2020-05-07 03:00:00' --end_date '2020-05-07 03:00:00' --task_regex '.*' single_customer_view__daily_at_03h00
+airflow backfill --start_date '2020-05-08 03:00:00' --end_date '2020-05-10 03:00:00' --task_regex '.*' -m single_customer_view__daily_at_03h00

@@ -1,0 +1,39 @@
+SHOW SNOWFLAKE INTELLIGENCES;
+
+GRANT CREATE SNOWFLAKE INTELLIGENCE ON ACCOUNT TO ROLE AI_ADMIN;
+
+
+-- Grant the ability to create agents in your specific schema
+GRANT CREATE AGENT ON SCHEMA se.data TO ROLE AI_ADMIN;
+GRANT CREATE AGENT ON SCHEMA se.data TO ROLE personal_role__robinpatel;
+GRANT CREATE AGENT ON SCHEMA se.bi TO ROLE personal_role__robinpatel;
+
+-- Ensure your role can use the Cortex functions
+GRANT DATABASE ROLE SNOWFLAKE.CORTEX_USER TO ROLE AI_ADMIN;
+
+
+GRANT USAGE ON DATABASE SE TO ROLE AI_ADMIN;
+
+GRANT USAGE ON SCHEMA SE.DATA TO ROLE AI_ADMIN;
+
+GRANT CREATE AGENT ON SCHEMA snowflake_intelligence.agents TO ROLE <your_role>;
+
+
+USE ROLE accountadmin;
+-- 1. Grant usage on the specific search service
+GRANT USAGE ON CORTEX SEARCH SERVICE SE.DATA.SE_EVENTS_CALENDAR TO ROLE data_team_basic;
+
+-- 2. Ensure the role can see the Database and Schema it lives in
+GRANT USAGE ON DATABASE SE TO ROLE AI_ADMIN;
+GRANT USAGE ON SCHEMA SE.DATA TO ROLE AI_ADMIN;
+
+SELECT get_ddl('cortex_search_service', 'SE.DATA.SE_EVENTS_CALENDAR');
+
+USE ROLE securityadmin;
+GRANT MONITOR ON AGENT SE.data.trading TO ROLE AI_ADMIN;
+
+USE ROLE ai_admin;
+
+
+
+

@@ -1,0 +1,11 @@
+1. You've created a session id, how would you  handle this if events need to be resessionised, eg two batches of events appear to be separate, a new event (late arriving) appears that now joins them into one session what would the session id become?
+
+2. Your session id appears scans all data, how would you optimise this for incremental loading
+
+3. Your landing pages doesn't actually return the landing page, it is based on filters. How else might you work out the landing page of a session? (indexing)
+
+4. You've filtered for COMPLETE bookings, what do you define as a conversion? If a booking completes and then cancels is that a conversion?
+
+5. Your member age query, do you have any further notes/caveats around it? - the member age at time of event
+
+6. How would you handle users that at one stage we don't know who they are and then at a later stage we learn who they are?

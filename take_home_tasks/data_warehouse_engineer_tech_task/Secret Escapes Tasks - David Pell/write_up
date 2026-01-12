@@ -1,0 +1,11 @@
+Writeup
+Task 3 – Unfinished- Did not map average event count to age group
+Methodology for missing segment:
+Join events to member using member_id and detect age_grouping
+Group by age_grouping and display average count of events
+
+Assert correctness with:
+Rubber duck approach
+For incremental processing, repeated subqueries such as grouping sessions and the most up to date rows would be stored in a temp table and then used later multiple times.
+If you mean incremental processing in the time fashion, you could group new sessions and merge them with old sessions by adding 30 mins to the start duration that you are selecting from, allowing the query to overlap with existing session groups. Merge the new sessions with old ones by checking if it is a new session (as previously used) and merging by event_id and last_updated using the first session event
+You could group by both cookie_id and member_id to provide more granularity (assuming cookie_id expires and renews by the time a second user utilizes the same account).

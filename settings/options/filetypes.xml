@@ -1,0 +1,11 @@
+<application>
+  <component name="FileTypeManager" version="19">
+    <extensionMap>
+      <mapping pattern="donald questions" type="AUTO_DETECTED" />
+      <mapping pattern="write_up" type="AUTO_DETECTED" />
+      <mapping pattern="Question for Fredrick" type="AUTO_DETECTED" />
+      <mapping pattern="questions for sami" type="AUTO_DETECTED" />
+      <mapping pattern="questions for david" type="AUTO_DETECTED" />
+    </extensionMap>
+  </component>
+</application>

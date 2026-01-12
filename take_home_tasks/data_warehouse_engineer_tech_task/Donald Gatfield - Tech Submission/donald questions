@@ -1,0 +1,3 @@
+1. You didn't use transaction events why?
+2. You've used bookings table in conversion metric, what made you assume this?
+3. You're last task appears to have a misconfigured join

@@ -4,16 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="ana" />
+    <list default="true" id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="ana">
+      <change afterPath="$PROJECT_DIR$/DDoS compromise investigation.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tickets/SPI-8158-ppc-brand-user-search-session-split.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ad_hoc/object_relationships.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ad_hoc/object_relationships.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cortex/semantic_view.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/semantic_view.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/semantic_views/current_session_analysis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/semantic_views/current_session_analysis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tvl_discrepancies/influx_in_users_2025.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tvl_discrepancies/influx_in_users_2025.sql" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseLocalColorSettings">
-    <colors>
-      <entry key="2b8c334e-5030-4827-88e8-1a55dc7e8498" value="Green" />
-    </colors>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -36,6 +40,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.OpenDatabaseViewOnStart": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -44,7 +49,7 @@
     "database.data.extractors.current.id": "01e62ca9-8b58-4213-9e0c-7cab89d1ffbb",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/robin/myrepos/sql_files/ad_hoc",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "database.data.views.appearance",
     "settings.editor.splitter.proportion": "0.15877771",
     "two.files.diff.last.used.file": "/Users/robin.patel/Library/Application Support/JetBrains/DataGrip2024.2/consoles/db/9561d350-2f64-4ed1-be51-82313536b813/console_2.sql"
   },

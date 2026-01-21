@@ -1,0 +1,1773 @@
+name: BOOKING_ANALYSIS
+description: This dataset contains comprehensive information about travel booking transactions and sales data. You can analyse booking patterns, customer behaviour, revenue performance, and sales trends across different destinations, time periods, and customer segments. The data includes details about accommodations, flight bookings, customer demographics, booking lead times, revenue metrics, and geographic information. You can perform analysis on booking volumes, revenue trends, customer loyalty patterns, seasonal variations, and compare performance across different regions and time periods.
+tables:
+  - name: DIM_SALE
+    synonyms:
+      - sale
+    description: This table, DIM_SALE, appears to be a dimension table in a data warehouse that stores information about sales data. It contains a wide range of attributes that describe a sale, including sale details, product information, supplier and partner data, sales performance metrics, customer feedback, and geographic location. The table seems to be used for analytics and reporting purposes, providing a comprehensive view of sales data to support business decision-making.
+    base_table:
+      database: SE
+      schema: DATA
+      table: DIM_SALE
+    dimensions:
+      - name: POSU_CITY
+        synonyms:
+          - destination
+          - destination city
+          - point of supply city
+        description: The city where the point of sale is located.
+        expr: POSU_CITY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - London
+          - Paris
+          - Dubai
+          - Berlin
+          - Rome
+          - Mallorca
+          - Barcelona
+          - Prague
+          - Reykjavik
+          - Vienna
+          - Crete
+          - Amsterdam
+      - name: POSU_CLUSTER
+        description: Point of Sale Usage Cluster, categorizing customers based on their purchase behavior and frequency, with 1 indicating high usage, 2 indicating medium usage, and Other indicating low or no usage.
+        expr: POSU_CLUSTER
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 2
+          - 1
+          - Other
+          - 0
+      - name: POSU_CLUSTER_REGION
+        description: Geographic region where the point of sale is located, categorized into clusters for sales analysis and reporting purposes.
+        expr: POSU_CLUSTER_REGION
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Arctic
+          - Norway
+          - Croatia
+          - AUNZ
+          - Denmark
+          - Romania
+          - Bosnia And Herzegovina
+          - Spain
+          - Greece
+          - Other Asia
+          - Netherlands
+          - France
+          - Sweden
+          - Poland
+          - Austria
+          - Caribbean
+          - Middle East
+          - Sub-Saharan Africa
+          - Germany
+          - Non-Balkan CEE
+          - Slovenia
+          - Albania
+          - Cyprus
+          - Portugal
+          - Malta
+          - Other
+          - Switzerland (Italian speaking)
+          - Switzerland (French speaking)
+          - Macedonia
+          - Turkey
+          - Central America
+          - Bulgaria
+          - Indian Ocean
+          - Ireland
+          - North Africa
+          - North America
+          - Belgium
+          - South East Asia
+          - Montenegro
+          - Serbia
+          - South America
+          - Pacific Islands
+          - Switzerland
+          - UK
+          - Italy
+      - name: POSU_CLUSTER_SUB_REGION
+        description: Geographic sub-region where a point of sale is located, such as a province or island.
+        expr: POSU_CLUSTER_SUB_REGION
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Indonesia
+          - Lazio
+          - Crete
+      - name: POSU_COUNTRY
+        synonyms:
+          - country
+          - destination country
+          - point of supply country
+          - travel country
+        description: The destination country the booking is made for.
+        expr: POSU_COUNTRY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Slovenia
+          - Germany
+          - Malaysia
+      - name: POSU_REGION
+        description: The region in which the point of sale unit (POSU) is located, categorizing it as either the United Kingdom, Spain, or any other region.
+        expr: POSU_REGION
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - France POSu
+          - CEE POSu
+          - Scandinavia POSu
+          - DACH POSu
+          - Italy POSu
+          - Arctic POSu
+          - International POSu
+          - Asia POSu
+          - Spain POSu
+          - Other
+          - UK POSu
+          - US POSu
+          - Poland POSu
+          - BENELUX POSu
+          - Ireland POSu
+      - name: POSU_SUB_REGION
+        description: Geographic sub-region where a sale was made, such as a province, state, or region within a country.
+        expr: POSU_SUB_REGION
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Other
+          - South East Asia
+          - London
+          - ALPS
+          - BENELUX-OTHER
+          - Portugal
+          - Croatia
+          - Balearic Islands
+          - South East
+          - Sweden
+          - United Arab Emirates
+          - USA North East
+          - Canary Islands
+          - Midlands
+          - South West
+          - Trentino-Alto Adige
+          - GERMANY-WEST
+          - Ile-de-France
+      - name: PRODUCT_CONFIGURATION
+        description: The type of sales channel or method through which a product is sold, such as directly to a hotel, through a third-party provider (3PP), or through a wholesale rate desk (WRD) directly.
+        expr: PRODUCT_CONFIGURATION
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Hotel
+          - Hotel Plus
+          - 3PP
+          - WRD
+          - IHP - static
+          - Catalogue
+          - IHP - connected
+          - IHP - dynamic
+          - WRD - direct
+          - N/A
+      - name: PRODUCT_TYPE
+        description: Categorization of the product or service being sold, indicating whether it is a Workshop (WRD), a Day Experience, or an Unknown type.
+        expr: PRODUCT_TYPE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Hotel
+          - Package
+          - WRD
+          - Day Experience
+          - Unknown
+          - Not Applicable
+      - name: SALE_ACTIVE
+        description: Indicates whether a sale is currently active or not.
+        expr: SALE_ACTIVE
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: SALE_NAME
+        description: The name of the sale, which represents a specific hotel or accommodation offer, providing a descriptive title for the sale.
+        expr: SALE_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 'Hotell med havutsikt i Sanremo '
+          - '5* Italian Riviera spa hotel '
+          - 'Royal Hotel Sanremo '
+      - name: SE_BRAND
+        description: The brand of the airline or travel provider associated with the sale.
+        expr: SE_BRAND
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - SE Brand
+          - Travelist
+      - name: SE_SALE_ID
+        description: Unique identifier for a sales event.
+        expr: SE_SALE_ID
+        data_type: VARCHAR(16777216)
+    time_dimensions:
+      - name: SALE_START_DATE
+        description: The date and time when a sale started.
+        expr: SALE_START_DATE
+        data_type: TIMESTAMP_NTZ(9)
+    primary_key:
+      columns:
+        - SE_SALE_ID
+  - name: FACT_BOOKING
+    description: This table contains booking data for travel accommodations, including details about the booking, customer, and financial transactions. It captures information about the booking status, travel dates, room and flight details, revenue and margin calculations, customer demographics, and cancellation history. The table also includes indices to track the customer's booking history and frequency.
+    base_table:
+      database: SE
+      schema: DATA
+      table: FACT_BOOKING
+    dimensions:
+      - name: ADULT_GUESTS
+        description: The number of adult guests included in a booking.
+        expr: ADULT_GUESTS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '0'
+          - '2'
+          - '4'
+      - name: BOOKER_LOYALTY_SEGMENT
+        description: Categorises customers based on their booking frequency with the platform. Segments range from first-time bookers to VIP customers (10+ bookings). This field is critical for customer lifetime value analysis, retention strategies, and tiered loyalty program management.
+        expr: |-
+          CASE
+              WHEN live_booking_index = 1 THEN 'First-Time Booker'
+              WHEN live_booking_index = 2 THEN 'Second-Time Booker'
+              WHEN live_booking_index BETWEEN 3 AND 5 THEN 'Regular Customer (3-5 bookings)'
+              WHEN live_booking_index BETWEEN 6 AND 10 THEN 'Frequent Customer (6-10 bookings)'
+              WHEN live_booking_index > 10 THEN 'VIP Customer (10+ bookings)'
+              ELSE 'Unknown'
+          END
+        data_type: VARCHAR(33)
+        sample_values:
+          - Unknown
+          - Frequent Customer (6-10 bookings)
+          - First-Time Booker
+          - Regular Customer (3-5 bookings)
+          - Second-Time Booker
+          - VIP Customer (10+ bookings)
+      - name: BOOKER_RECENCY_SEGMENT
+        synonyms:
+          - booking recency bucket
+        description: Measures customer engagement by categorising how recently a customer made their previous booking. Segments range from very active (booked within a month) to dormant (12+ months since last booking). Critical for identifying at-risk customers and targeting reactivation campaigns.
+        expr: |-
+          CASE
+              WHEN days_since_previous_live_booking IS NULL THEN 'First Booking'
+              WHEN days_since_previous_live_booking <= 30 THEN 'Very Active (Within month)'
+              WHEN days_since_previous_live_booking > 30 AND days_since_previous_live_booking <= 90 THEN 'Active (1-3 months)'
+              WHEN days_since_previous_live_booking > 90 AND days_since_previous_live_booking <= 180 THEN 'Moderate (3-6 months)'
+              WHEN days_since_previous_live_booking > 180 AND days_since_previous_live_booking <= 365 THEN 'Infrequent (6-12 months)'
+              WHEN days_since_previous_live_booking > 365 THEN 'Dormant (12+ months)'
+              ELSE 'Unknown'
+          END
+        data_type: VARCHAR(26)
+        sample_values:
+          - First Booking
+          - Infrequent (6-12 months)
+          - Very Active (Within month)
+          - Active (1-3 months)
+          - Moderate (3-6 months)
+          - Infrequent (6-12 months)
+          - Dormant (12+ months)
+      - name: BOOKING_ID
+        description: Unique identifier for a booking made by a customer.
+        expr: BOOKING_ID
+        data_type: VARCHAR(16777216)
+      - name: BOOKING_INCLUDES_FLIGHT
+        description: Indicates whether a booking includes a flight reservation.
+        expr: BOOKING_INCLUDES_FLIGHT
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: BOOKING_LEAD_TIME_CATEGORY
+        synonyms:
+          - advance_booking_category
+          - advance_booking_segment
+          - advance_purchase_category
+          - booking_advance_category
+          - booking_timing_category
+          - booking_window_category
+          - lead_time_classification
+          - lead_time_group
+          - reservation_lead_time_group
+          - reservation_timing_group
+        description: Segments bookings based on how far in advance customers book their trips. Categories range from last-minute bookings (0-7 days) to super early planners (180+ days). This field enables analysis of booking behavior patterns, pricing optimization for different booking windows, and marketing campaign targeting based on planning horizons.
+        expr: |-
+          CASE
+              WHEN booking_lead_time_days < 0 THEN 'Invalid/Negative'
+              WHEN booking_lead_time_days >= 0 AND booking_lead_time_days <= 7 THEN 'Last Minute (0-7 days)'
+              WHEN booking_lead_time_days > 7 AND booking_lead_time_days <= 30 THEN 'Short Notice (8-30 days)'
+              WHEN booking_lead_time_days > 30 AND booking_lead_time_days <= 90 THEN 'Standard (31-90 days)'
+              WHEN booking_lead_time_days > 90 AND booking_lead_time_days <= 180 THEN 'Early Booker (91-180 days)'
+              WHEN booking_lead_time_days > 180 THEN 'Super Early (180+ days)'
+              ELSE 'Unknown'
+          END
+        data_type: VARCHAR(26)
+        sample_values:
+          - Standard (31-90 days)
+          - Last Minute (0-7 days)
+          - Short Notice (8-30 days)
+          - Early Booker (91-180 days)
+          - Super Early (180+ days)
+      - name: BOOKING_LEAD_TIME_DAYS
+        description: The number of days between when a booking was made and the actual arrival date.
+        expr: BOOKING_LEAD_TIME_DAYS
+        data_type: NUMBER(38,0)
+      - name: BOOKING_STATUS_TYPE
+        description: The current status of a booking, indicating whether it is active and confirmed (live), was initiated but not completed (abandoned), or falls into a miscellaneous category (other).
+        expr: BOOKING_STATUS_TYPE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - abandoned
+          - cancelled
+          - live
+          - other
+      - name: CHILD_GUESTS
+        description: Number of children guests included in the booking.
+        expr: CHILD_GUESTS
+        data_type: NUMBER(38,0)
+      - name: CURRENCY
+        description: The currency in which the booking was made.
+        expr: CURRENCY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - EUR
+          - GBP
+          - SEK
+          - PLN
+          - USD
+          - DKK
+          - NOK
+          - CHF
+          - HUF
+          - SGD
+          - CZK
+          - HKD
+          - MYR
+          - IDR
+          - PHP
+      - name: DAYS_SINCE_PREVIOUS_LIVE_BOOKING
+        synonyms:
+          - days since previous booking
+        description: The number of days between this booking and this user's previous booking
+        expr: DAYS_SINCE_PREVIOUS_LIVE_BOOKING
+        data_type: NUMBER(38,0)
+      - name: DEVICE_PLATFORM
+        description: The platform on which the booking was made, such as a web browser on a desktop or laptop computer, or a web browser on a tablet device.
+        expr: DEVICE_PLATFORM
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - tablet web
+          - mobile wrap ios
+          - call_centre
+          - web
+          - mobile wrap android
+          - native app android
+          - mobile web
+          - native app ios
+      - name: INFANT_GUESTS
+        description: Number of infant guests (children under 2 years old) included in the booking.
+        expr: INFANT_GUESTS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '1'
+          - '2'
+          - '0'
+      - name: LENGTH_OF_STAY_CATEGORY
+        synonyms:
+          - accommodation_period_category
+          - duration_classification
+          - length_of_visit_category
+          - lodging_length_category
+          - nights_stayed_category
+          - residence_duration_category
+          - stay_duration_category
+          - stay_period_category
+          - trip_duration_category
+          - visit_length_category
+        description: Classifies bookings by trip duration to identify customer travel patterns. Categories include weekend breaks, short breaks, week stays, extended stays, and long stays. This segmentation helps understand customer preferences and optimize property offerings for different trip lengths.
+        expr: |-
+          CASE
+              WHEN no_nights <= 0 THEN 'Invalid'
+              WHEN no_nights >= 1 AND no_nights <= 2 THEN 'Weekend Break (1-2 nights)'
+              WHEN no_nights >= 3 AND no_nights <= 4 THEN 'Short Break (3-4 nights)'
+              WHEN no_nights >= 5 AND no_nights <= 7 THEN 'Week Stay (5-7 nights)'
+              WHEN no_nights >= 8 AND no_nights <= 14 THEN 'Extended Stay (8-14 nights)'
+              WHEN no_nights > 14 THEN 'Long Stay (15+ nights)'
+              ELSE 'Unknown'
+          END
+        data_type: VARCHAR(27)
+        sample_values:
+          - Unknown
+          - Short Break (3-4 nights)
+          - Weekend Break (1-2 nights)
+          - Week Stay (5-7 nights)
+          - Extended Stay (8-14 nights)
+          - Long Stay (15+ nights)
+      - name: LIVE_BOOKING_INDEX
+        synonyms:
+          - Booking index
+        description: An indexed count for a user's booking, eg this is user 1234 's 3rd booking
+        expr: LIVE_BOOKING_INDEX
+        data_type: NUMBER(38,0)
+      - name: NO_NIGHTS
+        description: The number of nights a guest stayed at the hotel.
+        expr: NO_NIGHTS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '2'
+          - '15'
+      - name: PRICE_PER_NIGHT
+        description: The average nightly price of a booking.
+        expr: PRICE_PER_NIGHT
+        data_type: NUMBER(26,12)
+        sample_values:
+          - '188.133800000000'
+          - '407.899500000000'
+          - '189.000000000000'
+      - name: PRICE_PER_NIGHT_CATEGORY
+        synonyms:
+          - cost category
+          - cost category
+          - luxury level
+          - price per night buckets
+          - spend appetite
+        description: 'Categorises bookings into price segments based on the price per night value. This field groups bookings into seven distinct categories ranging from budget accommodations to ultra-luxury properties, enabling price-tier analysis and reporting. The categories are: Invalid/Error (£0 or less), Budget (Under £100), Standard (£100-£149), Mid-Range (£150-£249), Premium (£250-£399), Luxury (£400-£599), and Ultra-Luxury (£600+).'
+        expr: |-
+          CASE
+              WHEN price_per_night <= 0 THEN 'Invalid/Error'
+              WHEN price_per_night > 0 AND price_per_night < 100 THEN 'Budget (Under £100)'
+              WHEN price_per_night >= 100 AND price_per_night < 150 THEN 'Standard (£100-£149)'
+              WHEN price_per_night >= 150 AND price_per_night < 250 THEN 'Mid-Range (£150-£249)'
+              WHEN price_per_night >= 250 AND price_per_night < 400 THEN 'Premium (£250-£399)'
+              WHEN price_per_night >= 400 AND price_per_night < 600 THEN 'Luxury (£400-£599)'
+              WHEN price_per_night >= 600 THEN 'Ultra-Luxury (£600+)'
+              ELSE 'Unknown'
+          END
+        data_type: VARCHAR(21)
+        sample_values:
+          - Standard (£100-£149)
+          - Mid-Range (£150-£249)
+          - Unknown
+          - Ultra-Luxury (£600+)
+          - Luxury (£400-£599)
+          - Budget (Under £100)
+          - Premium (£250-£399)
+      - name: ROOMS
+        description: Number of rooms booked by a customer.
+        expr: ROOMS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '2'
+          - '1'
+          - '0'
+      - name: SE_BRAND
+        description: The Brand within SE Group that the booking transacted in.
+        expr: SE_BRAND
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - SE Brand
+          - Travelist
+      - name: SE_SALE_ID
+        description: Unique identifier for a sale event in the Southeast region.
+        expr: SE_SALE_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - '106137'
+          - '75486'
+          - '3206'
+      - name: SHIRO_USER_ID
+        description: Unique identifier for the user who made the booking on the Shiro platform.
+        expr: SHIRO_USER_ID
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '13430332'
+          - '9856191'
+          - '65423270'
+      - name: TERRITORY
+        synonyms:
+          - area
+          - district
+          - geographic_area
+          - market_area
+          - posa territory
+          - region
+          - sales_territory
+          - territory_code
+          - zone
+        description: The territory in which the booking was made, such as the United Kingdom (UK) or Germany (DE).
+        expr: TERRITORY
+        data_type: VARCHAR(16777216)
+      - name: TRANSACTION_ID
+        description: Unique identifier for a booking transaction.
+        expr: TRANSACTION_ID
+        data_type: VARCHAR(33554433)
+        sample_values:
+          - A60593-30019-17558436
+          - A5843-3460-668348
+          - A40100-23265-6402845
+      - name: TRAVEL_PARTY_TYPE
+        synonyms:
+          - family size
+          - group size
+          - travel party
+        description: Identifies the composition of the travel group based on the number and type of guests. Categories include solo travellers, couples, adult groups, and families with children. This field enables personalised marketing and product recommendations based on who is traveling.
+        expr: |-
+          CASE
+              WHEN adult_guests = 1 AND child_guests = 0 AND infant_guests = 0 THEN 'Solo Traveller'
+              WHEN adult_guests = 2 AND child_guests = 0 AND infant_guests = 0 THEN 'Couple'
+              WHEN adult_guests >= 3 AND child_guests = 0 AND infant_guests = 0 THEN 'Group (Adults Only)'
+              WHEN adult_guests >= 1 AND (child_guests + infant_guests = 1) THEN 'Family with 1 Child'
+                  WHEN adult_guests >= 1 AND (child_guests + infant_guests >= 1) THEN 'Family with Children'
+              WHEN adult_guests = 0 THEN 'Invalid/Error'
+              ELSE 'Other'
+          END
+        data_type: VARCHAR(20)
+        sample_values:
+          - Couple
+          - Solo Traveller
+          - Group (Adults Only)
+          - Family with 1 Child
+          - Family with Children
+      - name: TRAVEL_TYPE
+        description: Type of travel, indicating whether the booking is for a trip within the same country (Domestic), to another country (International), or the type of travel is not specified (Unknown).
+        expr: TRAVEL_TYPE
+        data_type: VARCHAR(50331648)
+        sample_values:
+          - International
+          - Domestic
+          - Unknown
+    time_dimensions:
+      - name: BOOKING_COMPLETED_DATE
+        description: Date on which the booking was completed.
+        expr: BOOKING_COMPLETED_DATE
+        data_type: DATE
+        sample_values:
+          - '2017-02-28'
+          - '2017-01-09'
+      - name: BOOKING_COMPLETED_TIMESTAMP
+        description: The date and time at which a booking was completed.
+        expr: BOOKING_COMPLETED_TIMESTAMP
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2018-03-11T22:25:25.000+0000
+          - 2018-10-11T03:20:22.000+0000
+          - 2019-01-25T11:04:11.000+0000
+      - name: CANCELLATION_DATE
+        synonyms:
+          - cancellation date
+          - canx date
+          - date cancelled
+        description: Date this booking was cancelled
+        expr: CANCELLATION_DATE
+        data_type: TIMESTAMP_NTZ(9)
+      - name: CHECK_IN_DATE
+        synonyms:
+          - arrival date
+          - holiday date
+          - travel date
+          - visit date
+        description: Date when the guest checked in for their booking.
+        expr: CHECK_IN_DATE
+        data_type: DATE
+        sample_values:
+          - '2013-10-03'
+          - '2015-08-30'
+          - '2022-04-05'
+      - name: CHECK_OUT_DATE
+        synonyms:
+          - holiday end date
+          - leave date
+          - return date
+          - visit end date
+        description: Date when the guest checked out of the accommodation.
+        expr: CHECK_OUT_DATE
+        data_type: DATE
+        sample_values:
+          - '2019-03-31'
+          - '2018-05-08'
+          - '2017-07-15'
+    facts:
+      - name: BOOKERS
+        synonyms:
+          - bookers
+        description: Unique Count of bookers
+        expr: SHIRO_USER_ID
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        default_aggregation: 6
+        sample_values:
+          - '47427470'
+          - '52994948'
+          - '28976911'
+      - name: GROSS_REVENUE_GBP_CONSTANT_CURRENCY
+        description: The total revenue generated from bookings, expressed in British Pounds (GBP) and adjusted for constant currency fluctuations to ensure accurate year-over-year comparisons.
+        expr: GROSS_REVENUE_GBP_CONSTANT_CURRENCY
+        data_type: NUMBER(22,9)
+        access_modifier: public_access
+        default_aggregation: 1
+        sample_values:
+          - '223.234700000'
+          - '444.803500000'
+          - '200.000000000'
+      - name: MARGIN_GROSS_OF_TOMS_GBP_CONSTANT_CURRENCY
+        synonyms:
+          - constant_currency_gross_margin_gbp
+          - constant_gbp_gross_profit
+          - fixed_gbp_gross_profit_margin
+          - gross_margin_constant_gbp
+          - margin
+          - toms_gross_margin_gbp_fixed_currency
+        description: The margin value of a booking in GBP, calculated using the constant currency exchange rate
+        expr: MARGIN_GROSS_OF_TOMS_GBP_CONSTANT_CURRENCY
+        data_type: NUMBER(22,9)
+        access_modifier: public_access
+        default_aggregation: 1
+    filters:
+      - name: LIVE_BOOKINGS
+        synonyms:
+          - live bookings
+        description: Filter to only live bookings
+        expr: booking_status_type = 'live'
+      - name: SE_BRAND_BOOKINGS
+        synonyms:
+          - se brand
+        description: Bookings that occurred in the SE Brand
+        expr: se_brand = 'SE Brand'
+    metrics:
+      - name: CANCELLATION_RATE
+        synonyms:
+          - canx rate
+        description: The number of bookings that cancelled divided by the number of bookings that are currently in state live OR cancelled.
+        expr: COUNT_IF(BOOKING_STATUS_TYPE = 'cancelled') / COUNT_IF(BOOKING_STATUS_TYPE IN ('live', 'cancelled'))
+        access_modifier: public_access
+  - name: SE_CALENDAR
+    description: This view provides a comprehensive calendar dimension table that enables date-based analysis and reporting across various time periods, including year-to-date, quarter-to-date, month-to-date, and week-to-date, with alignment options for weekdays and dates, as well as comparisons to previous years and weeks.
+    base_table:
+      database: SE
+      schema: DATA
+      table: SE_CALENDAR
+    dimensions:
+      - name: SE_WEEK
+        description: The week of the year, ranging from 1 to 52, where 1 represents the first week of the year and 52 represents the last week of the year, with the value 29 indicating an incomplete or partial week at the end of the year.
+        expr: SE_WEEK
+        data_type: NUMBER(2,0)
+        sample_values:
+          - '29'
+          - '1'
+          - '2'
+      - name: SE_YEAR
+        description: The year in which the data was collected or the event occurred.
+        expr: SE_YEAR
+        data_type: NUMBER(5,0)
+        sample_values:
+          - '1972'
+          - '1971'
+          - '1970'
+    time_dimensions:
+      - name: DATE_VALUE
+        description: Date of a specific event or occurrence.
+        expr: DATE_VALUE
+        data_type: DATE
+        sample_values:
+          - '1970-04-09'
+          - '1970-01-30'
+          - '1970-01-02'
+    primary_key:
+      columns:
+        - DATE_VALUE
+  - name: SE_USER_ATTRIBUTES
+    description: This table provides a comprehensive view of user attributes and behavior, including demographic information, affiliate and membership details, activity history, and engagement metrics, allowing for analysis of user behavior, preferences, and loyalty.
+    base_table:
+      database: SE
+      schema: DATA
+      table: SE_USER_ATTRIBUTES
+    dimensions:
+      - name: ACQUISITION_PLATFORM
+        description: The platform through which the user acquired the service, such as an unknown source, a web application, or a mobile web application.
+        expr: ACQUISITION_PLATFORM
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - MOBILE_WEB
+          - WEB
+          - TABLET_WEB
+          - IOS_APP_V3
+          - MOBILE_WRAP_IOS
+          - ANDROID_APP_V3
+          - ANDROID_APP
+          - IOS_APP
+          - MOBILE_WRAP_ANDROID
+      - name: APP_PUSH_OPT_IN_STATUS
+        description: Indicates whether a user has chosen to receive push notifications from the application, with possible values of "opted in" (user has chosen to receive push notifications) or "opted out" (user has chosen not to receive push notifications).
+        expr: APP_PUSH_OPT_IN_STATUS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - opted in
+          - opted out
+      - name: CURRENT_AFFILIATE_NAME
+        description: The name of the affiliate or partner that the user is currently associated with, indicating the source or origin of the user's account.
+        expr: CURRENT_AFFILIATE_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - ES magazine
+          - google PPC
+          - Google PPC Brand Sign-ups
+          - Secret Escapes DE
+          - Google CPL Germany - Brand
+          - LateLuxury
+          - ASAP by ShermansTravel
+          - Google CPL Germany - Non-Brand
+          - Secret Escapes US
+          - google UK PPC CPL 2
+          - Secret Escapes IT
+          - Jetsetter Escapes
+          - PF2015 Smart
+          - Google CPL Italy - Non Brand
+          - Google CPL Italy - Brand
+          - TravelBird NL
+          - PF2014 Smart
+          - PF2017 Smart
+          - PF 2016 Smart
+          - Facebook Ads UK Mobile & Desktop
+          - TravelBird BE-NL
+          - Google CPL France - Non Brand
+          - MyCity Venue - White Label
+          - Google UK CPL - Non Brand
+          - Google DE CPL - Brand
+          - Facebook Ads USA Mobile
+          - PF2013 Smart
+          - Secret Escapes DE for v3 mobile apps
+          - Google DE CPL - Non Brand
+          - Google CPL USA - Non-Brand
+          - Secret Escapes HU
+          - Pigsback
+          - Google UK CPL - Brand
+          - Google CPL Netherlands - Non-Brand
+          - TravelBird BE-FR
+          - Society 19 Travel
+          - TravelBird AT
+          - google UK PPC CPL 3
+          - Facebook Mobile Ads Italy NEW
+          - facebook ads mobile
+          - Secret Escapes NL
+          - Yahoo PPC
+          - facebook ads
+          - Secret Escapes FR
+          - Facebook Ads DE Mobile & Desktop
+          - Secret Escapes SE
+          - Google CPL Netherlands - Brand
+          - Gilt
+          - Facebook Ads IT Mobile & Dekstop
+          - ES magazine for v3 mobile apps
+          - Travista
+          - Secret Escapes ES
+          - PF2012 Smart
+          - PF 2018 Smart
+          - Yahoo Brand PPC
+          - Fathom Escapes
+          - Facebook Ads FR Mobile & Desktop
+          - Unister Sale
+          - Google CPL Spain - Non Brand
+          - Google CPL Sweden - Non-Brand
+          - Oyster Flash Sales
+          - Secret Escapes IT for v3 mobile apps
+          - Facebook Ads Germany Mobile
+          - Google CPL Belgium - Non-Brand
+          - Secret Escapes SK
+          - Facebook Lead Ads DE
+          - TravelBird SE
+          - TravelBird FR
+          - Google CPL brand Austria
+          - Facebook Ads USA
+          - Facebook Mobile Ads Spain NEW
+          - Facebook Ads Netherlands Mobile
+          - Facebook Mobile Ads France
+          - Secret Escapes CZ
+          - Facebook Ads Germany
+          - TravelBird DK
+          - Secret Escapes BE
+          - Google CPL France - Brand
+          - Unister generic
+          - Digital window
+          - Facebook Ads NL Mobile & Desktop
+          - Facebook Mobile Ads Italy
+          - Google CPL Sweden - Brand
+          - Google CPL Spain - Brand
+          - TravelBird DE
+          - Facebook Mobile Ads Spain
+          - Google CPL USA - Non-Brand EC
+          - Bing Yahoo CPL non-Brand USA
+          - Google CPL Germany - Non-Brand - Account 2 Hotel
+          - Google CPL Denmark - Non-Brand
+          - Secret Escapes DE for mobile apps
+          - Tre Kronor Display
+          - Payclick IT
+          - Secret Escapes ID
+          - Secret Escapes DK
+          - Google GDN Germany
+          - TravelHotelCard 3V Visa SOI
+          - Secret Escapes CH
+          - Google CPL Germany - Non-Brand - Account 3 Holiday
+          - Google CPL Belgium - Brand
+          - Bing Yahoo CPL Brand German
+          - Leverate Native
+          - facebook page
+          - Facebook Ads Sweden Mobile
+          - google UK PPC CPL 4
+          - Secret Escapes NO
+          - Secret Escapes IE
+          - ES magazine for mobile apps
+          - SweepsJan2018
+          - Google CPA Campaign
+          - Secret Escapes IT for mobile apps
+          - Google CPL brand Switzerland
+          - GDN IT
+          - Google CPL non-brand Austria
+          - Bing Yahoo CPL non-Brand German
+          - GDN UK
+          - Leonardo IT
+          - Travelfinder (SE)
+          - DC
+          - TravelBird FI
+          - Outbrain DE
+          - Facebook Ads Denmark Mobile
+          - Secret Escapes DE for mobile wrap
+          - Telegraph Travel Other
+          - MyCityVenue
+          - Google CPL Norway - Non-Brand
+          - Taboola DE
+          - PS_DE_CPL_SE_Urlaubsguru_Calendar
+          - Telegraph Travel Hand-picked
+          - Google IT CPL - Brand
+          - GDN USA
+          - Guardian Escapes Base
+          - Facebook Ads Netherlands
+          - Google CPL USA - Non-Brand FL
+          - Facebook Ads ES Mobile & Desktop
+          - Facebook Ads Sweden
+          - Google CPL Denmark - Brand
+          - PF2015 Luxury
+          - Google CPL USA - Brand
+          - Facebook Ads IT Competitors Targeting
+          - Unister generic - mobile - Germany
+          - Facebook Ads BE Mobile & Desktop
+          - Facebook Ads SE Mobile & Desktop
+          - Facebook Ads France
+          - Facebook Ads Norway Mobile
+          - Guardian Escapes
+          - DC9
+          - PF2017 Luxury
+      - name: EMAIL_OPT_IN_STATUS
+        description: The user's email preference for receiving notifications, with options for daily updates, weekly summaries, or opting out of email communications altogether.
+        expr: EMAIL_OPT_IN_STATUS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - daily
+          - weekly
+          - opted out
+      - name: HAS_APP_INSTALLED
+        description: Indicates whether the user has installed the mobile app.
+        expr: HAS_APP_INSTALLED
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: IS_TEST_USER
+        description: Indicates whether the user is a test user or not.
+        expr: IS_TEST_USER
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: MAIN_AFFILIATE_NAME
+        description: The name of the main affiliate associated with the user, indicating the primary Secret Escapes brand or publication through which the user interacts.
+        expr: MAIN_AFFILIATE_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - ES magazine
+          - Secret Escapes DE
+          - Secret Escapes US
+          - Secret Escapes IT
+          - Secret Escapes FR
+          - Secret Escapes NL
+          - Secret Escapes ES
+          - Secret Escapes SE
+          - Secret Escapes BE
+          - TravelBird NL
+          - Secret Escapes DK
+          - TravelBird BE-NL
+          - Secret Escapes NO
+          - Secret Escapes HU
+          - Secret Escapes CH
+          - Pigsback
+          - TravelBird BE-FR
+          - Society 19 Travel
+          - TravelBird AT
+          - Telegraph Travel Hand-picked
+          - Gilt
+          - Secret Escapes SK
+          - TravelBird SE
+          - TravelBird FR
+          - Secret Escapes CZ
+          - Guardian Escapes
+          - TravelBird DK
+          - Secret Escapes ID
+          - TravelBird DE
+          - TravelHotelCard
+          - Secret Escapes SG
+          - Secret Escapes IE
+          - Time Out
+          - TravelBird FI
+          - Secret Escapes MY
+          - TravelBird NO
+          - Secret Escapes HK
+          - Teletext Holidays
+          - TravelBird CH
+          - Roomer Luxury
+          - MailEscapes UK
+          - Secret Escapes on Windows
+          - Icelolly Escapes
+          - Secret Escapes DE - www.urlaubsgeheimnis.com
+          - Bunte Reisewelt
+          - GALA
+          - Hello! Escapes
+          - Main Applitools Affiliate
+          - Secret Escapes PH
+          - PS_BE_RS_PA_SheDeals_Open Site
+          - Holiday Pirates
+          - Campadre
+          - Travelist
+          - Mail Escapes US
+          - TravelBird UK
+          - Hallam FM Escapes
+          - Pink News US
+          - Mighty Deals Travel
+          - PS_NL_RS_PA_Holiday Pirates_Open Site
+          - PS_FR_RS_PA_Holiday Pirates_Open Site
+          - Design test
+      - name: MEMBERSHIP_ACCOUNT_STATUS
+        description: The current status of a user's membership account, indicating whether it is active, deactivated, or deleted.
+        expr: MEMBERSHIP_ACCOUNT_STATUS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - DELETED
+          - FULL_ACCOUNT
+          - BLOCKED
+          - DEACTIVATED
+          - UNSUBSCRIBED
+          - PENDING
+      - name: ORIGINAL_AFFILIATE_NAME
+        description: The name of the affiliate that originally referred the user to Secret Escapes.
+        expr: ORIGINAL_AFFILIATE_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - ES magazine
+          - google PPC
+          - LateLuxury
+          - Google PPC Brand Sign-ups
+          - Secret Escapes DE
+          - Google CPL Germany - Brand
+          - ASAP by ShermansTravel
+          - Google CPL Germany - Non-Brand
+          - google UK PPC CPL 2
+          - Secret Escapes IT
+          - HotelsOne
+          - Jetsetter Escapes
+          - PF2015 Smart
+          - Google CPL Italy - Non Brand
+          - Google CPL Italy - Brand
+          - TravelBird NL
+          - PF2014 Smart
+          - PF2017 Smart
+          - PF 2016 Smart
+          - TravelBird BE-NL
+          - Google CPL France - Non Brand
+          - MyCity Venue - White Label
+          - Google UK CPL - Non Brand
+          - Facebook Ads UK Mobile & Desktop
+          - Google DE CPL - Brand
+          - Facebook Ads USA Mobile
+          - PF2013 Smart
+          - Secret Escapes DE for v3 mobile apps
+          - Google DE CPL - Non Brand
+          - Google CPL USA - Non-Brand
+          - Luxury Link Escapes
+          - Secret Escapes HU
+          - Google UK CPL - Brand
+          - Pigsback
+          - Google CPL Netherlands - Non-Brand
+          - TravelBird BE-FR
+          - Society 19 Travel
+          - Secret Escapes US
+          - Facebook Mobile Ads Italy NEW
+          - TravelBird AT
+          - google UK PPC CPL 3
+          - facebook ads
+          - facebook ads mobile
+          - Secret Escapes NL
+          - Yahoo PPC
+          - Secret Escapes FR
+          - Google CPL Netherlands - Brand
+          - Secret Escapes SE
+          - Gilt
+          - Facebook Ads DE Mobile & Desktop
+          - ES magazine for v3 mobile apps
+          - Travista
+          - PF2012 Smart
+          - Facebook Ads IT Mobile & Dekstop
+          - Secret Escapes ES
+          - PF 2018 Smart
+          - Yahoo Brand PPC
+          - Fathom Escapes
+          - Unister Sale
+          - Google CPL Spain - Non Brand
+          - Google CPL Sweden - Non-Brand
+          - Facebook Ads FR Mobile & Desktop
+          - Oyster Flash Sales
+          - Secret Escapes IT for v3 mobile apps
+          - Facebook Ads Germany Mobile
+          - Facebook Ads Germany
+          - Vacationist
+          - Secret Escapes SK
+          - Google CPL Belgium - Non-Brand
+          - Facebook Lead Ads DE
+          - TravelBird SE
+          - TravelBird FR
+          - Facebook Ads USA
+          - Google CPL brand Austria
+          - Facebook Mobile Ads Spain NEW
+          - Facebook Ads Netherlands Mobile
+          - Secret Escapes CZ
+          - Facebook Mobile Ads France
+          - TravelBird DK
+          - Skyscanner Deals Partnership
+          - Google CPL France - Brand
+          - Secret Escapes BE
+          - Unister generic
+          - Digital window
+          - Facebook Mobile Ads Italy
+          - Google CPL Sweden - Brand
+          - Google CPL Spain - Brand
+          - TravelBird DE
+          - Facebook Mobile Ads Spain
+          - Google CPL USA - Non-Brand EC
+          - Bing Yahoo CPL non-Brand USA
+          - Google CPL Germany - Non-Brand - Account 2 Hotel
+          - Google CPL Denmark - Non-Brand
+          - Secret Escapes DE for mobile apps
+          - Facebook Ads NL Mobile & Desktop
+          - Tre Kronor Display
+          - Payclick IT
+          - Secret Escapes ID
+          - ES magazine for mobile apps
+          - Google GDN Germany
+          - Secret Escapes DK
+          - TravelHotelCard 3V Visa SOI
+          - Google CPL Belgium - Brand
+          - Google CPL Germany - Non-Brand - Account 3 Holiday
+          - Secret Escapes CH
+          - facebook page
+          - Bing Yahoo CPL Brand German
+          - Leverate Native
+          - Facebook Ads Sweden Mobile
+          - google UK PPC CPL 4
+          - Secret Escapes NO
+          - Secret Escapes IE
+          - SweepsJan2018
+          - Google CPL brand Switzerland
+          - Secret Escapes IT for mobile apps
+          - Google CPA Campaign
+          - GDN IT
+          - Facebook Ads Netherlands
+          - Facebook Ads France
+          - Google CPL non-brand Austria
+          - Bing Yahoo CPL non-Brand German
+          - GDN UK
+          - Leonardo IT
+          - Travelfinder (SE)
+          - DC
+          - TravelBird FI
+          - Outbrain DE
+          - Facebook Ads Denmark Mobile
+          - Secret Escapes DE for mobile wrap
+          - Telegraph Travel Other
+    time_dimensions:
+      - name: SIGNUP_TSTAMP
+        description: Timestamp when the user signed up for the service.
+        expr: SIGNUP_TSTAMP
+        data_type: TIMESTAMP_NTZ(9)
+        sample_values:
+          - 2016-07-08T20:21:41.000+0000
+          - 2018-10-03T13:19:36.000+0000
+          - 2025-04-14T18:24:50.000+0000
+    facts:
+      - name: SHIRO_USER_ID
+        description: Unique identifier for a user in the Shiro authentication system.
+        expr: SHIRO_USER_ID
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '35343862'
+          - '39445427'
+          - '30470101'
+    filters:
+      - name: ACTIVE_ACCOUNTS
+        synonyms:
+          - active user accounts
+          - users with an active account
+        description: Active user accounts
+        expr: MEMBERSHIP_ACCOUNT_STATUS = 'FULL_ACCOUNT'
+    primary_key:
+      columns:
+        - SHIRO_USER_ID
+relationships:
+  - name: BOOKING_TO_SALE
+    left_table: FACT_BOOKING
+    right_table: DIM_SALE
+    relationship_columns:
+      - left_column: SE_SALE_ID
+        right_column: SE_SALE_ID
+  - name: BOOKING_TO_SE_CALENDAR
+    left_table: FACT_BOOKING
+    right_table: SE_CALENDAR
+    relationship_columns:
+      - left_column: BOOKING_COMPLETED_DATE
+        right_column: DATE_VALUE
+  - name: BOOKING_TO_USER
+    left_table: FACT_BOOKING
+    right_table: SE_USER_ATTRIBUTES
+    relationship_columns:
+      - left_column: SHIRO_USER_ID
+        right_column: SHIRO_USER_ID
+verified_queries:
+  - name: '"show me live bookings to destination Germany yesterday"'
+    sql: |-
+      SELECT
+        fb.booking_id,
+        fb.booking_completed_date,
+        fb.shiro_user_id,
+        fb.gross_revenue_gbp_constant_currency,
+        fb.margin_gross_of_toms_gbp_constant_currency
+      FROM
+        fact_booking AS fb
+        INNER JOIN dim_sale AS ds ON fb.se_sale_id = ds.se_sale_id
+      WHERE
+        fb.booking_status_type = 'live'
+        AND ds.posu_country = 'Germany'
+        AND fb.se_brand = 'SE Brand'
+        AND fb.booking_completed_date = CURRENT_DATE - INTERVAL '1 DAY'
+      ORDER BY
+        fb.booking_completed_date DESC NULLS LAST
+    question: Show me live bookings to destination Germany yesterday
+    verified_at: 1763727031
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Show me live bookings for se brand per month for 2025"'
+    sql: |-
+      SELECT
+        DATE_TRUNC('MONTH', fb.booking_completed_date) AS month,
+        COUNT(fb.booking_id) AS booking_count,
+        SUM(fb.margin_gross_of_toms_gbp_constant_currency) AS total_revenue_gbp
+      FROM
+        fact_booking AS fb
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+        AND DATE_PART('year', fb.booking_completed_date) = 2025
+      GROUP BY
+        DATE_TRUNC('MONTH', fb.booking_completed_date)
+      ORDER BY
+        month DESC NULLS LAST
+    question: Show me live bookings for se brand per month for 2025
+    verified_at: 1763727043
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Give me a daily summary of trade for the last 7 days"'
+    sql: |-
+      SELECT
+        fcb.booking_completed_date,
+        COUNT(*) AS total_bookings,
+        COUNT(DISTINCT fcb.bookers) AS unique_bookers,
+        ROUND(SUM(fcb.gross_revenue_gbp_constant_currency)) AS total_gross_revenue_gbp,
+        ROUND(
+          SUM(fcb.margin_gross_of_toms_gbp_constant_currency)
+        ) AS total_margin_gbp
+      FROM
+        fact_booking AS fcb
+      WHERE
+        fcb.se_brand = 'SE Brand'
+        AND fcb.booking_status_type = 'live'
+        AND fcb.booking_completed_date >= DATEADD(DAY, -8, CURRENT_DATE)
+        AND fcb.booking_completed_date < CURRENT_DATE
+      GROUP BY
+        fcb.booking_completed_date
+      ORDER BY
+        fcb.booking_completed_date DESC NULLS LAST
+    question: Give me a daily summary of trade for the last 7 days
+    verified_at: 1767967316
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"create some buckets of 1, 2, 3 - 5, and 6+ bookers and show me how many people are in each bucket for bookings this year"'
+    sql: |-
+      WITH booking_buckets AS (
+        SELECT
+          shiro_user_id,
+          CASE
+            WHEN live_booking_index = 1 THEN '1'
+            WHEN live_booking_index = 2 THEN '2'
+            WHEN live_booking_index BETWEEN 3
+            AND 5 THEN '3-5'
+            WHEN live_booking_index >= 6 THEN '6+'
+          END AS booking_bucket
+        FROM
+          fact_booking
+        WHERE
+          se_brand = 'SE Brand'
+          AND booking_status_type = 'live'
+          AND DATE_PART('YEAR', booking_completed_date) = 2025
+      )
+      SELECT
+        booking_bucket,
+        COUNT(DISTINCT shiro_user_id) AS bookers_count
+      FROM
+        booking_buckets
+      WHERE
+        NOT booking_bucket IS NULL
+      GROUP BY
+        booking_bucket
+      ORDER BY
+        CASE
+          booking_bucket
+          WHEN '1' THEN 1
+          WHEN '2' THEN 2
+          WHEN '3-5' THEN 3
+          WHEN '6+' THEN 4
+        END
+    question: create some buckets of 1, 2, 3 - 5, and 6+ bookers and show me how many people are in each bucket for bookings this year
+    verified_at: 1763727563
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"How has trade to iceland the destination changed over the last 24 months"'
+    sql: |-
+      WITH monthly_iceland_bookings AS (
+        SELECT
+          DATE_TRUNC('MONTH', fb.booking_completed_date) AS month,
+          COUNT(fb.booking_id) AS booking_count,
+          ROUND(
+            SUM(fb.margin_gross_of_toms_gbp_constant_currency)
+          ) AS total_revenue_gbp
+        FROM
+          fact_booking AS fb
+          LEFT OUTER JOIN dim_sale AS ds ON fb.se_sale_id = ds.se_sale_id
+        WHERE
+          fb.booking_status_type = 'live'
+          AND fb.se_brand = 'SE Brand'
+          AND ds.posu_country = 'Iceland'
+          AND fb.booking_completed_date >= '2023-11-01'
+          AND fb.booking_completed_date < '2025-12-01'
+        GROUP BY
+          DATE_TRUNC('MONTH', fb.booking_completed_date)
+      ),
+      mom_changes AS (
+        SELECT
+          curr.month AS curr_month,
+          prev.month AS prev_month,
+          curr.booking_count AS curr_booking_count,
+          prev.booking_count AS prev_booking_count,
+          curr.total_revenue_gbp AS curr_revenue_gbp,
+          prev.total_revenue_gbp AS prev_revenue_gbp,
+          curr.booking_count - prev.booking_count AS booking_count_change,
+          CASE
+            WHEN prev.booking_count <> 0 THEN ROUND(
+              (curr.booking_count - prev.booking_count) / NULLIF(prev.booking_count, 0) * 100,
+              2
+            )
+          END AS booking_count_pct_change,
+          curr.total_revenue_gbp - prev.total_revenue_gbp AS revenue_change,
+          CASE
+            WHEN prev.total_revenue_gbp <> 0 THEN ROUND(
+              (curr.total_revenue_gbp - prev.total_revenue_gbp) / NULLIF(prev.total_revenue_gbp, 0) * 100,
+              2
+            )
+          END AS revenue_pct_change
+        FROM
+          monthly_iceland_bookings AS curr
+          LEFT JOIN monthly_iceland_bookings AS prev ON curr.month = prev.month + INTERVAL '1 MONTH'
+      )
+      SELECT
+        curr_month,
+        curr_booking_count,
+        curr_revenue_gbp,
+        booking_count_change,
+        booking_count_pct_change,
+        revenue_change,
+        revenue_pct_change
+      FROM
+        mom_changes
+      ORDER BY
+        curr_month DESC NULLS LAST
+    question: How has trade to iceland the destination changed over the last 24 months
+    verified_at: 1763728489
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"what is our cancellation rate this year"'
+    sql: |-
+      SELECT
+        (
+          COUNT_IF(fb.booking_status_type = 'cancelled') / NULLIF(
+            NULLIF(
+              COUNT_IF(fb.booking_status_type IN ('live', 'cancelled')),
+              0
+            ),
+            0
+          )
+        ) * 100 AS cancellation_rate_percent
+      FROM
+        fact_booking AS fb
+        LEFT OUTER JOIN se_calendar AS sc ON fb.booking_completed_date = sc.date_value
+      WHERE
+        fb.se_brand = 'SE Brand'
+        AND sc.se_year = 2026
+    question: what is our cancellation rate this year
+    verified_at: 1767871045
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"how many bookings have we made this year"'
+    sql: |-
+      SELECT
+        COUNT(fb.booking_id) AS booking_count
+      FROM
+        fact_booking AS fb
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+        AND DATE_PART('year', fb.booking_completed_date) = 2026
+        AND fb.booking_completed_date < CURRENT_DATE
+    question: how many bookings have we made this year
+    verified_at: 1767967288
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"show me bookings this year by groups of people, use adults, children and infants"'
+    sql: |-
+      SELECT
+        fb.adult_guests,
+        fb.child_guests,
+        fb.infant_guests,
+        COUNT(fb.booking_id) AS booking_count
+      FROM
+        fact_booking AS fb
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+        AND DATE_PART('year', fb.booking_completed_date) = 2026
+        AND fb.booking_completed_date < CURRENT_DATE
+      GROUP BY
+        fb.adult_guests,
+        fb.child_guests,
+        fb.infant_guests
+      ORDER BY
+        booking_count DESC NULLS LAST
+    question: show me bookings this year by groups of people, use adults, children and infants
+    verified_at: 1767967691
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"split me bookings this year by currency"'
+    sql: |-
+      SELECT
+        fb.currency,
+        COUNT(fb.booking_id) AS booking_count
+      FROM
+        fact_booking AS fb
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+        AND DATE_PART('year', fb.booking_completed_date) = 2026
+        AND fb.booking_completed_date < CURRENT_DATE
+      GROUP BY
+        fb.currency
+      ORDER BY
+        booking_count DESC NULLS LAST
+    question: split me bookings this year by currency
+    verified_at: 1767967718
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"what is the average lead times in days for the last 6 weeks by week"'
+    sql: |-
+      WITH weekly_data AS (
+        SELECT
+          cal.se_week,
+          cal.se_year,
+          AVG(fcb.booking_lead_time_days) AS avg_lead_time_days
+        FROM
+          fact_booking AS fcb
+          LEFT OUTER JOIN se_calendar AS cal ON fcb.booking_completed_date = cal.date_value
+        WHERE
+          fcb.se_brand = 'SE Brand'
+          AND fcb.booking_status_type = 'live'
+          AND fcb.booking_completed_date >= DATE_TRUNC('WEEK', CURRENT_DATE - INTERVAL '6 WEEKS')
+          AND fcb.booking_completed_date < DATE_TRUNC('WEEK', CURRENT_DATE)
+        GROUP BY
+          cal.se_week,
+          cal.se_year
+      )
+      SELECT
+        se_week,
+        se_year,
+        ROUND(avg_lead_time_days, 2) AS avg_lead_time_days
+      FROM
+        weekly_data
+      ORDER BY
+        se_year DESC,
+        se_week DESC NULLS LAST
+    question: what is the average lead times in days for the last 6 weeks by week
+    verified_at: 1767967773
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"show me a count of bookings by all booking status types this year"'
+    sql: |-
+      SELECT
+        fb.booking_status_type,
+        COUNT(fb.booking_id) AS booking_count
+      FROM
+        fact_booking AS fb
+      WHERE
+        fb.se_brand = 'SE Brand'
+        AND DATE_PART('year', fb.booking_completed_date) = 2026
+        AND fb.booking_completed_date < CURRENT_DATE
+      GROUP BY
+        fb.booking_status_type
+      ORDER BY
+        booking_count DESC NULLS LAST
+    question: show me a count of bookings by all booking status types this year
+    verified_at: 1767967842
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"show me bookings for 2025 by whether the bookings were international or domestic"'
+    sql: |-
+      SELECT
+        fb.travel_type,
+        COUNT(fb.booking_id) AS booking_count
+      FROM
+        fact_booking AS fb
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+        AND DATE_PART('year', fb.booking_completed_date) = 2025
+        AND fb.booking_completed_date < CURRENT_DATE
+      GROUP BY
+        fb.travel_type
+      ORDER BY
+        booking_count DESC NULLS LAST
+    question: show me bookings for 2025 by whether the bookings were international or domestic
+    verified_at: 1767967997
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"what was the average number of rooms per booking by month for the last 12 months"'
+    sql: |-
+      SELECT
+        DATE_TRUNC('MONTH', fb.booking_completed_date) AS booking_month,
+        AVG(fb.rooms) AS avg_rooms_per_booking
+      FROM
+        fact_booking AS fb
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+        AND fb.booking_completed_date >= DATE_TRUNC('MONTH', DATEADD(MONTH, -12, CURRENT_DATE))
+        AND fb.booking_completed_date < DATE_TRUNC('MONTH', CURRENT_DATE)
+      GROUP BY
+        DATE_TRUNC('MONTH', fb.booking_completed_date)
+      ORDER BY
+        booking_month DESC NULLS LAST
+    question: what was the average number of rooms per booking by month for the last 12 months
+    verified_at: 1767968062
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"for this year show me a split of 1st, 2nd and repeat bookers"'
+    sql: |-
+      WITH booking_buckets AS (
+        SELECT
+          shiro_user_id,
+          CASE
+            WHEN live_booking_index = 1 THEN '1st'
+            WHEN live_booking_index = 2 THEN '2nd'
+            WHEN live_booking_index >= 3 THEN 'Repeat (3+)'
+          END AS booking_bucket
+        FROM
+          fact_booking
+        WHERE
+          se_brand = 'SE Brand'
+          AND booking_status_type = 'live'
+          AND DATE_PART('YEAR', booking_completed_date) = 2026
+          AND booking_completed_date < CURRENT_DATE
+      )
+      SELECT
+        booking_bucket,
+        COUNT(DISTINCT shiro_user_id) AS bookers_count
+      FROM
+        booking_buckets
+      WHERE
+        NOT booking_bucket IS NULL
+      GROUP BY
+        booking_bucket
+      ORDER BY
+        CASE
+          booking_bucket
+          WHEN '1st' THEN 1
+          WHEN '2nd' THEN 2
+          WHEN 'Repeat (3+)' THEN 3
+        END
+    question: for this year show me a split of 1st, 2nd and repeat bookers
+    verified_at: 1767968270
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"for this year show me a split of 1st, 2nd and repeat bookings"'
+    sql: |-
+      WITH booking_buckets AS (
+        SELECT
+          booking_id,
+          CASE
+            WHEN live_booking_index = 1 THEN '1st'
+            WHEN live_booking_index = 2 THEN '2nd'
+            WHEN live_booking_index >= 3 THEN 'Repeat (3+)'
+          END AS booking_bucket
+        FROM
+          fact_booking
+        WHERE
+          se_brand = 'SE Brand'
+          AND booking_status_type = 'live'
+          AND DATE_PART('YEAR', booking_completed_date) = 2026
+          AND booking_completed_date < CURRENT_DATE
+      )
+      SELECT
+        booking_bucket,
+        COUNT(booking_id) AS booking_count
+      FROM
+        booking_buckets
+      WHERE
+        NOT booking_bucket IS NULL
+      GROUP BY
+        booking_bucket
+      ORDER BY
+        CASE
+          booking_bucket
+          WHEN '1st' THEN 1
+          WHEN '2nd' THEN 2
+          WHEN 'Repeat (3+)' THEN 3
+        END
+    question: for this year show me a split of 1st, 2nd and repeat bookings
+    verified_at: 1767968258
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"What are the top 5 countries by gross revenue this year?"'
+    sql: |-
+      SELECT
+        ds.posu_country,
+        ROUND(SUM(fb.gross_revenue_gbp_constant_currency)) AS gross_revenue
+      FROM
+        fact_booking AS fb
+        LEFT OUTER JOIN dim_sale AS ds ON fb.se_sale_id = ds.se_sale_id
+      WHERE
+        fb.se_brand = 'SE Brand'
+        AND fb.booking_status_type = 'live'
+        AND DATE_PART('YEAR', fb.booking_completed_date) = 2026
+        AND fb.booking_completed_date < CURRENT_DATE
+      GROUP BY
+        ds.posu_country
+      ORDER BY
+        gross_revenue DESC NULLS LAST
+      LIMIT
+        5
+    question: What are the top 5 countries by gross revenue this year?
+    verified_at: 1767968453
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Show me the total margin gross for each product type this year."'
+    sql: |-
+      SELECT
+        ds.product_configuration,
+        ROUND(
+          SUM(fb.margin_gross_of_toms_gbp_constant_currency)
+        ) AS total_margin_gross
+      FROM
+        fact_booking AS fb
+        LEFT OUTER JOIN dim_sale AS ds ON fb.se_sale_id = ds.se_sale_id
+      WHERE
+        fb.se_brand = 'SE Brand'
+        AND fb.booking_status_type = 'live'
+        AND DATE_PART('year', fb.booking_completed_date) = 2026
+        AND fb.booking_completed_date < CURRENT_DATE
+      GROUP BY
+        ds.product_configuration
+      ORDER BY
+        total_margin_gross DESC NULLS LAST
+    question: Show me the total margin gross for each product type this year.
+    verified_at: 1767968615
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Compare monthly gross revenue for this year versus last year."'
+    sql: |-
+      WITH monthly_revenue_2026 AS (
+        SELECT
+          DATE_TRUNC('MONTH', fb.booking_completed_date) AS month,
+          ROUND(SUM(fb.gross_revenue_gbp_constant_currency)) AS revenue_2026
+        FROM
+          fact_booking AS fb
+        WHERE
+          fb.se_brand = 'SE Brand'
+          AND fb.booking_status_type = 'live'
+          AND DATE_PART('YEAR', fb.booking_completed_date) = 2026
+          AND fb.booking_completed_date < CURRENT_DATE
+        GROUP BY
+          DATE_TRUNC('MONTH', fb.booking_completed_date)
+      ),
+      monthly_revenue_2025 AS (
+        SELECT
+          DATE_TRUNC('MONTH', fb.booking_completed_date) AS month,
+          ROUND(SUM(fb.gross_revenue_gbp_constant_currency)) AS revenue_2025
+        FROM
+          fact_booking AS fb
+        WHERE
+          fb.se_brand = 'SE Brand'
+          AND fb.booking_status_type = 'live'
+          AND DATE_PART('YEAR', fb.booking_completed_date) = 2025
+        GROUP BY
+          DATE_TRUNC('MONTH', fb.booking_completed_date)
+      )
+      SELECT
+        curr.month AS current_month,
+        prev.month AS previous_month,
+        curr.revenue_2026 AS current_revenue,
+        prev.revenue_2025 AS previous_revenue,
+        curr.revenue_2026 - prev.revenue_2025 AS absolute_change,
+        ROUND(
+          (curr.revenue_2026 - prev.revenue_2025) / NULLIF(NULLIF(prev.revenue_2025, 0), 0) * 100,
+          2
+        ) AS percentage_change
+      FROM
+        monthly_revenue_2026 AS curr
+        LEFT JOIN monthly_revenue_2025 AS prev ON DATE_PART('MONTH', curr.month) = DATE_PART('MONTH', prev.month)
+      ORDER BY
+        curr.month DESC NULLS LAST
+    question: Compare monthly gross revenue for this year versus last year.
+    verified_at: 1767968638
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Which affiliate names have generated the highest gross revenue in the last 6 months?"'
+    sql: |-
+      SELECT
+        sua.current_affiliate_name,
+        ROUND(SUM(fb.gross_revenue_gbp_constant_currency)) AS gross_revenue
+      FROM
+        fact_booking AS fb
+        LEFT OUTER JOIN se_user_attributes AS sua ON fb.shiro_user_id = sua.shiro_user_id
+      WHERE
+        fb.se_brand = 'SE Brand'
+        AND fb.booking_status_type = 'live'
+        AND fb.booking_completed_date >= DATEADD(MONTH, -6, CURRENT_DATE)
+        AND fb.booking_completed_date < CURRENT_DATE
+      GROUP BY
+        sua.current_affiliate_name
+      ORDER BY
+        gross_revenue DESC NULLS LAST
+      LIMIT
+        5
+    question: Which affiliate names have generated the highest gross revenue in the last 6 months?
+    verified_at: 1767968698
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"What is the average price per night for bookings in the different POSU regions?"'
+    sql: |-
+      SELECT
+        ds.posu_region,
+        ROUND(AVG(fb.price_per_night)) AS avg_price_per_night
+      FROM
+        fact_booking AS fb
+        LEFT OUTER JOIN dim_sale AS ds ON fb.se_sale_id = ds.se_sale_id
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+        AND NOT ds.posu_region IS NULL
+      GROUP BY
+        ds.posu_region
+      ORDER BY
+        avg_price_per_night DESC NULLS LAST
+    question: What is the average price per night for bookings in the different POSU regions?
+    verified_at: 1767968788
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"What is the average booking lead time in days for international vs. domestic travel?"'
+    sql: |-
+      SELECT
+        fb.travel_type,
+        MIN(fb.booking_completed_date) AS start_date,
+        MAX(fb.booking_completed_date) AS end_date,
+        ROUND(AVG(fb.booking_lead_time_days), 2) AS avg_lead_time_days
+      FROM
+        fact_booking AS fb
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+        AND fb.travel_type IN ('International', 'Domestic')
+      GROUP BY
+        fb.travel_type
+      ORDER BY
+        avg_lead_time_days DESC NULLS LAST
+    question: What is the average booking lead time in days for international vs. domestic travel?
+    verified_at: 1767968995
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Compare the total number of bookings between users who have the app installed vs. those who don''t."""'
+    sql: |-
+      SELECT
+        sua.has_app_installed,
+        COUNT(fb.booking_id) AS booking_count,
+        MIN(fb.booking_completed_date) AS start_date,
+        MAX(fb.booking_completed_date) AS end_date
+      FROM
+        fact_booking AS fb
+        LEFT OUTER JOIN se_user_attributes AS sua ON fb.shiro_user_id = sua.shiro_user_id
+      WHERE
+        fb.booking_status_type = 'live'
+        AND fb.se_brand = 'SE Brand'
+      GROUP BY
+        sua.has_app_installed
+      ORDER BY
+        booking_count DESC NULLS LAST
+    question: Compare the total number of bookings between users who have the app installed vs. those who don't.
+    verified_at: 1767969333
+    verified_by: robin patel
+    use_as_onboarding_question: false
+module_custom_instructions:
+  sql_generation: |-
+    # --- SECTION 1: IDENTITY & SCOPE ---
+    - You are an expert analyst for [Insert Domain, e.g., Bookings and Revenue].
+    - [Standard Rule]: Use ILIKE for all string comparisons to ensure case-insensitivity.
+    - [Standard Rule]: Never sum ID columns (e.g., columns ending in _ID).
+    - Always apply the filter `se_brand = 'SE Brand'` unless the user explicitly asks for a different brand or "all brands".
+    - Always apply the filter `booking_status_type = 'live'` unless the user explicitly asks for "cancelled", "all", or other status types.
+
+    # --- SECTION 2: BUSINESS VOCABULARY ---
+    - "Live Bookings" refers to records where `booking_status_type = 'live'`.
+    - "Revenue", "Cost", and "Spend" refer to the relevant financial fields in the model.
+    - [Generated Rule]: "Brand" refers specifically to the `se_brand` column.
+
+    # --- SECTION 3: METRIC LOGIC & MATH SAFETY ---
+    - [Standard Rule]: Use `NULLIF(denominator, 0)` for all ratios to prevent division by zero errors.
+    - Financial Calculation: Always round financial fields (Revenue, Price, etc.) to the nearest integer.
+
+    # --- SECTION 4: DEFAULT BEHAVIORS ---
+    - [Standard Rule]: If required to use a date but there's not clear reference to a time dimension, by default use BOOKING_COMPLETED_DATE
+    - [Standard Rule]: If no date range is specified, default to the [Current Year].
+    - [Standard Rule]: If the user asks for "Top" items, default to Top 5 unless specified.
+    - [Standard Rule]: Always limit raw row queries to 100 rows unless "all" is explicitly requested.
+    - If asked for cancellation rate, default use the BOOKING_COMPLETED_DATE
+    - If asked to present the data by week or by year default to se_week or se_year respectively
+    - [Standard Rule]: Default filter to not include current date in BOOKING_COMPLETED_DATE
+
+    # --- SECTION 5: PRESENTATION ---
+    - Financial Display: Format all financial fields as integers (no decimal places).
+    - [Standard Rule]: Format percentages as (Value * 100) displayed with 2 decimal places and a '%' sign.
+    - [Generated Rule]: Always return the primary name column when the user asks for an entity (not just the ID).

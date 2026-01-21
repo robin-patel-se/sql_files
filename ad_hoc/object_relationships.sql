@@ -468,3 +468,5 @@ WHERE sc.shiro_user_id = 29962297;
 --     parent_id = prior child_id
 --     AND shiro_user_id = shiro_user_id;
 -- ;
+
+SELECT * FROM data_vault_mvp.dwh.object_relationships o

@@ -8,20 +8,13 @@ tables:
       schema: BI
       table: SESSION_METRICS
     dimensions:
-      - name: APP_STATE_CONTEXT
-        description: The state of the native app.
-        expr: APP_STATE_CONTEXT
-        data_type: OBJECT
+      - name: TOUCH_ID
+        description: "[Primary key] - A unique identifier for each session."
+        expr: TOUCH_ID
+        data_type: VARCHAR(16777216)
         sample_values:
-          - |-
-            {
-              "_schema_version": "1-0-0",
-              "app_state": "foreground"
-            }
-          - |-
-            {
-              "app_state": "foreground"
-            }
+          - 4cdd474f15a350f655a66fa904b10b14e71712c6ee03862b2608f0aa82466f8a
+          - e7e3b2f4afa92cb2c761084d52001d26bf7231230e9e4d9f741b89ac6e3abea4
       - name: ATTRIBUTED_USER_ID
         synonyms:
           - users
@@ -31,116 +24,47 @@ tables:
         sample_values:
           - "81189206"
           - 2752d5f7-6c13-4e16-a35b-e6a46589e9e9
-          - 72d334a2-b84b-413b-b743-ad55ecb69486
-      - name: BOOKING_FORM_VIEWS
-        description: The number of booking form page views (BFVs) that occurred in the session.
-        expr: BOOKING_FORM_VIEWS
-        data_type: NUMBER(38,0)
+      - name: STITCHED_IDENTITY_TYPE
+        description: The type method of identity stitching used for this session.
+        expr: STITCHED_IDENTITY_TYPE
+        data_type: VARCHAR(16777216)
         sample_values:
-          - "3"
-          - "1"
-          - "0"
-      - name: BOOKING_FORM_VIEWS_CATALOGUE
-        description: The number of booking form page views (BFVs) to a catalogue product that occurred in the session.
-        expr: BOOKING_FORM_VIEWS_CATALOGUE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "3"
-          - "0"
-      - name: BOOKING_FORM_VIEWS_HOTEL
-        description: The number of booking form page views (BFVs) to a hotel product that occurred in the session.
-        expr: BOOKING_FORM_VIEWS_HOTEL
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "3"
-          - "0"
-          - "1"
-      - name: BOOKING_FORM_VIEWS_HOTEL_PLUS
-        description: The number of booking form page views (BFVs) to a hotel plus product that occurred in the session.
-        expr: BOOKING_FORM_VIEWS_HOTEL_PLUS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "3"
-          - "0"
-      - name: BOOKING_FORM_VIEWS_PACKAGE
-        description: The number of booking form page views (BFVs) to a package product that occurred in the session. Package include Catalogue + IHP
-        expr: BOOKING_FORM_VIEWS_PACKAGE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "0"
-          - "1"
-      - name: BOOKINGS
+          - tvl_user_id
+          - se_user_id
+      - name: TOUCH_LOGGED_IN
         synonyms:
-          - transactions
-        description: The number of bookings that occurred in the session. These bookings successfully completed at time of the session. Note that they may have since cancelled.
-        expr: BOOKINGS
+          - logged in
+        description: A flag indicating whether a user has logged in.
+        expr: TOUCH_LOGGED_IN
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: TOUCH_DURATION_SECONDS
+        description: The duration of time a user spent interacting with the system in seconds.
+        expr: TOUCH_DURATION_SECONDS
         data_type: NUMBER(38,0)
         sample_values:
-          - "2"
-          - "1"
-          - "0"
-      - name: BOOKINGS_CATALOGUE
-        description: The number of bookings to a catalogue product that occurred in the session.
-        expr: BOOKINGS_CATALOGUE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-          - "0"
-      - name: BOOKINGS_HOTEL
-        description: The number of bookings to a hotel product that occurred in the session.
-        expr: BOOKINGS_HOTEL
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "1"
-          - "2"
-      - name: BOOKINGS_HOTEL_PLUS
-        description: The number of bookings to a hotel plus product that occurred in the session.
-        expr: BOOKINGS_HOTEL_PLUS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "0"
-          - "2"
-      - name: BOOKINGS_PACKAGE
-        description: The number of bookings to a package product that occurred in the session. Package include Catalogue + IHP
-        expr: BOOKINGS_PACKAGE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "1"
-          - "2"
-      - name: BR_FAMILY
-        description: Browser family.
-        expr: BR_FAMILY
+          - "127"
+          - "3"
+      - name: TOUCH_AFFILIATE_TERRITORY
+        description: The affiliate territory of the session, this is based on logic that includes hostname categorisations and the presence of an affiliate url parameter.
+        expr: TOUCH_AFFILIATE_TERRITORY
         data_type: VARCHAR(16777216)
         sample_values:
-          - Firefox
-          - Safari
-          - CFNetwork
-      - name: BR_NAME
-        description: Browser name.
-        expr: BR_NAME
+          - DE
+          - IT
+      - name: TOUCH_MKT_CHANNEL
+        synonyms:
+          - last click
+          - last click attribution
+          - last click channel
+        description: The marketing channel that initiated this session via last click attribution.
+        expr: TOUCH_MKT_CHANNEL
         data_type: VARCHAR(16777216)
         sample_values:
-          - Chrome Mobile
-          - Mobile Safari
-          - Chrome 14
-          - CFNetwork
-          - Apple WebKit
-          - Safari
-          - Unknown
-          - Firefox 14
-          - Chrome 13
-          - Chrome 12
-          - Firefox Mobile
-          - Chrome 11
-          - Firefox Mobile (iOS)
-          - Chrome 10
+          - Email - Newsletter
+          - Direct
       - name: CHANNEL_CATEGORY
         synonyms:
           - last click attribution
@@ -151,61 +75,132 @@ tables:
         sample_values:
           - Paid
           - Free
-          - Email - Newsletter
-          - Other
-          - Email - Triggers
-          - App Push
-          - Test
-      - name: DVCE_SCREENHEIGHT
-        description: The height of the screen in pixels.
-        expr: DVCE_SCREENHEIGHT
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "10000"
-          - "1067"
-          - "1112"
-      - name: DVCE_SCREENWIDTH
-        description: The width of the screen in pixels.
-        expr: DVCE_SCREENWIDTH
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "412"
-          - "1536"
-          - "810"
-      - name: FEATURE_FLAG_TEST_ARRAY
-        description: An array of feature flag that include abtest that appeared in the session.
-        expr: FEATURE_FLAG_TEST_ARRAY
-        data_type: ARRAY
-        sample_values:
-          - |-
-            [
-              {
-                "feature_flag": "abtest.ltr.elasticsearch.second.variant",
-                "min_tstamp": "2024-05-26 07:53:57.812",
-                "num_occurences": 1,
-                "test_group": "variant"
-              },
-              {
-                "feature_flag": "abtest.klarna.control",
-                "min_tstamp": "2024-05-26 07:53:57.812",
-                "num_occurences": 1,
-                "test_group": "control"
-              },
-              {
-                "feature_flag": "abtest.newnavigationdisplay.variant",
-                "min_tstamp": "2024-05-26 07:53:57.812",
-                "num_occurences": 1,
-                "test_group": "variant"
-              }
-            ]
-          - "[]"
-      - name: FIRST_LOGIN_TYPE
-        description: The first login method used by the user in this session.
-        expr: FIRST_LOGIN_TYPE
+      - name: LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
+        synonyms:
+          - channel
+          - lnd channel
+        description: The marketing channel assigned to the session via last non direct attribution.
+        expr: LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
         data_type: VARCHAR(16777216)
         sample_values:
-          - semi_manual_login
-          - soft-login
+          - Email - Newsletter
+          - Direct
+      - name: LAST_NON_DIRECT_CHANNEL_CATEGORY
+        synonyms:
+          - channel category
+        description: The category of the channel via last non direct attribution.
+        expr: LAST_NON_DIRECT_CHANNEL_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Free
+          - Paid
+      - name: LAST_PAID_TOUCH_MKT_CHANNEL
+        synonyms:
+          - last paid channel
+          - lp channel
+        description: The marketing channel assigned to the session via last paid attribution.
+        expr: LAST_PAID_TOUCH_MKT_CHANNEL
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Email - Newsletter
+          - Direct
+      - name: LAST_PAID_CHANNEL_CATEGORY
+        description: The category of the channel via last paid attribution.
+        expr: LAST_PAID_CHANNEL_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Free
+          - Paid
+      - name: TOUCH_EXPERIENCE
+        synonyms:
+          - device
+          - device platform
+          - device type
+        description: The touch experience / device platform used in the session eg web, mweb.
+        expr: TOUCH_EXPERIENCE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - mobile web
+          - native app ios
+      - name: PLATFORM
+        description: A categorisation of the touch experience used in the session.
+        expr: PLATFORM
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Web
+          - Mobile Web
+      - name: TOUCH_LANDING_PAGE
+        description: The URL of the landing page that was touched by the user.
+        expr: TOUCH_LANDING_PAGE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - https://travelist.pl/119068/polska-karkonosze-kazalnica-family-conference/
+      - name: TOUCH_LANDING_PAGEPATH
+        description: The URL path to the landing page.
+        expr: TOUCH_LANDING_PAGEPATH
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - /majestic-harrogate-hilton-hotel-stay-with-a-delicious-chateaubriand-refundable-hotel
+      - name: LANDING_PAGE_CATEGORY
+        description: The category of the landing page.
+        expr: LANDING_PAGE_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - booking flow flight selection
+          - other
+      - name: TOUCH_HOSTNAME
+        description: The URL hostname this session occurred on.
+        expr: TOUCH_HOSTNAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - de.sales.secretescapes.com
+          - travelist.pl
+      - name: TOUCH_EXIT_PAGEPATH
+        description: The URL path to the page that the user exited the session on.
+        expr: TOUCH_EXIT_PAGEPATH
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - /121905/slowacja-velka-lomnica-tatragolf-mountain-resort/
+      - name: TOUCH_REFERRER_URL
+        description: The URL of the referrer that initiated the session.
+        expr: TOUCH_REFERRER_URL
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - https://www.google.com
+      - name: TOUCH_SE_BRAND
+        description: The SE Group brand that this session occurred on eg. SE Brand, Travelist.
+        expr: TOUCH_SE_BRAND
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - SE Brand
+          - Travelist
+      - name: TOUCH_EVENT_COUNT
+        description: The count of events sessionised.
+        expr: TOUCH_EVENT_COUNT
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "5"
+          - "33"
+      - name: IS_SE_INTERNAL_TOUCH
+        description: A flag indicating whether the session was performed by an SE employee.
+        expr: IS_SE_INTERNAL_TOUCH
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: USER_IPADDRESS
+        description: The IP address of the user.
+        expr: USER_IPADDRESS
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 109.178.235.134
+      - name: GEO_COUNTRY
+        description: The country location where the session took place.
+        expr: GEO_COUNTRY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - DE
+          - PL
       - name: GEO_CITY
         description: The city location where the session took place.
         expr: GEO_CITY
@@ -213,34 +208,6 @@ tables:
         sample_values:
           - Berlin
           - Vienna
-          - Munich
-          - Warsaw
-          - Frankfurt am Main
-          - Stuttgart
-          - Hamburg
-          - Dublin
-          - Poznan
-          - Cologne
-          - Bielefeld
-          - Wroclaw
-          - Leipzig
-          - City of London
-      - name: GEO_COUNTRY
-        description: The country location where the session took place.
-        expr: GEO_COUNTRY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - DE
-          - IE
-          - PL
-      - name: GEO_REGION_NAME
-        description: The region name where the session took place.
-        expr: GEO_REGION_NAME
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Oxfordshire
-          - Zurich
-          - Naples
       - name: GEO_ZIPCODE
         description: The zipcode location where the session took place.
         expr: GEO_ZIPCODE
@@ -248,7 +215,269 @@ tables:
         sample_values:
           - "73061"
           - LN5
-          - "73734"
+      - name: GEO_REGION_NAME
+        description: The region name where the session took place.
+        expr: GEO_REGION_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Oxfordshire
+          - Zurich
+      - name: USERAGENT
+        description: The user agent string of the client browser.
+        expr: USERAGENT
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Mozilla/5.0 (iPad; CPU OS 17_4_1 like Mac OS X)
+      - name: BR_NAME
+        description: Browser name.
+        expr: BR_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Chrome Mobile
+          - Mobile Safari
+      - name: BR_FAMILY
+        description: Browser family.
+        expr: BR_FAMILY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Firefox
+          - Safari
+      - name: OS_NAME
+        description: The operating system name.
+        expr: OS_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Mac OS X
+          - Android 1.x
+      - name: OS_FAMILY
+        description: The operating system family.
+        expr: OS_FAMILY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Mac OS X
+          - Android
+      - name: OS_MANUFACTURER
+        description: The manufacturer of the operating system.
+        expr: OS_MANUFACTURER
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Apple Inc.
+          - Google Inc.
+      - name: DVCE_SCREENWIDTH
+        description: The width of the screen in pixels.
+        expr: DVCE_SCREENWIDTH
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "412"
+          - "1536"
+      - name: DVCE_SCREENHEIGHT
+        description: The height of the screen in pixels.
+        expr: DVCE_SCREENHEIGHT
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "1067"
+          - "1112"
+      - name: APP_STATE_CONTEXT
+        description: The state of the native app.
+        expr: APP_STATE_CONTEXT
+        data_type: OBJECT
+        sample_values:
+          - '{"app_state": "foreground"}'
+      - name: LANDING_APP_STATE
+        description: The landing app state for this session.
+        expr: LANDING_APP_STATE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - foreground
+      - name: SPVS
+        synonyms:
+          - product_page_views
+          - product_view_count
+          - sale_page_view_count
+          - sale_page_views
+          - sales page views
+          - spv_count
+        description: The number of sale page views (SPVs) that occurred in the session.
+        expr: SPVS
+        data_type: NUMBER(38,0)
+        is_enum: false
+      - name: HAS_SPV
+        description: Whether the session has a sale page view (SPV).
+        expr: HAS_SPV
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: UNIQUE_SPVS
+        description: Unique count of sale page views (SPVs) by se_sale_id.
+        expr: UNIQUE_SPVS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "3"
+          - "16"
+      - name: SPVS_HOTEL
+        description: The number of sale page views (SPVs) to a hotel product.
+        expr: SPVS_HOTEL
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "8"
+      - name: HAS_SPV_HOTEL
+        description: Whether the session has a hotel sale page view (SPV).
+        expr: HAS_SPV_HOTEL
+        data_type: BOOLEAN
+        sample_values:
+          - "FALSE"
+          - "TRUE"
+      - name: UNIQUE_SPVS_HOTEL
+        description: Unique count of hotel sale page views (SPVs) by se_sale_id.
+        expr: UNIQUE_SPVS_HOTEL
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "5"
+      - name: SPVS_HOTEL_PLUS
+        description: The number of sale page views (SPV) to a hotel plus product.
+        expr: SPVS_HOTEL_PLUS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "1"
+          - "16"
+      - name: HAS_SPV_HOTEL_PLUS
+        description: Whether the session has a hotel plus sale page view (SPV).
+        expr: HAS_SPV_HOTEL_PLUS
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: UNIQUE_SPVS_HOTEL_PLUS
+        description: Unique count of hotel plus sale page views (SPVs) by se_sale_id.
+        expr: UNIQUE_SPVS_HOTEL_PLUS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "5"
+          - "3"
+      - name: SPVS_CATALOGUE
+        description: The number of sale page views (SPVs) to a catalogue product.
+        expr: SPVS_CATALOGUE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "7"
+          - "2"
+      - name: HAS_SPV_CATALOGUE
+        description: Whether the session has a catalogue sale page view (SPV).
+        expr: HAS_SPV_CATALOGUE
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: UNIQUE_SPVS_CATALOGUE
+        description: Unique count of catalogue sale page views (SPVs) by se_sale_id.
+        expr: UNIQUE_SPVS_CATALOGUE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "3"
+          - "16"
+      - name: SPVS_PACKAGE
+        description: The number of sale page views (SPVs) to a package product. Package include Catalogue + IHP
+        expr: SPVS_PACKAGE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "0"
+          - "1"
+      - name: HAS_SPV_PACKAGE
+        description: Whether the session has a package sale page view (SPV). Package include Catalogue + IHP
+        expr: HAS_SPV_PACKAGE
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: UNIQUE_SPVS_PACKAGE
+        description: Unique count of package sale page views (SPVs) by se_sale_id. Package include Catalogue + IHP
+        expr: UNIQUE_SPVS_PACKAGE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "1"
+      - name: BOOKING_FORM_VIEWS
+        description: The number of booking form page views (BFVs) that occurred in the session.
+        expr: BOOKING_FORM_VIEWS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "3"
+          - "1"
+      - name: HAS_BOOKING_FORM_VIEW
+        description: Whether the session has a booking form page view (BFVs).
+        expr: HAS_BOOKING_FORM_VIEW
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: BOOKING_FORM_VIEWS_HOTEL
+        description: The number of booking form page views (BFVs) to a hotel product that occurred in the session.
+        expr: BOOKING_FORM_VIEWS_HOTEL
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "3"
+          - "1"
+      - name: HAS_BOOKING_FORM_VIEW_HOTEL
+        description: Whether the session has a booking form page view (BFVs) to a hotel product.
+        expr: HAS_BOOKING_FORM_VIEW_HOTEL
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: BOOKING_FORM_VIEWS_HOTEL_PLUS
+        description: The number of booking form page views (BFVs) to a hotel plus product that occurred in the session.
+        expr: BOOKING_FORM_VIEWS_HOTEL_PLUS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "1"
+          - "3"
+      - name: HAS_BOOKING_FORM_VIEW_HOTEL_PLUS
+        description: Whether the session has a booking form page view (BFVs) to a hotel plus product.
+        expr: HAS_BOOKING_FORM_VIEW_HOTEL_PLUS
+        data_type: BOOLEAN
+        sample_values:
+          - "FALSE"
+          - "TRUE"
+      - name: BOOKING_FORM_VIEWS_CATALOGUE
+        description: The number of booking form page views (BFVs) to a catalogue product that occurred in the session.
+        expr: BOOKING_FORM_VIEWS_CATALOGUE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "1"
+          - "3"
+      - name: HAS_BOOKING_FORM_VIEW_CATALOGUE
+        description: Whether the session has a booking form page view (BFVs) to a catalogue product.
+        expr: HAS_BOOKING_FORM_VIEW_CATALOGUE
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: BOOKING_FORM_VIEWS_PACKAGE
+        description: The number of booking form page views (BFVs) to a package product that occurred in the session. Package include Catalogue + IHP
+        expr: BOOKING_FORM_VIEWS_PACKAGE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "1"
+      - name: HAS_BOOKING_FORM_VIEW_PACKAGE
+        description: Whether the session has a booking form page view (BFVs) to a package product. Package include Catalogue + IHP
+        expr: HAS_BOOKING_FORM_VIEW_PACKAGE
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: BOOKINGS
+        synonyms:
+          - transactions
+        description: The number of bookings that occurred in the session. These bookings successfully completed at time of the session. Note that they may have since cancelled.
+        expr: BOOKINGS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "1"
       - name: HAS_BOOKING
         synonyms:
           - converted session
@@ -258,48 +487,13 @@ tables:
         sample_values:
           - "TRUE"
           - "FALSE"
-      - name: HAS_BOOKING_CATALOGUE
-        description: Whether the session has a booking to a catalogue product.
-        expr: HAS_BOOKING_CATALOGUE
-        data_type: BOOLEAN
+      - name: BOOKINGS_HOTEL
+        description: The number of bookings to a hotel product that occurred in the session.
+        expr: BOOKINGS_HOTEL
+        data_type: NUMBER(38,0)
         sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: HAS_BOOKING_FORM_VIEW
-        description: Whether the session has a booking form page view (BFVs).
-        expr: HAS_BOOKING_FORM_VIEW
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: HAS_BOOKING_FORM_VIEW_CATALOGUE
-        description: Whether the session has a booking form page view (BFVs) to a catalogue product.
-        expr: HAS_BOOKING_FORM_VIEW_CATALOGUE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: HAS_BOOKING_FORM_VIEW_HOTEL
-        description: Whether the session has a booking form page view (BFVs) to a hotel product.
-        expr: HAS_BOOKING_FORM_VIEW_HOTEL
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: HAS_BOOKING_FORM_VIEW_HOTEL_PLUS
-        description: Whether the session has a booking form page view (BFVs) to a hotel plus product.
-        expr: HAS_BOOKING_FORM_VIEW_HOTEL_PLUS
-        data_type: BOOLEAN
-        sample_values:
-          - "FALSE"
-          - "TRUE"
-      - name: HAS_BOOKING_FORM_VIEW_PACKAGE
-        description: Whether the session has a booking form page view (BFVs) to a package product. Package include Catalogue + IHP
-        expr: HAS_BOOKING_FORM_VIEW_PACKAGE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
+          - "0"
+          - "1"
       - name: HAS_BOOKING_HOTEL
         description: Whether the session has a booking to a hotel product.
         expr: HAS_BOOKING_HOTEL
@@ -307,6 +501,13 @@ tables:
         sample_values:
           - "TRUE"
           - "FALSE"
+      - name: BOOKINGS_HOTEL_PLUS
+        description: The number of bookings to a hotel plus product that occurred in the session.
+        expr: BOOKINGS_HOTEL_PLUS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "1"
+          - "0"
       - name: HAS_BOOKING_HOTEL_PLUS
         description: Whether the session has a booking to a hotel plus product.
         expr: HAS_BOOKING_HOTEL_PLUS
@@ -314,6 +515,27 @@ tables:
         sample_values:
           - "TRUE"
           - "FALSE"
+      - name: BOOKINGS_CATALOGUE
+        description: The number of bookings to a catalogue product that occurred in the session.
+        expr: BOOKINGS_CATALOGUE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "1"
+      - name: HAS_BOOKING_CATALOGUE
+        description: Whether the session has a booking to a catalogue product.
+        expr: HAS_BOOKING_CATALOGUE
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: BOOKINGS_PACKAGE
+        description: The number of bookings to a package product that occurred in the session. Package include Catalogue + IHP
+        expr: BOOKINGS_PACKAGE
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "0"
+          - "1"
       - name: HAS_BOOKING_PACKAGE
         description: Whether the session has a booking to a catalogue product. Package include Catalogue + IHP
         expr: HAS_BOOKING_PACKAGE
@@ -321,20 +543,20 @@ tables:
         sample_values:
           - "FALSE"
           - "TRUE"
-      - name: HAS_PAGE_LOAD_SEARCH
-        description: Whether the session has a search performed using predetermined search query functionality eg collection pages.
-        expr: HAS_PAGE_LOAD_SEARCH
-        data_type: BOOLEAN
+      - name: MARGIN_GBP
+        description: Margin made on bookings within this session in British Pounds.
+        expr: MARGIN_GBP
+        data_type: NUMBER(38,0)
         sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: HAS_PAY_BUTTON_CLICK
-        description: Whether the session has a pay button click.
-        expr: HAS_PAY_BUTTON_CLICK
-        data_type: BOOLEAN
+          - "0"
+          - "153"
+      - name: SEARCHES
+        description: The number of searches that occurred in the session. This will include searches like pageLoad, user and Kronos.
+        expr: SEARCHES
+        data_type: NUMBER(38,0)
         sample_values:
-          - "FALSE"
-          - "TRUE"
+          - "12"
+          - "1"
       - name: HAS_SEARCH
         description: Whether the session has a search.
         expr: HAS_SEARCH
@@ -342,41 +564,13 @@ tables:
         sample_values:
           - "FALSE"
           - "TRUE"
-      - name: HAS_SPV
-        description: Whether the session has a sale page view (SPV).
-        expr: HAS_SPV
-        data_type: BOOLEAN
+      - name: USER_SEARCHES
+        description: The number of searches performed using the search bar functionality.
+        expr: USER_SEARCHES
+        data_type: NUMBER(38,0)
         sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: HAS_SPV_CATALOGUE
-        description: Whether the session has a catalogue sale page view (SPV).
-        expr: HAS_SPV_CATALOGUE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: HAS_SPV_HOTEL
-        description: Whether the session has a hotel sale page view (SPV).
-        expr: HAS_SPV_HOTEL
-        data_type: BOOLEAN
-        sample_values:
-          - "FALSE"
-          - "TRUE"
-      - name: HAS_SPV_HOTEL_PLUS
-        description: Whether the session has a hotel plus sale page view (SPV).
-        expr: HAS_SPV_HOTEL_PLUS
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: HAS_SPV_PACKAGE
-        description: Whether the session has a package sale page view (SPV). Package include Catalogue + IHP
-        expr: HAS_SPV_PACKAGE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
+          - "0"
+          - "3"
       - name: HAS_USER_SEARCH
         description: Whether the session has a search performed using the search bar functionality.
         expr: HAS_USER_SEARCH
@@ -384,6 +578,102 @@ tables:
         sample_values:
           - "TRUE"
           - "FALSE"
+      - name: PAGE_LOAD_SEARCHES
+        description: The number of searches performed using predetermined search query functionality eg collection pages.
+        expr: PAGE_LOAD_SEARCHES
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "1"
+      - name: HAS_PAGE_LOAD_SEARCH
+        description: Whether the session has a search performed using predetermined search query functionality eg collection pages.
+        expr: HAS_PAGE_LOAD_SEARCH
+        data_type: BOOLEAN
+        sample_values:
+          - "TRUE"
+          - "FALSE"
+      - name: MIN_PRICE_FILTER_SEARCHES
+        description: The minimum price filter applied to searches.
+        expr: MIN_PRICE_FILTER_SEARCHES
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "0"
+          - "6"
+      - name: MAX_PRICE_FILTER_SEARCHES
+        description: The maximum price filter applied to searches.
+        expr: MAX_PRICE_FILTER_SEARCHES
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "1"
+          - "5"
+      - name: SORT_BY_SEARCHES
+        description: The number of searches using the sort functionality.
+        expr: SORT_BY_SEARCHES
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "6"
+          - "4"
+      - name: PAY_BUTTON_CLICKS
+        description: The number of times the pay button was clicked.
+        expr: PAY_BUTTON_CLICKS
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "1"
+      - name: HAS_PAY_BUTTON_CLICK
+        description: Whether the session has a pay button click.
+        expr: HAS_PAY_BUTTON_CLICK
+        data_type: BOOLEAN
+        sample_values:
+          - "FALSE"
+          - "TRUE"
+      - name: FEATURE_FLAG_TEST_ARRAY
+        description: An array of feature flag that include abtest that appeared in the session.
+        expr: FEATURE_FLAG_TEST_ARRAY
+        data_type: ARRAY
+        sample_values:
+          - '[{"feature_flag": "abtest.ltr.elasticsearch.second.variant", "test_group": "variant"}]'
+      - name: FIRST_LOGIN_TYPE
+        description: The first login method used by the user in this session.
+        expr: FIRST_LOGIN_TYPE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - semi_manual_login
+          - soft-login
+      - name: LAST_LOGIN_TYPE
+        description: The last login method used by the user in this session.
+        expr: LAST_LOGIN_TYPE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - logged_out
+          - hard-login
+      - name: LOGIN_TYPES_LIST
+        description: The types of login methods used by a user.
+        expr: LOGIN_TYPES_LIST
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - soft-login
+          - email_semi_login
+      - name: LOGIN_TYPES_ARRAY
+        description: The types of login methods used by users.
+        expr: LOGIN_TYPES_ARRAY
+        data_type: ARRAY
+        sample_values:
+          - '["logged_out"]'
+      - name: LOGIN_TYPES_COUNT
+        description: The count of different login types.
+        expr: LOGIN_TYPES_COUNT
+        data_type: NUMBER(38,0)
+        sample_values:
+          - "2"
+          - "1"
+      - name: SE_USER_ID
+        synonyms:
+          - se user id
+          - shiro user id
+          - user id
+        expr: IFF(stitched_identity_type = 'se_user_id', attributed_user_id, NULL)
+        data_type: VARCHAR(134217728)
       - name: IS_ABANDONED_CART_SESSION
         synonyms:
           - abandoned_checkout_flag
@@ -399,586 +689,6 @@ tables:
         description: The Session has a booking form view but no transaction
         expr: IFF(HAS_BOOKING_FORM_VIEW = TRUE AND HAS_BOOKING = FALSE, TRUE, FALSE)
         data_type: BOOLEAN
-      - name: IS_SE_INTERNAL_TOUCH
-        description: A flag indicating whether the session was performed by an SE employee.
-        expr: IS_SE_INTERNAL_TOUCH
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: LANDING_APP_STATE
-        description: The landing app state for this session.
-        expr: LANDING_APP_STATE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - foreground
-      - name: LANDING_PAGE_CATEGORY
-        description: The category of the landing page.
-        expr: LANDING_PAGE_CATEGORY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - booking flow flight selection
-          - other
-          - filter page
-      - name: LAST_LOGIN_TYPE
-        description: The last login method used by the user in this session.
-        expr: LAST_LOGIN_TYPE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - logged_out
-          - hard-login
-      - name: LAST_NON_DIRECT_CHANNEL_CATEGORY
-        synonyms:
-          - channel category
-        description: The category of the channel via last non direct attribution.
-        expr: LAST_NON_DIRECT_CHANNEL_CATEGORY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Free
-          - Paid
-          - Email - Newsletter
-          - Email - Triggers
-          - Other
-          - App Push
-          - Test
-      - name: LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
-        synonyms:
-          - channel
-          - lnd channel
-        description: The marketing channel assigned to the session via last non direct attribution. Last non direct attribution will reattribute any session with a last click channel of direct to the user's previous non direct channel within a 30 day look back window.
-        expr: LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Email - Newsletter
-          - Direct
-          - PPC - Non Brand CPA
-          - Email - Triggers
-          - PPC - Brand
-          - App Push
-          - Paid Social CPA
-          - Organic Search Non-Brand
-          - Display CPA
-          - Newsletter
-          - Display CPL
-          - Other
-          - PPC - Non Brand CPL
-          - Organic Search Brand
-          - Google Ads Inne
-          - Google Ads Brand
-          - Source SEO
-          - Organic Social
-          - Affiliate Program
-          - Display
-          - Paid Social
-          - PPC - Undefined
-          - Remarketing
-          - Paid Social CPL
-          - Media
-          - Partner
-          - Afiliacja
-          - Mailing
-          - Blog
-          - Partner White Label
-          - Referral
-          - Google Ads Generic
-          - Push
-          - Email - Other
-          - YouTube
-          - Video
-          - Test
-          - SMS
-          - Magazyn
-      - name: LAST_PAID_CHANNEL_CATEGORY
-        description: The category of the channel via last paid attribution.
-        expr: LAST_PAID_CHANNEL_CATEGORY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Free
-          - Paid
-          - Email - Newsletter
-          - Email - Triggers
-          - Other
-          - App Push
-          - Test
-      - name: LAST_PAID_TOUCH_MKT_CHANNEL
-        synonyms:
-          - last paid channel
-          - lp channel
-        description: The marketing channel assigned to the session via last paid attribution. Last paid attribution will reattribute any session with a last click channel that is NOT a paid channel to the user's previous paid channel within a 30 day look back window.
-        expr: LAST_PAID_TOUCH_MKT_CHANNEL
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Email - Newsletter
-          - Direct
-          - PPC - Non Brand CPA
-          - Email - Triggers
-          - PPC - Brand
-          - App Push
-          - Paid Social CPA
-          - Organic Search Non-Brand
-          - Display CPA
-          - Newsletter
-          - Display CPL
-          - Other
-          - PPC - Non Brand CPL
-          - Organic Search Brand
-          - Google Ads Inne
-          - Google Ads Brand
-          - Source SEO
-          - Organic Social
-          - Affiliate Program
-          - Display
-          - Paid Social
-          - PPC - Undefined
-          - Remarketing
-          - Paid Social CPL
-          - Media
-          - Partner
-          - Afiliacja
-          - Mailing
-          - Blog
-          - Partner White Label
-          - Referral
-          - Google Ads Generic
-          - Push
-          - Email - Other
-          - YouTube
-          - Video
-          - Test
-          - SMS
-          - Magazyn
-      - name: LOGIN_TYPES_ARRAY
-        description: The types of login methods used by users.
-        expr: LOGIN_TYPES_ARRAY
-        data_type: ARRAY
-        sample_values:
-          - |-
-            [
-              "logged_out"
-            ]
-          - |-
-            [
-              "semi_manual_login"
-            ]
-          - |-
-            [
-              "email_semi_login"
-            ]
-      - name: LOGIN_TYPES_COUNT
-        description: The count of different login types.
-        expr: LOGIN_TYPES_COUNT
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-          - "0"
-      - name: LOGIN_TYPES_LIST
-        description: The types of login methods used by a user.
-        expr: LOGIN_TYPES_LIST
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - soft-login
-          - email_semi_login
-      - name: MARGIN_GBP
-        description: Margin made on bookings within this session in British Pounds.
-        expr: MARGIN_GBP
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "153"
-          - "36"
-      - name: MAX_PRICE_FILTER_SEARCHES
-        description: The maximum price filter applied to searches.
-        expr: MAX_PRICE_FILTER_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "0"
-          - "5"
-      - name: MIN_PRICE_FILTER_SEARCHES
-        description: The minimum price filter applied to searches.
-        expr: MIN_PRICE_FILTER_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "6"
-          - "5"
-      - name: OS_FAMILY
-        description: The operating system family.
-        expr: OS_FAMILY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Mac OS X
-          - Android
-          - Unknown
-      - name: OS_MANUFACTURER
-        description: The manufacturer of the operating system.
-        expr: OS_MANUFACTURER
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Apple Inc.
-          - Other
-          - Google Inc.
-      - name: OS_NAME
-        description: The operating system name.
-        expr: OS_NAME
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Mac OS X
-          - Mac OS X (iPhone)
-          - Android 1.x
-      - name: PAGE_LOAD_SEARCHES
-        description: The number of searches performed using predetermined search query functionality eg collection pages.
-        expr: PAGE_LOAD_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-          - "0"
-      - name: PAY_BUTTON_CLICKS
-        description: The number of times the pay button was clicked.
-        expr: PAY_BUTTON_CLICKS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-          - "0"
-      - name: PLATFORM
-        description: A categorisation of the touch experience used in the session.
-        expr: PLATFORM
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Web
-          - Mobile Web
-          - Native App
-      - name: SE_USER_ID
-        synonyms:
-          - se user id
-          - shiro user id
-          - user id
-        expr: IFF(stitched_identity_type = 'se_user_id', attributed_user_id, NULL)
-        data_type: VARCHAR(134217728)
-      - name: SEARCHES
-        description: The number of searches that occurred in the session. This will include searches like pageLoad, user and Kronos.
-        expr: SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "12"
-          - "5"
-          - "1"
-      - name: SORT_BY_SEARCHES
-        description: The number of searches using the sort functionality.
-        expr: SORT_BY_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "6"
-          - "4"
-          - "0"
-      - name: SPVS
-        synonyms:
-          - product_page_views
-          - product_view_count
-          - sale_page_view_count
-          - sale_page_views
-          - sales page views
-          - spv_count
-        description: The number of sale page views (SPVs) that occurred in the session.
-        expr: SPVS
-        data_type: NUMBER(38,0)
-        is_enum: false
-      - name: SPVS_CATALOGUE
-        description: The number of sale page views (SPVs) to a catalogue product.
-        expr: SPVS_CATALOGUE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "7"
-          - "2"
-          - "0"
-      - name: SPVS_HOTEL
-        description: The number of sale page views (SPVs) to a hotel product.
-        expr: SPVS_HOTEL
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "8"
-          - "10"
-      - name: SPVS_HOTEL_PLUS
-        description: The number of sale page views (SPV) to a hotel plus product.
-        expr: SPVS_HOTEL_PLUS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "16"
-          - "0"
-      - name: SPVS_PACKAGE
-        description: The number of sale page views (SPVs) to a package product. Package include Catalogue + IHP
-        expr: SPVS_PACKAGE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "1"
-          - "2"
-      - name: STITCHED_IDENTITY_TYPE
-        description: The type method of identity stitching used for this session.
-        expr: STITCHED_IDENTITY_TYPE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - tvl_user_id
-          - se_user_id
-          - cookie_id
-      - name: TOUCH_AFFILIATE_TERRITORY
-        description: The affiliate territory of the session, this is based on logic that includes hostname categorisations and the presence of an affiliate url parameter.
-        expr: TOUCH_AFFILIATE_TERRITORY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - DE
-          - IT
-          - PL
-      - name: TOUCH_DURATION_SECONDS
-        description: The duration of time a user spent interacting with the system in seconds.
-        expr: TOUCH_DURATION_SECONDS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "127"
-          - "3"
-          - "57"
-      - name: TOUCH_EVENT_COUNT
-        description: The count of events sessionised.
-        expr: TOUCH_EVENT_COUNT
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "5"
-          - "6"
-          - "33"
-      - name: TOUCH_EXIT_PAGEPATH
-        description: The URL path to the page that the user exited the session on.
-        expr: TOUCH_EXIT_PAGEPATH
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - /breaktaking-ionian-island-suite-stay-anadeo-villas-and-suites-lefkada-greece/sale-hotel
-          - /121905/slowacja-velka-lomnica-tatragolf-mountain-resort/
-          - /stilvolle-residenz-in-der-muenchner-altstadt-kostenfrei-stornierbar-living-hotel-prinzessin-elisabeth-muenchen-bayern-deutschland/sale-hotel
-      - name: TOUCH_EXPERIENCE
-        synonyms:
-          - device
-          - device platform
-          - device type
-        description: The touch experience / device platform used in the session eg web, mweb.
-        expr: TOUCH_EXPERIENCE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - mobile web
-          - native app ios
-          - web
-          - native app android
-          - tablet web
-          - mobile wrap android
-          - mobile wrap ios
-          - digital media receiver
-      - name: TOUCH_HOSTNAME
-        description: The URL hostname this session occurred on.
-        expr: TOUCH_HOSTNAME
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - de.sales.secretescapes.com
-          - travelist.pl
-          - www.secretescapes.de
-      - name: TOUCH_ID
-        description: "[Primary key] - A unique identifier for each session."
-        expr: TOUCH_ID
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - 4cdd474f15a350f655a66fa904b10b14e71712c6ee03862b2608f0aa82466f8a
-          - e7e3b2f4afa92cb2c761084d52001d26bf7231230e9e4d9f741b89ac6e3abea4
-          - f4e33ff5c3e82b3119b61061a1c7aacbd86eba96aabd313825ff68b716a25577
-      - name: TOUCH_LANDING_PAGE
-        description: The URL of the landing page that was touched by the user.
-        expr: TOUCH_LANDING_PAGE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - https://travelist.pl/119068/polska-karkonosze-kazalnica-family-conference/
-          - https://travelist.pl/booking/117902/polska-wybrzeze-kolobrzeg-hotel-arka-medical-spa/
-          - https://de.sales.secretescapes.com/118575/sueden-gran-canaria-hotels-de/?checkin=2025-07-26&checkout=2025-08-09&offerId=118575&urlSlug=sueden-gran-canaria-hotels-de
-      - name: TOUCH_LANDING_PAGE_UTM_CAMPAIGN
-        synonyms:
-          - campaign
-          - landing page utm campaign
-          - utm campaign
-        description: The utm_campaign parameter in the landing page url
-        expr: PARSE_URL(TOUCH_LANDING_PAGE)['parameters']['utm_campaign']::VARCHAR
-        data_type: VARCHAR(134217728)
-      - name: TOUCH_LANDING_PAGE_UTM_CONTENT
-        synonyms:
-          - content
-          - landing page utm content
-          - utm content
-        description: The utm_content parameter in the landing page url
-        expr: PARSE_URL(TOUCH_LANDING_PAGE)['parameters']['utm_content']::VARCHAR
-        data_type: VARCHAR(134217728)
-      - name: TOUCH_LANDING_PAGE_UTM_SOURCE
-        synonyms:
-          - landing page utm source
-          - source
-          - utm source
-        description: The utm_source parameter in the landing page url
-        expr: PARSE_URL(TOUCH_LANDING_PAGE)['parameters']['utm_source']::VARCHAR
-        data_type: VARCHAR(134217728)
-      - name: TOUCH_LANDING_PAGEPATH
-        description: The URL path to the landing page.
-        expr: TOUCH_LANDING_PAGEPATH
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - /majestic-harrogate-hilton-hotel-stay-with-a-delicious-chateaubriand-refundable-hotel-doubletree-by-hilton-harrogate-majestic-hotel-and-spa-north-yorkshire/sale-hotel
-          - /luxurioser-inselzauber-auf-bali-the-royal-purnama-art-suites-and-villas-sukawati-bali-indonesien/sale-hotel
-          - /122462/uk-3pp-core-zd-cruise-flash-msc-virtuosa-caribbean/
-      - name: TOUCH_LOGGED_IN
-        synonyms:
-          - logged in
-        description: A flag indicating whether a user has logged in.
-        expr: TOUCH_LOGGED_IN
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: TOUCH_MKT_CHANNEL
-        synonyms:
-          - last click
-          - last click attribution
-          - last click channel
-        description: The marketing channel that initiated this session via last click attribution.
-        expr: TOUCH_MKT_CHANNEL
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Email - Newsletter
-          - Direct
-          - PPC - Non Brand CPA
-          - Email - Triggers
-          - PPC - Brand
-          - App Push
-          - Paid Social CPA
-          - Organic Search Non-Brand
-          - Display CPA
-          - Newsletter
-          - Display CPL
-          - Other
-          - PPC - Non Brand CPL
-          - Organic Search Brand
-          - Google Ads Inne
-          - Google Ads Brand
-          - Source SEO
-          - Organic Social
-          - Affiliate Program
-          - Display
-          - Paid Social
-          - PPC - Undefined
-          - Remarketing
-          - Paid Social CPL
-          - Media
-          - Partner
-          - Afiliacja
-          - Mailing
-          - Blog
-          - Partner White Label
-          - Referral
-          - Google Ads Generic
-          - Push
-          - Email - Other
-          - YouTube
-          - Video
-          - Test
-          - SMS
-          - Magazyn
-      - name: TOUCH_REFERRER_HOSTNAME
-        synonyms:
-          - origin_domain
-          - referrer_hostname
-          - referring_domain
-          - referring_site
-          - referring_url_domain
-        description: The hostname of the website that referred the user to the current session.
-        expr: PARSE_URL(TOUCH_REFERRER_URL,1)['host']::VARCHAR
-        data_type: VARCHAR(134217728)
-        sample_values:
-          - www.secretescapes.de
-          - www.google.com
-      - name: TOUCH_REFERRER_URL
-        description: The URL of the referrer that initiated the session.
-        expr: TOUCH_REFERRER_URL
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - https://www.secretescapes.de/current-sales?saff=mobile_maldives2&affiliate=taboola-de&utm_medium=display&utm_source=native&utm_campaign=taboola-de-mobile&tblci=GiAw9542RblQfRdoDo1XBo4pFa2TjoakLjwCDaDqoqEu8yC--z4oyoPCypSa8_Mw&affiliateUrlString=taboola-de
-          - https://travelist.pl/search/channel:/dates:/price:0,1000/sortType:/tags:/rooms:[2,[]]/page:1?utm_campaign=prospecting&utm_source=google&utm_medium=sem-brand&utm_term=prospecting_pure_travelist__sem-brand&utm_content=__brand_wyszukiwarka_TRA_PL_GPB_GOO_0000_PRO_0004_SEA_BRA_0_053_0000_000_20200201&MWID=TRA_PL_GPB_GOO_0000_PRO_0004_SEA_BRA_0_053_0000_000_20200201&gclid=EAIaIQobChMIyIi4nqejgAMVmdwYCh0n_A4iEAAYASAAEgJwt_D_BwE&gclsrc=aw.ds
-      - name: TOUCH_SE_BRAND
-        description: The SE Group brand that this session occurred on eg. SE Brand, Travelist.
-        expr: TOUCH_SE_BRAND
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - SE Brand
-          - Travelist
-      - name: UNIQUE_SPVS
-        description: Unique count of sale page views (SPVs) by se_sale_id.
-        expr: UNIQUE_SPVS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "3"
-          - "16"
-          - "0"
-      - name: UNIQUE_SPVS_CATALOGUE
-        description: Unique count of catalogue sale page views (SPVs) by se_sale_id.
-        expr: UNIQUE_SPVS_CATALOGUE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "3"
-          - "16"
-          - "0"
-      - name: UNIQUE_SPVS_HOTEL
-        description: Unique count of hotel sale page views (SPVs) by se_sale_id.
-        expr: UNIQUE_SPVS_HOTEL
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-          - "5"
-      - name: UNIQUE_SPVS_HOTEL_PLUS
-        description: Unique count of hotel plus sale page views (SPVs) by se_sale_id.
-        expr: UNIQUE_SPVS_HOTEL_PLUS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "5"
-          - "3"
-          - "2"
-      - name: UNIQUE_SPVS_PACKAGE
-        description: Unique count of package sale page views (SPVs) by se_sale_id. Package include Catalogue + IHP
-        expr: UNIQUE_SPVS_PACKAGE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "0"
-          - "1"
-      - name: USER_IPADDRESS
-        description: The IP address of the user.
-        expr: USER_IPADDRESS
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - 109.178.235.134
-          - 191.102.139.83
-          - 176.3.130.255
-      - name: USER_SEARCHES
-        description: The number of searches performed using the search bar functionality.
-        expr: USER_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "3"
-          - "2"
-      - name: USERAGENT
-        description: The user agent string of the client browser.
-        expr: USERAGENT
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Mozilla/5.0 (iPad; CPU OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1 musical_ly_34.5.1 JsSdk/2.0 NetType/WIFI Channel/App Store ByteLocale/en Region/GB isDarkMode/0 WKWebView/1 RevealType/Dialog
-          - Mozilla/5.0 (Linux; Android 11; M2007J20CG Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/142.0.7444.94 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/538.0.0.53.70;IABMV/1;]
-          - Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1
     time_dimensions:
       - name: TOUCH_END_TSTAMP
         description: The timestamp when the session ended.

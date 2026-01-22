@@ -1584,20 +1584,4 @@ INNER JOIN data_vault_mvp.single_customer_view_stg.module_utm_referrer_marker mu
 	AND murm.event_tstamp::DATE = '2025-01-14'
 WHERE murm.attributed_user_id = '57293686'
   AND ssel.event_tstamp::DATE = '2025-01-14'
-;\
-
-
-
-Identifies the browser family used by the user during the session. This field
-captures the primary browser type (e.g., Chrome, Safari, Firefox, Edge) and
-includes browser engine variants (e.g., WebKit, Chromium-based browsers).
-
-Browser family information is essential for diagnosing browser-specific technical
-issues, prioritizing cross-browser compatibility testing, and optimizing user
-experience for the most common browser types. It helps identify rendering issues,
-JavaScript compatibility problems, and performance variations across different
-browser engines.
-
-Use this field to segment traffic by browser type, identify browser-specific
-conversion rate differences, prioritize QA testing efforts, and ensure feature
-compatibility with your user base's most popular browsers.
+;

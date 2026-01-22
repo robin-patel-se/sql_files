@@ -102,9 +102,15 @@ tables:
         synonyms:
           - country
           - destination country
+          - holiday country
+          - nation
           - point of supply country
+          - target country
           - travel country
-        description: The destination country the booking is made for.
+          - trip country
+          - visit country
+        description: |
+          The destination country where the booking is fulfilled. Indicates where customers  are traveling to for their hotel stay or vacation.
         expr: POSU_COUNTRY
         data_type: VARCHAR(16777216)
         sample_values:
@@ -112,7 +118,14 @@ tables:
           - Germany
           - Malaysia
       - name: POSU_REGION
-        description: The region in which the point of sale unit (POSU) is located, categorizing it as either the United Kingdom, Spain, or any other region.
+        synonyms:
+          - destination region
+          - geographic region
+          - location region
+          - point of sale region
+          - regional territory
+        description: |
+          Primary destination region categorization grouping locations into major market areas  like UK, Spain, France, DACH (Germany/Austria/Switzerland), CEE, Scandinavia, International.
         expr: POSU_REGION
         data_type: VARCHAR(16777216)
         sample_values:
@@ -132,7 +145,14 @@ tables:
           - BENELUX POSu
           - Ireland POSu
       - name: POSU_SUB_REGION
-        description: Geographic sub-region where a sale was made, such as a province, state, or region within a country.
+        synonyms:
+          - area
+          - destination sub region
+          - local region
+          - provincial region
+          - regional area
+        description: |
+          Granular sub-regional classification within destination countries, identifying specific  geographic areas like London, South East England, Balearic Islands, or ALPS regions.
         expr: POSU_SUB_REGION
         data_type: VARCHAR(16777216)
         sample_values:
@@ -155,7 +175,16 @@ tables:
           - GERMANY-WEST
           - Ile-de-France
       - name: PRODUCT_CONFIGURATION
-        description: The type of sales channel or method through which a product is sold, such as directly to a hotel, through a third-party provider (3PP), or through a wholesale rate desk (WRD) directly.
+        synonyms:
+          - booking method
+          - configuration
+          - distribution channel
+          - offer type
+          - product model
+          - product type
+          - sales channel
+        description: |
+          Distribution channel and product delivery model. Indicates how the product is sold:  Hotel (direct hotel bookings), Hotel Plus (enhanced offerings), 3PP (third-party providers),  WRD (wholesale rate desk), IHP (in-house products - static/dynamic/connected), Catalogue.
         expr: PRODUCT_CONFIGURATION
         data_type: VARCHAR(16777216)
         sample_values:
@@ -170,7 +199,7 @@ tables:
           - WRD - direct
           - N/A
       - name: PRODUCT_TYPE
-        description: Categorization of the product or service being sold, indicating whether it is a Workshop (WRD), a Day Experience, or an Unknown type.
+        description: Categorization of the product or service being sold, indicating whether it is a Web Redirect (WRD), Hotel, Package, Day Experience, or an Unknown type.
         expr: PRODUCT_TYPE
         data_type: VARCHAR(16777216)
         sample_values:
@@ -181,14 +210,31 @@ tables:
           - Unknown
           - Not Applicable
       - name: SALE_ACTIVE
-        description: Indicates whether a sale is currently active or not.
+        synonyms:
+          - active sale
+          - currently active
+          - is active
+          - sale live status
+          - sale status
+        description: |
+          Boolean indicator of whether the sale/offer is currently active and bookable (TRUE)  or has been deactivated/ended (FALSE).
+          Note that sales might currently be live or deactivated but this does not represent their active status at the time of booking. 
+          Logically every sale was live at the time of a booking.
         expr: SALE_ACTIVE
         data_type: BOOLEAN
         sample_values:
           - 'TRUE'
           - 'FALSE'
       - name: SALE_NAME
-        description: The name of the sale, which represents a specific hotel or accommodation offer, providing a descriptive title for the sale.
+        synonyms:
+          - deal name
+          - hotel name
+          - offer name
+          - offering name
+          - product name
+          - sale title
+        description: |
+          Descriptive name/title of the sale or accommodation offer. Provides human-readable  identification of the specific hotel property or package being offered.
         expr: SALE_NAME
         data_type: VARCHAR(16777216)
         sample_values:
@@ -196,33 +242,58 @@ tables:
           - '5* Italian Riviera spa hotel '
           - 'Royal Hotel Sanremo '
       - name: SE_BRAND
-        description: The brand of the airline or travel provider associated with the sale.
+        synonyms:
+          - brand
+          - brand name
+          - business brand
+          - company brand
+          - platform
+        description: |
+          The SE Group brand through which the sale is marketed and sold. Primary brands  include "SE Brand" (Secret Escapes) and "Travelist".
         expr: SE_BRAND
         data_type: VARCHAR(16777216)
         sample_values:
           - SE Brand
           - Travelist
-      - name: SE_SALE_ID
-        description: Unique identifier for a sales event.
-        expr: SE_SALE_ID
-        data_type: VARCHAR(16777216)
     time_dimensions:
       - name: SALE_START_DATE
-        description: The date and time when a sale started.
+        synonyms:
+          - go live date
+          - launch date
+          - sale begin date
+          - sale start
+          - start date
+        description: |
+          Timestamp when the sale/offer was first made available for booking.
         expr: SALE_START_DATE
         data_type: TIMESTAMP_NTZ(9)
     primary_key:
       columns:
         - SE_SALE_ID
   - name: FACT_BOOKING
-    description: This table contains booking data for travel accommodations, including details about the booking, customer, and financial transactions. It captures information about the booking status, travel dates, room and flight details, revenue and margin calculations, customer demographics, and cancellation history. The table also includes indices to track the customer's booking history and frequency.
+    synonyms:
+      - bookings
+      - orders
+      - purchases
+      - reservations
+      - transactions
+    description: |
+      Core fact table containing all booking transactions with detailed information about  customers, travel dates, financial metrics, booking status, and booking history.  Central table for revenue analysis, customer behavior, and booking performance metrics.
     base_table:
       database: SE
       schema: DATA
       table: FACT_BOOKING
     dimensions:
       - name: ADULT_GUESTS
-        description: The number of adult guests included in a booking.
+        synonyms:
+          - adult count
+          - adult passengers
+          - adult travelers
+          - adults
+          - grown-ups
+          - number of adults
+        description: |
+          Number of adult guests (typically 18+ years) included in the booking party.
         expr: ADULT_GUESTS
         data_type: NUMBER(38,0)
         sample_values:
@@ -230,9 +301,19 @@ tables:
           - '2'
           - '4'
       - name: BOOKER_LOYALTY_SEGMENT
-        description: Categorises customers based on their booking frequency with the platform. Segments range from first-time bookers to VIP customers (10+ bookings). This field is critical for customer lifetime value analysis, retention strategies, and tiered loyalty program management.
+        synonyms:
+          - booking frequency segment
+          - booking tier
+          - customer loyalty
+          - customer segment
+          - customer tier
+          - loyalty segment
+          - loyalty tier
+          - repeat customer segment
+        description: |
+          Customer loyalty segmentation based on lifetime booking count. Segments: First-Time Booker  (1st booking), Second-Time Booker (2nd booking), Regular Customer (3-5 bookings),  Frequent Customer (6-10 bookings), VIP Customer (10+ bookings). Critical for CLV analysis,  retention strategies, and loyalty program management.
         expr: |-
-          CASE
+          CASE 
               WHEN live_booking_index = 1 THEN 'First-Time Booker'
               WHEN live_booking_index = 2 THEN 'Second-Time Booker'
               WHEN live_booking_index BETWEEN 3 AND 5 THEN 'Regular Customer (3-5 bookings)'
@@ -250,10 +331,17 @@ tables:
           - VIP Customer (10+ bookings)
       - name: BOOKER_RECENCY_SEGMENT
         synonyms:
+          - activity recency
           - booking recency bucket
-        description: Measures customer engagement by categorising how recently a customer made their previous booking. Segments range from very active (booked within a month) to dormant (12+ months since last booking). Critical for identifying at-risk customers and targeting reactivation campaigns.
+          - customer recency
+          - engagement recency
+          - last booking recency
+          - reactivation segment
+          - recency segment
+        description: |
+          Customer engagement segmentation based on days since previous booking. Segments:  First Booking (no prior booking), Very Active (within 30 days), Active (1-3 months),  Moderate (3-6 months), Infrequent (6-12 months), Dormant (12+ months). Essential for  identifying at-risk customers and targeting reactivation campaigns.
         expr: |-
-          CASE
+          CASE 
               WHEN days_since_previous_live_booking IS NULL THEN 'First Booking'
               WHEN days_since_previous_live_booking <= 30 THEN 'Very Active (Within month)'
               WHEN days_since_previous_live_booking > 30 AND days_since_previous_live_booking <= 90 THEN 'Active (1-3 months)'
@@ -272,11 +360,24 @@ tables:
           - Infrequent (6-12 months)
           - Dormant (12+ months)
       - name: BOOKING_ID
-        description: Unique identifier for a booking made by a customer.
+        synonyms:
+          - booking identifier
+          - booking number
+          - order id
+          - reservation id
+          - transaction identifier
+        description: |
+          Unique identifier for each individual booking transaction. Primary key for the booking fact table.
         expr: BOOKING_ID
         data_type: VARCHAR(16777216)
       - name: BOOKING_INCLUDES_FLIGHT
-        description: Indicates whether a booking includes a flight reservation.
+        synonyms:
+          - flight included
+          - has flight
+          - includes flight
+          - with flight
+        description: |
+          Boolean flag indicating whether the booking includes flight arrangements (TRUE)  or is accommodation-only (FALSE).
         expr: BOOKING_INCLUDES_FLIGHT
         data_type: BOOLEAN
         sample_values:
@@ -284,19 +385,23 @@ tables:
           - 'TRUE'
       - name: BOOKING_LEAD_TIME_CATEGORY
         synonyms:
+          - advance purchase window
           - advance_booking_category
           - advance_booking_segment
           - advance_purchase_category
+          - booking window
           - booking_advance_category
           - booking_timing_category
           - booking_window_category
           - lead_time_classification
           - lead_time_group
+          - planning window
           - reservation_lead_time_group
           - reservation_timing_group
-        description: Segments bookings based on how far in advance customers book their trips. Categories range from last-minute bookings (0-7 days) to super early planners (180+ days). This field enables analysis of booking behavior patterns, pricing optimization for different booking windows, and marketing campaign targeting based on planning horizons.
+        description: |
+          Booking behavior segmentation based on advance booking window (days between booking  and check-in). Categories: Last Minute (0-7 days), Short Notice (8-30 days), Standard  (31-90 days), Early Booker (91-180 days), Super Early (180+ days), Invalid/Negative.  Enables pricing optimization, demand forecasting, and targeted marketing by planning horizon.
         expr: |-
-          CASE
+          CASE 
               WHEN booking_lead_time_days < 0 THEN 'Invalid/Negative'
               WHEN booking_lead_time_days >= 0 AND booking_lead_time_days <= 7 THEN 'Last Minute (0-7 days)'
               WHEN booking_lead_time_days > 7 AND booking_lead_time_days <= 30 THEN 'Short Notice (8-30 days)'
@@ -313,11 +418,27 @@ tables:
           - Early Booker (91-180 days)
           - Super Early (180+ days)
       - name: BOOKING_LEAD_TIME_DAYS
-        description: The number of days between when a booking was made and the actual arrival date.
+        synonyms:
+          - advance booking days
+          - advance purchase days
+          - booking window days
+          - days in advance
+          - lead time
+          - planning days
+        description: |
+          Number of days between booking completion date and check-in date. Measures how far  in advance customers book their trips.
         expr: BOOKING_LEAD_TIME_DAYS
         data_type: NUMBER(38,0)
       - name: BOOKING_STATUS_TYPE
-        description: The current status of a booking, indicating whether it is active and confirmed (live), was initiated but not completed (abandoned), or falls into a miscellaneous category (other).
+        synonyms:
+          - booking state
+          - booking status
+          - order status
+          - reservation status
+          - status
+          - transaction status
+        description: |
+          Current status of the booking transaction. Values: 'live' (active/confirmed),  'cancelled' (customer cancellation), 'abandoned' (started but not completed),  'other' (miscellaneous states).
         expr: BOOKING_STATUS_TYPE
         data_type: VARCHAR(16777216)
         sample_values:
@@ -325,12 +446,36 @@ tables:
           - cancelled
           - live
           - other
+      - name: BOOKING_STATUS_TYPE_NET_IN_MONTH_CANCELLATIONS
+        synonyms:
+          - booking status net in month canx
+          - net in month cancellations
+          - net in month canx
+        description: |
+          The calculated status of bookings based on the booking_status_type field. Additional calculation of if the  booking_status_type is 'cancelled' but the cancellation date occurred in the same month of the booking_completed_date then call it 'live'.
+        expr: IFF(booking_status_type = 'cancelled' AND DATE_TRUNC(MONTH, booking_completed_date) = DATE_TRUNC(MONTH, cancellation_date), 'live', booking_status_type)
+        data_type: VARCHAR(16777216)
       - name: CHILD_GUESTS
-        description: Number of children guests included in the booking.
+        synonyms:
+          - child count
+          - child travelers
+          - children
+          - kids
+          - number of children
+          - young guests
+        description: |
+          Number of child guests (typically 2-17 years) included in the booking party.
         expr: CHILD_GUESTS
         data_type: NUMBER(38,0)
       - name: CURRENCY
-        description: The currency in which the booking was made.
+        synonyms:
+          - booking currency
+          - currency code
+          - payment currency
+          - price currency
+          - transaction currency
+        description: |
+          Currency in which the booking was transacted and priced (e.g., GBP, EUR, USD, SEK).
         expr: CURRENCY
         data_type: VARCHAR(16777216)
         sample_values:
@@ -351,25 +496,50 @@ tables:
           - PHP
       - name: DAYS_SINCE_PREVIOUS_LIVE_BOOKING
         synonyms:
+          - booking frequency days
+          - booking gap
+          - days since last booking
           - days since previous booking
-        description: The number of days between this booking and this user's previous booking
+          - rebooking interval
+          - time between bookings
+        description: |
+          Number of days elapsed between this booking and the customer's previous live booking.  NULL for first-time bookers. Used for recency analysis and re-engagement targeting.
         expr: DAYS_SINCE_PREVIOUS_LIVE_BOOKING
         data_type: NUMBER(38,0)
       - name: DEVICE_PLATFORM
-        description: The platform on which the booking was made, such as a web browser on a desktop or laptop computer, or a web browser on a tablet device.
+        synonyms:
+          - access platform
+          - booking channel
+          - booking device
+          - channel
+          - device
+          - device type
+          - platform
+        description: |
+          Digital platform/device used to complete the booking. Values include: web (desktop browser),  mobile web, tablet web, native app ios, native app android, mobile wrap ios/android, call_centre.
         expr: DEVICE_PLATFORM
         data_type: VARCHAR(16777216)
         sample_values:
           - tablet web
           - mobile wrap ios
-          - call_centre
           - web
+          - other
+          - not specified
           - mobile wrap android
-          - native app android
-          - mobile web
           - native app ios
+          - mobile web
+          - call_centre
+          - native app android
+          - Not Specified
       - name: INFANT_GUESTS
-        description: Number of infant guests (children under 2 years old) included in the booking.
+        synonyms:
+          - babies
+          - infant count
+          - infant travelers
+          - infants
+          - number of infants
+        description: |
+          Number of infant guests (typically under 2 years old) included in the booking party.
         expr: INFANT_GUESTS
         data_type: NUMBER(38,0)
         sample_values:
@@ -379,18 +549,22 @@ tables:
       - name: LENGTH_OF_STAY_CATEGORY
         synonyms:
           - accommodation_period_category
+          - duration segment
           - duration_classification
           - length_of_visit_category
           - lodging_length_category
           - nights_stayed_category
           - residence_duration_category
+          - stay length
           - stay_duration_category
           - stay_period_category
+          - trip length
           - trip_duration_category
           - visit_length_category
-        description: Classifies bookings by trip duration to identify customer travel patterns. Categories include weekend breaks, short breaks, week stays, extended stays, and long stays. This segmentation helps understand customer preferences and optimize property offerings for different trip lengths.
+        description: |
+          Trip duration segmentation based on number of nights. Categories: Weekend Break (1-2 nights),  Short Break (3-4 nights), Week Stay (5-7 nights), Extended Stay (8-14 nights), Long Stay  (15+ nights), Invalid. Helps identify travel pattern preferences and optimize property offerings.
         expr: |-
-          CASE
+          CASE 
               WHEN no_nights <= 0 THEN 'Invalid'
               WHEN no_nights >= 1 AND no_nights <= 2 THEN 'Weekend Break (1-2 nights)'
               WHEN no_nights >= 3 AND no_nights <= 4 THEN 'Short Break (3-4 nights)'
@@ -409,35 +583,29 @@ tables:
           - Long Stay (15+ nights)
       - name: LIVE_BOOKING_INDEX
         synonyms:
-          - Booking index
-        description: An indexed count for a user's booking, eg this is user 1234 's 3rd booking
+          - booking count
+          - booking index
+          - booking number
+          - booking sequence
+          - customer booking number
+        description: |
+          Sequential index of this booking in the customer's booking history. Values: 1 (first booking),  2 (second booking), 3+ (repeat bookings). Used for loyalty segmentation and customer lifecycle analysis.
         expr: LIVE_BOOKING_INDEX
         data_type: NUMBER(38,0)
-      - name: NO_NIGHTS
-        description: The number of nights a guest stayed at the hotel.
-        expr: NO_NIGHTS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - '2'
-          - '15'
-      - name: PRICE_PER_NIGHT
-        description: The average nightly price of a booking.
-        expr: PRICE_PER_NIGHT
-        data_type: NUMBER(26,12)
-        sample_values:
-          - '188.133800000000'
-          - '407.899500000000'
-          - '189.000000000000'
       - name: PRICE_PER_NIGHT_CATEGORY
         synonyms:
           - cost category
-          - cost category
           - luxury level
+          - price category
           - price per night buckets
+          - price segment
+          - price tier
+          - rate category
           - spend appetite
-        description: 'Categorises bookings into price segments based on the price per night value. This field groups bookings into seven distinct categories ranging from budget accommodations to ultra-luxury properties, enabling price-tier analysis and reporting. The categories are: Invalid/Error (£0 or less), Budget (Under £100), Standard (£100-£149), Mid-Range (£150-£249), Premium (£250-£399), Luxury (£400-£599), and Ultra-Luxury (£600+).'
+        description: |
+          Price segmentation categories based on nightly rate. Segments: Budget (Under £100),  Standard (£100-£149), Mid-Range (£150-£249), Premium (£250-£399), Luxury (£400-£599),  Ultra-Luxury (£600+), Invalid/Error (£0 or less). Enables price-tier analysis and  customer spend behavior insights.
         expr: |-
-          CASE
+          CASE 
               WHEN price_per_night <= 0 THEN 'Invalid/Error'
               WHEN price_per_night > 0 AND price_per_night < 100 THEN 'Budget (Under £100)'
               WHEN price_per_night >= 100 AND price_per_night < 150 THEN 'Standard (£100-£149)'
@@ -456,23 +624,27 @@ tables:
           - Luxury (£400-£599)
           - Budget (Under £100)
           - Premium (£250-£399)
-      - name: ROOMS
-        description: Number of rooms booked by a customer.
-        expr: ROOMS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - '2'
-          - '1'
-          - '0'
       - name: SE_BRAND
-        description: The Brand within SE Group that the booking transacted in.
+        synonyms:
+          - brand
+          - business brand
+          - company brand
+          - platform
+        description: |
+          The SE Group brand platform where the booking was completed. Values: "SE Brand"  (Secret Escapes), "Travelist".
         expr: SE_BRAND
         data_type: VARCHAR(16777216)
         sample_values:
           - SE Brand
           - Travelist
       - name: SE_SALE_ID
-        description: Unique identifier for a sale event in the Southeast region.
+        synonyms:
+          - deal id
+          - offer id
+          - product id
+          - sale id
+        description: |
+          Foreign key linking to the sale/offer that was booked. References DIM_SALE.SE_SALE_ID.
         expr: SE_SALE_ID
         data_type: VARCHAR(16777216)
         sample_values:
@@ -480,7 +652,14 @@ tables:
           - '75486'
           - '3206'
       - name: SHIRO_USER_ID
-        description: Unique identifier for the user who made the booking on the Shiro platform.
+        synonyms:
+          - account id
+          - booker id
+          - customer id
+          - member id
+          - user id
+        description: |
+          Unique customer identifier linking to user profile and attributes. Foreign key to  SE_USER_ATTRIBUTES.SHIRO_USER_ID.
         expr: SHIRO_USER_ID
         data_type: NUMBER(38,0)
         sample_values:
@@ -492,17 +671,26 @@ tables:
           - area
           - district
           - geographic_area
+          - market
           - market_area
           - posa territory
           - region
+          - sales region
           - sales_territory
           - territory_code
           - zone
-        description: The territory in which the booking was made, such as the United Kingdom (UK) or Germany (DE).
+        description: |
+          Sales territory or market where the booking originated (customer's location).  Examples: UK, DE (Germany), FR (France), US
         expr: TERRITORY
         data_type: VARCHAR(16777216)
       - name: TRANSACTION_ID
-        description: Unique identifier for a booking transaction.
+        synonyms:
+          - payment id
+          - payment reference
+          - transaction identifier
+          - transaction reference
+        description: |
+          Unique transaction reference identifier for the booking payment as known by the customer.
         expr: TRANSACTION_ID
         data_type: VARCHAR(33554433)
         sample_values:
@@ -513,10 +701,15 @@ tables:
         synonyms:
           - family size
           - group size
+          - group type
+          - guest type
+          - party composition
           - travel party
-        description: Identifies the composition of the travel group based on the number and type of guests. Categories include solo travellers, couples, adult groups, and families with children. This field enables personalised marketing and product recommendations based on who is traveling.
+          - traveler type
+        description: |
+          Travel party composition classification based on guest demographics. Categories:  Solo Traveller (1 adult), Couple (2 adults), Group (Adults Only) (3+ adults),  Family with 1 Child, Family with Children, Invalid/Error, Other. Enables personalized  marketing and product recommendations.
         expr: |-
-          CASE
+          CASE 
               WHEN adult_guests = 1 AND child_guests = 0 AND infant_guests = 0 THEN 'Solo Traveller'
               WHEN adult_guests = 2 AND child_guests = 0 AND infant_guests = 0 THEN 'Couple'
               WHEN adult_guests >= 3 AND child_guests = 0 AND infant_guests = 0 THEN 'Group (Adults Only)'
@@ -533,7 +726,13 @@ tables:
           - Family with 1 Child
           - Family with Children
       - name: TRAVEL_TYPE
-        description: Type of travel, indicating whether the booking is for a trip within the same country (Domestic), to another country (International), or the type of travel is not specified (Unknown).
+        synonyms:
+          - booking type
+          - domestic vs international
+          - journey type
+          - trip type
+        description: |
+          Classification of booking as Domestic (within customer's home country), International  (to another country), or Unknown.
         expr: TRAVEL_TYPE
         data_type: VARCHAR(50331648)
         sample_values:
@@ -542,14 +741,29 @@ tables:
           - Unknown
     time_dimensions:
       - name: BOOKING_COMPLETED_DATE
-        description: Date on which the booking was completed.
+        synonyms:
+          - booking date
+          - booking day
+          - completion date
+          - order date
+          - purchase date
+          - transaction date
+        description: |
+          Date when the booking transaction was successfully completed and confirmed.
         expr: BOOKING_COMPLETED_DATE
         data_type: DATE
         sample_values:
           - '2017-02-28'
           - '2017-01-09'
       - name: BOOKING_COMPLETED_TIMESTAMP
-        description: The date and time at which a booking was completed.
+        synonyms:
+          - booking time
+          - booking timestamp
+          - completion timestamp
+          - purchase timestamp
+          - transaction timestamp
+        description: |
+          Full timestamp (date and time) when the booking was completed.
         expr: BOOKING_COMPLETED_TIMESTAMP
         data_type: TIMESTAMP_NTZ(9)
         sample_values:
@@ -558,19 +772,26 @@ tables:
           - 2019-01-25T11:04:11.000+0000
       - name: CANCELLATION_DATE
         synonyms:
+          - cancel date
           - cancellation date
+          - cancellation timestamp
           - canx date
           - date cancelled
-        description: Date this booking was cancelled
+        description: |
+          Date and time when the booking was cancelled by the customer or system.
         expr: CANCELLATION_DATE
         data_type: TIMESTAMP_NTZ(9)
       - name: CHECK_IN_DATE
         synonyms:
           - arrival date
           - holiday date
+          - start date
+          - stay start
           - travel date
+          - trip start
           - visit date
-        description: Date when the guest checked in for their booking.
+        description: |
+          Date when the guest checks in and begins their hotel stay.
         expr: CHECK_IN_DATE
         data_type: DATE
         sample_values:
@@ -579,11 +800,15 @@ tables:
           - '2022-04-05'
       - name: CHECK_OUT_DATE
         synonyms:
+          - departure date
+          - end date
           - holiday end date
           - leave date
           - return date
+          - trip end
           - visit end date
-        description: Date when the guest checked out of the accommodation.
+        description: |
+          Date when the guest checks out and ends their hotel stay.
         expr: CHECK_OUT_DATE
         data_type: DATE
         sample_values:
@@ -594,7 +819,12 @@ tables:
       - name: BOOKERS
         synonyms:
           - bookers
-        description: Unique Count of bookers
+          - customers
+          - unique bookers
+          - unique customers
+          - users
+        description: |
+          Metric counting unique customers/bookers. Use for customer count analysis.
         expr: SHIRO_USER_ID
         data_type: NUMBER(38,0)
         access_modifier: public_access
@@ -604,7 +834,16 @@ tables:
           - '52994948'
           - '28976911'
       - name: GROSS_REVENUE_GBP_CONSTANT_CURRENCY
-        description: The total revenue generated from bookings, expressed in British Pounds (GBP) and adjusted for constant currency fluctuations to ensure accurate year-over-year comparisons.
+        synonyms:
+          - constant currency revenue
+          - gross revenue
+          - income
+          - revenue
+          - sales
+          - total revenue
+          - turnover
+        description: |
+          Total booking revenue in GBP using constant currency exchange rates for accurate  year-over-year comparisons. Represents gross customer payment before costs.
         expr: GROSS_REVENUE_GBP_CONSTANT_CURRENCY
         data_type: NUMBER(22,9)
         access_modifier: public_access
@@ -615,44 +854,318 @@ tables:
           - '200.000000000'
       - name: MARGIN_GROSS_OF_TOMS_GBP_CONSTANT_CURRENCY
         synonyms:
-          - constant_currency_gross_margin_gbp
-          - constant_gbp_gross_profit
-          - fixed_gbp_gross_profit_margin
-          - gross_margin_constant_gbp
+          - constant currency gross margin gbp
+          - constant gbp gross profit
+          - fixed gbp gross profit margin
+          - gross margin
+          - gross margin constant gbp
+          - gross profit
           - margin
-          - toms_gross_margin_gbp_fixed_currency
-        description: The margin value of a booking in GBP, calculated using the constant currency exchange rate
+          - profit
+          - toms gross margin gbp fixed currency
+        description: |
+          Gross margin/profit in GBP using constant currency rates. Represents revenue minus  cost of goods sold (TOMS - Tour Operator Margin Scheme costs).
         expr: MARGIN_GROSS_OF_TOMS_GBP_CONSTANT_CURRENCY
         data_type: NUMBER(22,9)
         access_modifier: public_access
         default_aggregation: 1
+      - name: NO_NIGHTS
+        synonyms:
+          - duration
+          - length of stay
+          - night count
+          - nights
+          - number of nights
+          - stay duration
+        description: |
+          Total number of nights the guest stayed at the accommodation.
+        expr: NO_NIGHTS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '15'
+      - name: PRICE_PER_NIGHT
+        synonyms:
+          - average nightly price
+          - night rate
+          - nightly cost
+          - nightly rate
+          - per night price
+          - rate per night
+        description: |
+          Average price per night for the booking calculated as total price divided by number of nights.
+        expr: PRICE_PER_NIGHT
+        data_type: NUMBER(26,12)
+        access_modifier: public_access
+        sample_values:
+          - '188.133800000000'
+          - '407.899500000000'
+          - '189.000000000000'
+      - name: ROOMS
+        synonyms:
+          - number of rooms
+          - room count
+          - room quantity
+          - rooms booked
+        description: |
+          Number of hotel rooms booked in this transaction.
+        expr: ROOMS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '1'
+          - '0'
     filters:
+      - name: CURRENT_YEAR_BOOKINGS
+        synonyms:
+          - bookings this year
+          - bookings this year so far
+          - current year bookings
+        description: Filters for bookings completed in the year 2026. Use when questions ask about 'this year', 'current year', '2026 bookings', 'bookings this year', or 'year-to-date performance'. Helps analyze current year performance, compare against previous years, and track annual business metrics and trends.
+        expr: DATE_PART('year', booking_completed_date) = DATE_PART('year', CURRENT_DATE)
+      - name: DOMESTIC_BOOKINGS
+        synonyms:
+          - domestic_orders
+          - domestic_reservations
+          - domestic_travel_bookings
+          - home_country_bookings
+          - internal_bookings
+          - local_bookings
+          - local_reservations
+          - national_bookings
+          - national_reservations
+          - within_country_bookings
+        description: Bookings that do not require international country travel. eg. UK user books UK
+        expr: TRAVEL_TYPE = 'Domestic'
+      - name: GROSS_BOOKINGS
+        synonyms:
+          - cancellation_analysis
+          - canx_rate_filter
+          - live_cancelled_only
+        description: Use on bookings to include only live or cancelled bookings for cancellation rate calculations.
+        expr: booking_status_type IN ('live', 'cancelled')
+      - name: INTERNATIONAL_BOOKINGS
+        synonyms:
+          - abroad_bookings
+          - cross_border_bookings
+          - external_bookings
+          - foreign_bookings
+          - global_bookings
+          - intercountry_bookings
+          - offshore_bookings
+          - overseas_bookings
+          - transnational_bookings
+          - worldwide_bookings
+        description: Bookings that require international country travel. eg. UK user books Spain
+        expr: TRAVEL_TYPE = 'International'
       - name: LIVE_BOOKINGS
         synonyms:
+          - active bookings
+          - confirmed bookings
           - live bookings
-        description: Filter to only live bookings
+          - valid bookings
+        description: |
+          Filter expression to select only live/confirmed bookings. Excludes cancelled,  abandoned, and other status bookings.
         expr: booking_status_type = 'live'
+      - name: LIVE_BOOKINGS_NET_IN_MONTH_CANCELLATIONS
+        synonyms:
+          - live bookings net in month canx
+          - net in month cancelled bookings
+          - net in month canx bookings
+        description: Bookings that are current live or were cancelled in the same month as they were booked.
+        expr: BOOKING_STATUS_TYPE_NET_IN_MONTH_CANCELLATIONS = 'live'
+      - name: REPEAT_BOOKERS
+        synonyms:
+          - loyal_bookers
+          - multi_booking_users
+          - returning_customers
+        description: Use on bookings to include only customers who have made multiple bookings (booking index 2 or higher).
+        expr: live_booking_index >= 2
       - name: SE_BRAND_BOOKINGS
         synonyms:
           - se brand
-        description: Bookings that occurred in the SE Brand
+          - se brand filter
+          - secret escapes bookings
+        description: |
+          Filter expression to select only bookings made through the SE Brand (Secret Escapes)  platform, excluding Travelist and other brands.
+        expr: se_brand = 'SE Brand'
+      - name: SE_BRAND_BOOKINGS_ALL_STATUS
+        synonyms:
+          - all_status_se_brand
+          - se_brand_all_status
+          - se_brand_comprehensive
+        description: Use on bookings to include only SE Brand bookings across all booking status types for comprehensive status analysis.
         expr: se_brand = 'SE Brand'
     metrics:
+      - name: ALOS
+        synonyms:
+          - average_length_of_stay
+          - average_stay_period
+          - average_visit_duration
+          - avg_los
+          - avg_stay_length
+          - length_of_stay_average
+          - mean_length_of_stay
+          - mean_stay_duration
+          - stay_duration_avg
+          - stay_length_average
+        description: Average length of stay. This is the average of the number of nights for a booking.
+        expr: AVG(NO_NIGHTS)
+        access_modifier: public_access
+      - name: AOV
+        synonyms:
+          - average_basket_value
+          - average_order_value
+          - average_purchase_amount
+          - average_transaction_amount
+          - avg_order_amount
+          - avg_transaction_value
+          - mean_order_value
+          - mean_purchase_value
+          - mean_transaction_size
+          - order_value_average
+        description: The average order value. This is averaging the Average gross revenue GBP.
+        expr: AVG(GROSS_REVENUE_GBP_CONSTANT_CURRENCY)
+        access_modifier: public_access
+      - name: AVERAGE_LEAD_TIME_DAYS
+        synonyms:
+          - avg_lead_time_days
+          - common_lead_time_days
+          - expected_lead_time_days
+          - mean_lead_time_days
+          - median_lead_time_days
+          - normal_lead_time_days
+          - regular_lead_time_days
+          - standard_lead_time_days
+          - typical_lead_time_days
+          - usual_lead_time_days
+        description: The average lead time in days
+        expr: AVG(BOOKING_LEAD_TIME_DAYS)
+        access_modifier: public_access
+      - name: AVERAGE_PPN
+        synonyms:
+          - average_nightly_rate
+          - average_price_nightly
+          - avg_night_cost
+          - avg_night_rate
+          - avg_price_per_night
+          - mean_nightly_price
+          - mean_ppn
+          - mean_price_per_night
+        description: Average price per night
+        expr: AVG(PRICE_PER_NIGHT)
+        access_modifier: public_access
+      - name: BOOKING_COUNT
+        synonyms:
+          - booking_volume
+          - total_bookings
+        description: Total number of bookings made. Apply for volume analysis, destination popularity tracking, and operational capacity planning to understand booking trends and customer demand patterns across different markets and time periods.
+        expr: COUNT(DISTINCT fact_booking.booking_id)
+        access_modifier: public_access
       - name: CANCELLATION_RATE
         synonyms:
+          - cancel rate
+          - cancellation percentage
           - canx rate
-        description: The number of bookings that cancelled divided by the number of bookings that are currently in state live OR cancelled.
+          - churn rate
+        description: |
+          Calculated metric: percentage of bookings cancelled. Formula: COUNT(cancelled bookings) /  COUNT(live + cancelled bookings). Excludes abandoned and other status types.
         expr: COUNT_IF(BOOKING_STATUS_TYPE = 'cancelled') / COUNT_IF(BOOKING_STATUS_TYPE IN ('live', 'cancelled'))
         access_modifier: public_access
+      - name: REPEAT_BOOKING_RATE
+        synonyms:
+          - booking_recurrence_rate
+          - customer_loyalty_rate
+          - customer_retention_rate
+          - rebooking_percentage
+          - rebooking_rate
+          - recurring_booking_percentage
+          - repeat_customer_percentage
+          - repeat_purchase_rate
+          - return_booking_frequency
+          - return_customer_rate
+        description: Rate of bookings that are from customers who have previously made a booking with us.
+        expr: COUNT_IF(LIVE_BOOKING_INDEX > 1) / COUNT(*)
+        access_modifier: public_access
   - name: SE_CALENDAR
-    description: This view provides a comprehensive calendar dimension table that enables date-based analysis and reporting across various time periods, including year-to-date, quarter-to-date, month-to-date, and week-to-date, with alignment options for weekdays and dates, as well as comparisons to previous years and weeks.
+    synonyms:
+      - calendar
+      - date dimension
+      - date table
+      - dates
+      - time dimension
+    description: |
+      Date dimension table providing comprehensive calendar attributes for time-based analysis.  Includes year, week, date values and enables period comparisons, YTD/QTD/MTD calculations,  and date-based filtering across all fact tables.
     base_table:
       database: SE
       schema: DATA
       table: SE_CALENDAR
     dimensions:
+      - name: IS_CURRENT_MONTH
+        synonyms:
+          - active_month_flag
+          - current_month_boolean
+          - current_month_flag
+          - current_month_indicator
+          - is_active_month
+          - is_present_month
+          - is_this_month
+          - month_current_flag
+          - present_month_indicator
+          - this_month_flag
+        description: whether the booking occurred within the current month
+        expr: MONTH(DATE_VALUE) = MONTH(CURRENT_DATE) AND SE_YEAR = YEAR(CURRENT_DATE)
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: IS_CURRENT_WEEK
+        synonyms:
+          - active_week
+          - current_week_boolean
+          - current_week_flag
+          - current_week_marker
+          - is_present_week
+          - is_this_week
+          - present_week
+          - this_week_indicator
+          - week_current_flag
+          - week_is_current
+        description: whether the booking occurred within the current week
+        expr: SE_WEEK = WEEK(CURRENT_DATE) AND SE_YEAR = YEAR(CURRENT_DATE)
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: MONTH_NAME
+        synonyms:
+          - calendar_month_name
+          - full_month_name
+          - month_description
+          - month_descriptor
+          - month_label
+          - month_string
+          - month_text
+          - month_title
+          - monthly_name
+          - textual_month
+        description: The abbreviated name of the month.
+        expr: MONTHNAME(DATE_VALUE)
+        data_type: VARCHAR(3)
+        sample_values:
+          - Mar
+          - Apr
+          - Feb
       - name: SE_WEEK
-        description: The week of the year, ranging from 1 to 52, where 1 represents the first week of the year and 52 represents the last week of the year, with the value 29 indicating an incomplete or partial week at the end of the year.
+        synonyms:
+          - calendar week
+          - week
+          - week number
+          - week of year
+        description: |
+          Week number within the year (1-52). Week 1 is the first week of the calendar year,  week 52 is the last week. Used for weekly aggregation and week-over-week analysis.
         expr: SE_WEEK
         data_type: NUMBER(2,0)
         sample_values:
@@ -660,7 +1173,12 @@ tables:
           - '1'
           - '2'
       - name: SE_YEAR
-        description: The year in which the data was collected or the event occurred.
+        synonyms:
+          - calendar year
+          - year
+          - year number
+        description: |
+          Calendar year (e.g., 2024, 2025, 2026). Used for yearly aggregation and  year-over-year comparisons.
         expr: SE_YEAR
         data_type: NUMBER(5,0)
         sample_values:
@@ -669,7 +1187,13 @@ tables:
           - '1970'
     time_dimensions:
       - name: DATE_VALUE
-        description: Date of a specific event or occurrence.
+        synonyms:
+          - calendar date
+          - date
+          - day
+          - full date
+        description: |
+          Full calendar date value. Primary key for joining to date fields in fact tables  like booking_completed_date.
         expr: DATE_VALUE
         data_type: DATE
         sample_values:
@@ -680,14 +1204,28 @@ tables:
       columns:
         - DATE_VALUE
   - name: SE_USER_ATTRIBUTES
-    description: This table provides a comprehensive view of user attributes and behavior, including demographic information, affiliate and membership details, activity history, and engagement metrics, allowing for analysis of user behavior, preferences, and loyalty.
+    synonyms:
+      - customer attributes
+      - customers
+      - members
+      - user profiles
+      - users
+    description: |
+      Customer/user dimension table containing user demographics, acquisition information,  marketing preferences, account status, and engagement attributes. Enables customer  segmentation, cohort analysis, and attribution reporting.
     base_table:
       database: SE
       schema: DATA
       table: SE_USER_ATTRIBUTES
     dimensions:
       - name: ACQUISITION_PLATFORM
-        description: The platform through which the user acquired the service, such as an unknown source, a web application, or a mobile web application.
+        synonyms:
+          - acquisition channel
+          - join platform
+          - registration platform
+          - signup device
+          - signup platform
+        description: |
+          Digital platform/device used by the customer during initial registration/signup.  Values: WEB, MOBILE_WEB, TABLET_WEB, IOS_APP_V3, ANDROID_APP_V3, MOBILE_WRAP_IOS/ANDROID.
         expr: ACQUISITION_PLATFORM
         data_type: VARCHAR(16777216)
         sample_values:
@@ -701,14 +1239,27 @@ tables:
           - IOS_APP
           - MOBILE_WRAP_ANDROID
       - name: APP_PUSH_OPT_IN_STATUS
-        description: Indicates whether a user has chosen to receive push notifications from the application, with possible values of "opted in" (user has chosen to receive push notifications) or "opted out" (user has chosen not to receive push notifications).
+        synonyms:
+          - app notifications
+          - notification preference
+          - push notification status
+          - push opt in
+        description: |
+          Customer's mobile app push notification preference. Values: "opted in" (receives  push notifications), "opted out" (does not receive push notifications).
         expr: APP_PUSH_OPT_IN_STATUS
         data_type: VARCHAR(16777216)
         sample_values:
           - opted in
           - opted out
       - name: CURRENT_AFFILIATE_NAME
-        description: The name of the affiliate or partner that the user is currently associated with, indicating the source or origin of the user's account.
+        synonyms:
+          - affiliate
+          - affiliate source
+          - current affiliate
+          - current partner
+          - partner
+        description: |
+          The most recent affiliate or marketing partner associated with the customer account.  Indicates the latest source of customer engagement (e.g., Google PPC, Facebook Ads,  specific SE market affiliates).
         expr: CURRENT_AFFILIATE_NAME
         data_type: VARCHAR(16777216)
         sample_values:
@@ -861,7 +1412,14 @@ tables:
           - DC9
           - PF2017 Luxury
       - name: EMAIL_OPT_IN_STATUS
-        description: The user's email preference for receiving notifications, with options for daily updates, weekly summaries, or opting out of email communications altogether.
+        synonyms:
+          - email frequency
+          - email opt in
+          - email preference
+          - email subscription
+          - newsletter preference
+        description: |
+          Customer's email communication preference. Values: "daily" (daily emails), "weekly"  (weekly digest), "opted out" (no marketing emails).
         expr: EMAIL_OPT_IN_STATUS
         data_type: VARCHAR(16777216)
         sample_values:
@@ -869,21 +1427,40 @@ tables:
           - weekly
           - opted out
       - name: HAS_APP_INSTALLED
-        description: Indicates whether the user has installed the mobile app.
+        synonyms:
+          - app installed
+          - app user
+          - has mobile app
+          - mobile app user
+        description: |
+          Boolean indicator whether the customer has installed the mobile app (TRUE) or  has not (FALSE).
         expr: HAS_APP_INSTALLED
         data_type: BOOLEAN
         sample_values:
           - 'TRUE'
           - 'FALSE'
       - name: IS_TEST_USER
-        description: Indicates whether the user is a test user or not.
+        synonyms:
+          - internal user
+          - test account
+          - test flag
+          - test user
+        description: |
+          Boolean flag indicating whether this is a test/internal user account (TRUE) or  a real customer (FALSE).
         expr: IS_TEST_USER
         data_type: BOOLEAN
         sample_values:
           - 'TRUE'
           - 'FALSE'
       - name: MAIN_AFFILIATE_NAME
-        description: The name of the main affiliate associated with the user, indicating the primary Secret Escapes brand or publication through which the user interacts.
+        synonyms:
+          - main affiliate
+          - main partner
+          - primary affiliate
+          - primary partner
+          - primary source
+        description: |
+          The primary/main affiliate or brand through which the customer primarily engages.  Typically represents the main Secret Escapes market or publication (e.g., Secret  Escapes DE, Secret Escapes UK, ES magazine, Guardian Escapes).
         expr: MAIN_AFFILIATE_NAME
         data_type: VARCHAR(16777216)
         sample_values:
@@ -949,7 +1526,14 @@ tables:
           - PS_FR_RS_PA_Holiday Pirates_Open Site
           - Design test
       - name: MEMBERSHIP_ACCOUNT_STATUS
-        description: The current status of a user's membership account, indicating whether it is active, deactivated, or deleted.
+        synonyms:
+          - account state
+          - account status
+          - membership status
+          - profile status
+          - user status
+        description: |
+          Current status of the customer's membership account. Values: FULL_ACCOUNT (active),  DEACTIVATED (temporarily disabled), DELETED (permanently removed), BLOCKED (restricted),  UNSUBSCRIBED (opted out), PENDING (awaiting activation).
         expr: MEMBERSHIP_ACCOUNT_STATUS
         data_type: VARCHAR(16777216)
         sample_values:
@@ -960,7 +1544,15 @@ tables:
           - UNSUBSCRIBED
           - PENDING
       - name: ORIGINAL_AFFILIATE_NAME
-        description: The name of the affiliate that originally referred the user to Secret Escapes.
+        synonyms:
+          - acquisition affiliate
+          - first affiliate
+          - first source
+          - original affiliate
+          - original source
+          - signup affiliate
+        description: |
+          The original affiliate/marketing source that first referred the customer to Secret  Escapes during initial signup. Never changes after account creation. Used for  acquisition attribution analysis.
         expr: ORIGINAL_AFFILIATE_NAME
         data_type: VARCHAR(16777216)
         sample_values:
@@ -1096,7 +1688,15 @@ tables:
           - Telegraph Travel Other
     time_dimensions:
       - name: SIGNUP_TSTAMP
-        description: Timestamp when the user signed up for the service.
+        synonyms:
+          - account creation date
+          - join date
+          - registration date
+          - registration timestamp
+          - signup date
+          - signup timestamp
+        description: |
+          Timestamp when the customer first registered/signed up for their account.
         expr: SIGNUP_TSTAMP
         data_type: TIMESTAMP_NTZ(9)
         sample_values:
@@ -1105,7 +1705,13 @@ tables:
           - 2025-04-14T18:24:50.000+0000
     facts:
       - name: SHIRO_USER_ID
-        description: Unique identifier for a user in the Shiro authentication system.
+        synonyms:
+          - account id
+          - customer id
+          - member id
+          - user id
+        description: |
+          Unique customer identifier. Primary key linking to booking transactions via FACT_BOOKING.SHIRO_USER_ID.
         expr: SHIRO_USER_ID
         data_type: NUMBER(38,0)
         access_modifier: public_access
@@ -1116,9 +1722,13 @@ tables:
     filters:
       - name: ACTIVE_ACCOUNTS
         synonyms:
+          - active customers
+          - active members
           - active user accounts
+          - active users
           - users with an active account
-        description: Active user accounts
+        description: |
+          Filter expression to select only active user accounts with FULL_ACCOUNT status.  Excludes deleted, blocked, deactivated, and unsubscribed accounts.
         expr: MEMBERSHIP_ACCOUNT_STATUS = 'FULL_ACCOUNT'
     primary_key:
       columns:
@@ -1130,18 +1740,21 @@ relationships:
     relationship_columns:
       - left_column: SE_SALE_ID
         right_column: SE_SALE_ID
+    relationship_type: many_to_one
   - name: BOOKING_TO_SE_CALENDAR
     left_table: FACT_BOOKING
     right_table: SE_CALENDAR
     relationship_columns:
       - left_column: BOOKING_COMPLETED_DATE
         right_column: DATE_VALUE
+    relationship_type: many_to_one
   - name: BOOKING_TO_USER
     left_table: FACT_BOOKING
     right_table: SE_USER_ATTRIBUTES
     relationship_columns:
       - left_column: SHIRO_USER_ID
         right_column: SHIRO_USER_ID
+    relationship_type: many_to_one
 verified_queries:
   - name: '"show me live bookings to destination Germany yesterday"'
     sql: |-
@@ -1742,32 +2355,232 @@ verified_queries:
     use_as_onboarding_question: false
 module_custom_instructions:
   sql_generation: |-
-    # --- SECTION 1: IDENTITY & SCOPE ---
-    - You are an expert analyst for [Insert Domain, e.g., Bookings and Revenue].
-    - [Standard Rule]: Use ILIKE for all string comparisons to ensure case-insensitivity.
-    - [Standard Rule]: Never sum ID columns (e.g., columns ending in _ID).
-    - Always apply the filter `se_brand = 'SE Brand'` unless the user explicitly asks for a different brand or "all brands".
-    - Always apply the filter `booking_status_type = 'live'` unless the user explicitly asks for "cancelled", "all", or other status types.
+    # ============================================================================
+    # SECTION 1: IDENTITY & SCOPE
+    # ============================================================================
+    - You are an expert analyst for Bookings, Revenue, Customer Behavior, and Travel Performance.
+    - Primary focus: Analyzing booking patterns, revenue trends, customer segmentation, and destination performance.
+    - Always use ILIKE for string comparisons to ensure case-insensitivity.
+    - Never sum or aggregate ID columns (columns ending in _ID or containing 'identifier').
 
-    # --- SECTION 2: BUSINESS VOCABULARY ---
-    - "Live Bookings" refers to records where `booking_status_type = 'live'`.
-    - "Revenue", "Cost", and "Spend" refer to the relevant financial fields in the model.
-    - [Generated Rule]: "Brand" refers specifically to the `se_brand` column.
+    # ============================================================================
+    # SECTION 2: DEFAULT FILTERS (Auto-Apply Unless Overridden)
+    # ============================================================================
+    - **Brand Filter**: Always apply `se_brand = 'SE Brand'` unless user explicitly requests:
+      - "Travelist" / "Travelist brand"
+      - "all brands" / "both brands"
 
-    # --- SECTION 3: METRIC LOGIC & MATH SAFETY ---
-    - [Standard Rule]: Use `NULLIF(denominator, 0)` for all ratios to prevent division by zero errors.
-    - Financial Calculation: Always round financial fields (Revenue, Price, etc.) to the nearest integer.
+    - **Booking Status Filter**: Always apply `booking_status_type = 'live'` unless user explicitly requests:
+      - "cancelled" / "cancellations" → use 'cancelled'
+      - "abandoned" → use 'abandoned'
+      - "all bookings" / "all statuses" → remove filter
 
-    # --- SECTION 4: DEFAULT BEHAVIORS ---
-    - [Standard Rule]: If required to use a date but there's not clear reference to a time dimension, by default use BOOKING_COMPLETED_DATE
-    - [Standard Rule]: If no date range is specified, default to the [Current Year].
-    - [Standard Rule]: If the user asks for "Top" items, default to Top 5 unless specified.
-    - [Standard Rule]: Always limit raw row queries to 100 rows unless "all" is explicitly requested.
-    - If asked for cancellation rate, default use the BOOKING_COMPLETED_DATE
-    - If asked to present the data by week or by year default to se_week or se_year respectively
-    - [Standard Rule]: Default filter to not include current date in BOOKING_COMPLETED_DATE
+    - **Test User Filter**: Always exclude test users with `is_test_user = FALSE` in SE_USER_ATTRIBUTES
 
-    # --- SECTION 5: PRESENTATION ---
-    - Financial Display: Format all financial fields as integers (no decimal places).
-    - [Standard Rule]: Format percentages as (Value * 100) displayed with 2 decimal places and a '%' sign.
-    - [Generated Rule]: Always return the primary name column when the user asks for an entity (not just the ID).
+    - **Date Range**: When no date range specified:
+      - Default to current calendar year (YEAR(BOOKING_COMPLETED_DATE) = YEAR(CURRENT_DATE))
+      - Always EXCLUDE current date: BOOKING_COMPLETED_DATE < CURRENT_DATE
+
+    # ============================================================================
+    # SECTION 3: BUSINESS VOCABULARY & TERM MAPPING
+    # ============================================================================
+
+    ## Revenue & Financial Terms
+    - "Revenue" / "Sales" / "GMV" → GROSS_REVENUE_GBP_CONSTANT_CURRENCY
+    - "Profit" / "Margin" → MARGIN_GROSS_OF_TOMS_GBP_CONSTANT_CURRENCY
+    - "AOV" / "Average order value" / "Average booking value" → AVG(GROSS_REVENUE_GBP_CONSTANT_CURRENCY)
+    - "Total bookings value" → SUM(GROSS_REVENUE_GBP_CONSTANT_CURRENCY)
+
+    ## Booking & Transaction Terms
+    - "Bookings" / "Transactions" / "Orders" / "Reservations" → COUNT(BOOKING_ID) where booking_status_type = 'live'
+    - "Customers" / "Users" / "Bookers" → COUNT(DISTINCT SHIRO_USER_ID)
+    - "Cancellations" → COUNT(BOOKING_ID) where booking_status_type = 'cancelled'
+    - "Cancelled bookings" → records where booking_status_type = 'cancelled'
+
+    ## Customer Segmentation Terms
+    - "New customers" / "First-time bookers" → LIVE_BOOKING_INDEX = 1
+    - "Repeat customers" / "Returning customers" → LIVE_BOOKING_INDEX > 1
+    - "VIP customers" / "Loyal customers" → LIVE_BOOKING_INDEX > 10 OR reference BOOKER_LOYALTY_SEGMENT
+    - "Churned customers" / "Inactive customers" → DAYS_SINCE_PREVIOUS_LIVE_BOOKING > 365
+
+    ## Destination Terms
+    - "Destination" → POSU_CITY (city level) or POSU_COUNTRY (country level) - choose based on context
+    - "Popular destinations" → High booking count destinations (Top 10 by default)
+    - "Region" → POSU_REGION for broad analysis, POSU_SUB_REGION for detailed
+
+    ## Date & Timing Terms
+    - "Booking date" / "Purchase date" / "Transaction date" → BOOKING_COMPLETED_DATE
+    - "Travel date" / "Trip date" / "Holiday date" → CHECK_IN_DATE
+    - "Last minute bookings" → BOOKING_LEAD_TIME_DAYS <= 7 OR BOOKING_LEAD_TIME_CATEGORY = 'Last Minute (0-7 days)'
+
+    # ============================================================================
+    # SECTION 4: METRIC CALCULATION RULES
+    # ============================================================================
+
+    ## Conversion & Rate Calculations
+    - **Always use NULLIF for ratios**: (numerator / NULLIF(denominator, 0))
+    - **Cancellation Rate**: COUNT_IF(booking_status_type = 'cancelled') / NULLIF(COUNT_IF(booking_status_type IN ('live', 'cancelled')), 0)
+      - EXCLUDE 'abandoned' and 'other' from denominator
+    - **Repeat Rate**: COUNT_IF(LIVE_BOOKING_INDEX > 1) / NULLIF(COUNT(DISTINCT SHIRO_USER_ID), 0)
+    - **Domestic vs International Split**: COUNT(*) grouped by TRAVEL_TYPE
+
+    ## Customer Lifetime Calculations
+    - **Customer Lifetime Value (CLV)**: SUM(GROSS_REVENUE_GBP_CONSTANT_CURRENCY) grouped by SHIRO_USER_ID
+    - **Customer Lifetime Bookings**: MAX(LIVE_BOOKING_INDEX) grouped by SHIRO_USER_ID
+    - **Average Days Between Bookings**: AVG(DAYS_SINCE_PREVIOUS_LIVE_BOOKING) excluding NULL (first bookings)
+
+    ## Financial Calculations
+    - **Round all financial values**: Use ROUND(value, 0) for currency in GBP
+    - **Margin %**: (MARGIN / NULLIF(REVENUE, 0)) * 100
+    - **Revenue per Night**: GROSS_REVENUE_GBP_CONSTANT_CURRENCY / NULLIF(NO_NIGHTS, 0)
+
+    # ============================================================================
+    # SECTION 5: DATE & TIME HANDLING
+    # ============================================================================
+
+    ## Default Date Column Selection
+    - **Booking analysis** (when did bookings occur?) → BOOKING_COMPLETED_DATE
+    - **Travel analysis** (when are people traveling?) → CHECK_IN_DATE
+    - **Cancellation analysis** → CANCELLATION_DATE
+    - **User acquisition analysis** → SIGNUP_TSTAMP from SE_USER_ATTRIBUTES
+    - **If ambiguous, default to BOOKING_COMPLETED_DATE**
+
+    ## Time Period Defaults
+    - "Yesterday" → BOOKING_COMPLETED_DATE = CURRENT_DATE - 1
+    - "Last week" → Previous complete calendar week (Mon-Sun)
+    - "Last month" → Previous complete calendar month
+    - "This year" / "YTD" → YEAR(BOOKING_COMPLETED_DATE) = YEAR(CURRENT_DATE) AND BOOKING_COMPLETED_DATE < CURRENT_DATE
+    - "Last 7 days" → BOOKING_COMPLETED_DATE >= CURRENT_DATE - 7 AND BOOKING_COMPLETED_DATE < CURRENT_DATE
+    - "Last 30 days" → BOOKING_COMPLETED_DATE >= CURRENT_DATE - 30 AND BOOKING_COMPLETED_DATE < CURRENT_DATE
+
+    ## Time Granularity Selection (Auto-choose appropriate grouping)
+    - Date range <= 31 days → Group by DAY (DATE_TRUNC('DAY', BOOKING_COMPLETED_DATE))
+    - Date range 32-180 days → Group by WEEK (use SE_WEEK, SE_YEAR from SE_CALENDAR)
+    - Date range 181-730 days → Group by MONTH (DATE_TRUNC('MONTH', BOOKING_COMPLETED_DATE))
+    - Date range > 730 days → Group by QUARTER or YEAR
+
+    ## Always Exclude Incomplete Periods
+    - Current day: BOOKING_COMPLETED_DATE < CURRENT_DATE
+    - Current week (if grouping by week): SE_WEEK < current week
+    - Current month (if grouping by month): DATE_TRUNC('MONTH', date) < DATE_TRUNC('MONTH', CURRENT_DATE)
+
+    # ============================================================================
+    # SECTION 6: RANKING & TOP N QUERIES
+    # ============================================================================
+    - "Top destinations" → Top 5 by booking count unless otherwise specified
+    - "Best performing" → Top 10 by revenue unless context suggests different metric
+    - "Top customers" → Top 10 by lifetime revenue (CLV)
+    - "Popular products" → Top 10 by booking volume
+    - Always include ranking number: ROW_NUMBER() OVER (ORDER BY metric DESC)
+    - Default to Top 5 for any "top X" query unless user specifies different number
+    - Always use ORDER BY ... DESC NULLS LAST
+
+    # ============================================================================
+    # SECTION 7: RESULT PRESENTATION & FORMATTING
+    # ============================================================================
+
+    ## Numeric Formatting
+    - **Currency (GBP)**: Round to integers, no decimal places: ROUND(value, 0)
+    - **Percentages**: Multiply by 100, show 2 decimal places: ROUND(value * 100, 2)
+    - **Counts**: Always integers (booking counts, customer counts)
+    - **Averages**: Round to 1 decimal for money, 0 decimals for days/nights
+
+    ## Column Naming
+    - Use clear, business-friendly aliases
+    - Examples: 
+      - BOOKING_COMPLETED_DATE AS booking_date
+      - COUNT(DISTINCT SHIRO_USER_ID) AS total_customers
+      - SUM(GROSS_REVENUE_GBP_CONSTANT_CURRENCY) AS total_revenue_gbp
+
+    ## Row Limits
+    - Limit raw data queries to 100 rows unless "all" is requested
+    - No limit on aggregated results (summaries, groupings)
+    - For large result sets, suggest using filters to narrow results
+
+    # ============================================================================
+    # SECTION 8: COMMON ANALYSIS PATTERNS
+    # ============================================================================
+
+    ## Year-over-Year Comparisons
+    - Use same calendar period from previous year
+    - Example: Jan 2026 vs Jan 2025
+    - Include absolute change and percentage change
+    - Format: current_value, previous_value, absolute_change, pct_change
+
+    ## Cohort Analysis
+    - Group customers by SIGNUP_TSTAMP year/month
+    - Track behavior over time using LIVE_BOOKING_INDEX
+    - Common cohorts: signup month, first booking month
+
+    ## Segmentation Defaults
+    - **Customer segments**: Use BOOKER_LOYALTY_SEGMENT when analyzing by booking frequency
+    - **Booking behavior**: Use BOOKER_RECENCY_SEGMENT when analyzing engagement
+    - **Travel patterns**: Use LENGTH_OF_STAY_CATEGORY for trip duration analysis
+    - **Price sensitivity**: Use PRICE_PER_NIGHT_CATEGORY for spend analysis
+
+    ## Performance Metrics Priority Order
+    When user asks "how are we performing?" show in this order:
+    1. Total bookings (count)
+    2. Total revenue (GBP)
+    3. Average booking value
+    4. Unique customers
+    5. Cancellation rate
+
+    # ============================================================================
+    # SECTION 9: EDGE CASES & ERROR HANDLING
+    # ============================================================================
+
+    ## Data Quality Rules
+    - Exclude bookings with NO_NIGHTS <= 0 (invalid stays)
+    - Exclude bookings with BOOKING_LEAD_TIME_DAYS < 0 (data errors)
+    - Exclude records where ADULT_GUESTS = 0 (invalid bookings)
+    - For price analysis, exclude GROSS_REVENUE_GBP_CONSTANT_CURRENCY <= 0
+
+    ## Missing Data Handling
+    - DAYS_SINCE_PREVIOUS_LIVE_BOOKING is NULL → First-time booker
+    - CANCELLATION_DATE is NULL → Booking not cancelled
+    - SE_SALE_ID is NULL → May occur for some booking types, don't exclude unless analyzing sale attributes
+
+    ## Ambiguous Requests
+    - "Bookings by region" → Assume POSU_REGION (destination) unless context suggests customer territory
+    - "Revenue" without time period → Current year-to-date
+    - "Customers" → Active customers with FULL_ACCOUNT status
+    - "Conversion" → Not applicable to booking data (use for session analysis instead)
+
+    # ============================================================================
+    # SECTION 10: MULTI-TABLE QUERY GUIDANCE
+    # ============================================================================
+
+    ## When to Join Tables
+    - **FACT_BOOKING + DIM_SALE**: When analyzing destination attributes, product types, sale status
+    - **FACT_BOOKING + SE_USER_ATTRIBUTES**: When analyzing user acquisition, marketing channels, communication preferences
+    - **FACT_BOOKING + SE_CALENDAR**: When needing week numbers (SE_WEEK, SE_YEAR) for weekly aggregation
+
+    ## Join Keys
+    - FACT_BOOKING.SE_SALE_ID = DIM_SALE.SE_SALE_ID
+    - FACT_BOOKING.SHIRO_USER_ID = SE_USER_ATTRIBUTES.SHIRO_USER_ID
+    - FACT_BOOKING.BOOKING_COMPLETED_DATE = SE_CALENDAR.DATE_VALUE (or CHECK_IN_DATE)
+
+    # ============================================================================
+    # SECTION 11: SPECIFIC USE CASES
+    # ============================================================================
+
+    ## "Show me new vs repeat customer revenue"
+    - Group by: CASE WHEN LIVE_BOOKING_INDEX = 1 THEN 'New' ELSE 'Repeat' END
+    - Metrics: COUNT(BOOKING_ID), SUM(REVENUE), COUNT(DISTINCT SHIRO_USER_ID)
+
+    ## "What's our most popular destination?"
+    - Metric: COUNT(BOOKING_ID) 
+    - Group by: POSU_CITY (or POSU_COUNTRY for broader view)
+    - Order by: booking count DESC
+    - Limit: 1 (or Top 5 for context)
+
+    ## "Average booking value by device"
+    - Group by: DEVICE_PLATFORM
+    - Metric: AVG(GROSS_REVENUE_GBP_CONSTANT_CURRENCY)
+    - Round to 0 decimal places
+
+    ## "Cancellation rate trend"
+    - Use: BOOKING_COMPLETED_DATE for time dimension
+    - Calculate: cancellation rate per time period
+    - Include: booking counts for context

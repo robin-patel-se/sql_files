@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="ana">
-      <change afterPath="$PROJECT_DIR$/DDoS compromise investigation.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tickets/SPI-8158-ppc-brand-user-search-session-split.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/semantic_views/current_crm_analysis.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tickets/SPI-8196-update-session-metrics.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ad_hoc/object_relationships.sql" beforeDir="false" afterPath="$PROJECT_DIR$/ad_hoc/object_relationships.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cortex/cortex_agent_permissions.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/cortex_agent_permissions.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cortex/semantic_view.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/semantic_view.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/semantic_views/current_booking_analysis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/semantic_views/current_booking_analysis.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/semantic_views/current_session_analysis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/semantic_views/current_session_analysis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tvl_discrepancies/influx_in_users_2025.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tvl_discrepancies/influx_in_users_2025.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets/SPI-8158-ppc-brand-user-search-session-split.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/SPI-8158-ppc-brand-user-search-session-split.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,35 +39,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "database.data.extractors.current.export.id": "01e62ca9-8b58-4213-9e0c-7cab89d1ffbb",
-    "database.data.extractors.current.id": "01e62ca9-8b58-4213-9e0c-7cab89d1ffbb",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/robin/myrepos/sql_files/ad_hoc",
-    "settings.editor.selected.configurable": "database.data.views.appearance",
-    "settings.editor.splitter.proportion": "0.15877771",
-    "two.files.diff.last.used.file": "/Users/robin.patel/Library/Application Support/JetBrains/DataGrip2024.2/consoles/db/9561d350-2f64-4ed1-be51-82313536b813/console_2.sql"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;01e62ca9-8b58-4213-9e0c-7cab89d1ffbb&quot;,
+    &quot;database.data.extractors.current.id&quot;: &quot;01e62ca9-8b58-4213-9e0c-7cab89d1ffbb&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/robin/myrepos/sql_files/ad_hoc&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.data.views.appearance&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.15877771&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/Users/robin.patel/Library/Application Support/JetBrains/DataGrip2024.2/consoles/db/9561d350-2f64-4ed1-be51-82313536b813/console_2.sql&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "athena",
-      "postgresql",
-      "oracle",
-      "9e037659-12f2-4f91-918a-0904140684be",
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;athena&quot;,
+      &quot;postgresql&quot;,
+      &quot;oracle&quot;,
+      &quot;9e037659-12f2-4f91-918a-0904140684be&quot;,
+      &quot;mysql&quot;
     ],
-    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
-      "Oracle",
-      "Snowflake"
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/&quot;: [
+      &quot;Oracle&quot;,
+      &quot;Snowflake&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/ad_hoc" />
@@ -76,9 +77,9 @@
       <recent name="$PROJECT_DIR$/netsuite_data_extract/uploads" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tickets" />
       <recent name="$PROJECT_DIR$/cortex" />
       <recent name="$PROJECT_DIR$/tvl_discrepancies" />
-      <recent name="$PROJECT_DIR$/tickets" />
       <recent name="$PROJECT_DIR$/ad_hoc" />
       <recent name="$PROJECT_DIR$/marc_booking_intent" />
     </key>

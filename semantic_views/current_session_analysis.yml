@@ -8,13 +8,24 @@ tables:
       schema: BI
       table: SESSION_METRICS
     dimensions:
-      - name: TOUCH_ID
-        description: "[Primary key] - A unique identifier for each session."
-        expr: TOUCH_ID
+      - name: APP_VERSION
+        synonyms:
+          - app_release
+          - app_ver
+          - application_build
+          - application_version
+          - build_version
+          - client_version
+          - mobile_app_version
+          - release_version
+          - software_version
+          - version
+        description: The version number of the application used during the session.
+        expr: APP_VERSION
         data_type: VARCHAR(16777216)
         sample_values:
-          - 4cdd474f15a350f655a66fa904b10b14e71712c6ee03862b2608f0aa82466f8a
-          - e7e3b2f4afa92cb2c761084d52001d26bf7231230e9e4d9f741b89ac6e3abea4
+          - 6.34.1
+          - 6.48.0
       - name: ATTRIBUTED_USER_ID
         synonyms:
           - users
@@ -22,617 +33,177 @@ tables:
         expr: ATTRIBUTED_USER_ID
         data_type: VARCHAR(16777216)
         sample_values:
-          - "81189206"
+          - '81189206'
           - 2752d5f7-6c13-4e16-a35b-e6a46589e9e9
-      - name: STITCHED_IDENTITY_TYPE
-        description: The type method of identity stitching used for this session.
-        expr: STITCHED_IDENTITY_TYPE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - tvl_user_id
-          - se_user_id
-      - name: TOUCH_LOGGED_IN
+          - 72d334a2-b84b-413b-b743-ad55ecb69486
+      - name: BR_FAMILY
         synonyms:
-          - logged in
-        description: A flag indicating whether a user has logged in.
-        expr: TOUCH_LOGGED_IN
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: TOUCH_DURATION_SECONDS
-        description: The duration of time a user spent interacting with the system in seconds.
-        expr: TOUCH_DURATION_SECONDS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "127"
-          - "3"
-      - name: TOUCH_AFFILIATE_TERRITORY
-        description: The affiliate territory of the session, this is based on logic that includes hostname categorisations and the presence of an affiliate url parameter.
-        expr: TOUCH_AFFILIATE_TERRITORY
+          - browser engine
+          - browser family
+          - browser name
+          - browser type
+          - browser version family
+          - client browser
+          - user browser
+          - web browser
+        description: |
+          Identifies the browser family used by the user during the session. This field  captures the primary browser type (e.g., Chrome, Safari, Firefox, Edge) and  includes browser engine variants (e.g., WebKit, Chromium-based browsers).
+          Browser family information is essential for diagnosing browser-specific technical  issues, prioritizing cross-browser compatibility testing, and optimizing user  experience for the most common browser types. It helps identify rendering issues,  JavaScript compatibility problems, and performance variations across different  browser engines.
+          Use this field to segment traffic by browser type, identify browser-specific  conversion rate differences, prioritize QA testing efforts, and ensure feature  compatibility with your user base's most popular browsers.
+        expr: BR_FAMILY
         data_type: VARCHAR(16777216)
         sample_values:
-          - DE
-          - IT
-      - name: TOUCH_MKT_CHANNEL
-        synonyms:
-          - last click
-          - last click attribution
-          - last click channel
-        description: The marketing channel that initiated this session via last click attribution.
-        expr: TOUCH_MKT_CHANNEL
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Email - Newsletter
-          - Direct
-      - name: CHANNEL_CATEGORY
-        synonyms:
-          - last click attribution
-          - last click channel category
-        description: The category of the channel through which a session was initiated.
-        expr: CHANNEL_CATEGORY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Paid
-          - Free
-      - name: LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
-        synonyms:
-          - channel
-          - lnd channel
-        description: The marketing channel assigned to the session via last non direct attribution.
-        expr: LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Email - Newsletter
-          - Direct
-      - name: LAST_NON_DIRECT_CHANNEL_CATEGORY
-        synonyms:
-          - channel category
-        description: The category of the channel via last non direct attribution.
-        expr: LAST_NON_DIRECT_CHANNEL_CATEGORY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Free
-          - Paid
-      - name: LAST_PAID_TOUCH_MKT_CHANNEL
-        synonyms:
-          - last paid channel
-          - lp channel
-        description: The marketing channel assigned to the session via last paid attribution.
-        expr: LAST_PAID_TOUCH_MKT_CHANNEL
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Email - Newsletter
-          - Direct
-      - name: LAST_PAID_CHANNEL_CATEGORY
-        description: The category of the channel via last paid attribution.
-        expr: LAST_PAID_CHANNEL_CATEGORY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Free
-          - Paid
-      - name: TOUCH_EXPERIENCE
-        synonyms:
-          - device
-          - device platform
-          - device type
-        description: The touch experience / device platform used in the session eg web, mweb.
-        expr: TOUCH_EXPERIENCE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - mobile web
-          - native app ios
-      - name: PLATFORM
-        description: A categorisation of the touch experience used in the session.
-        expr: PLATFORM
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Web
-          - Mobile Web
-      - name: TOUCH_LANDING_PAGE
-        description: The URL of the landing page that was touched by the user.
-        expr: TOUCH_LANDING_PAGE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - https://travelist.pl/119068/polska-karkonosze-kazalnica-family-conference/
-      - name: TOUCH_LANDING_PAGEPATH
-        description: The URL path to the landing page.
-        expr: TOUCH_LANDING_PAGEPATH
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - /majestic-harrogate-hilton-hotel-stay-with-a-delicious-chateaubriand-refundable-hotel
-      - name: LANDING_PAGE_CATEGORY
-        description: The category of the landing page.
-        expr: LANDING_PAGE_CATEGORY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - booking flow flight selection
-          - other
-      - name: TOUCH_HOSTNAME
-        description: The URL hostname this session occurred on.
-        expr: TOUCH_HOSTNAME
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - de.sales.secretescapes.com
-          - travelist.pl
-      - name: TOUCH_EXIT_PAGEPATH
-        description: The URL path to the page that the user exited the session on.
-        expr: TOUCH_EXIT_PAGEPATH
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - /121905/slowacja-velka-lomnica-tatragolf-mountain-resort/
-      - name: TOUCH_REFERRER_URL
-        description: The URL of the referrer that initiated the session.
-        expr: TOUCH_REFERRER_URL
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - https://www.google.com
-      - name: TOUCH_SE_BRAND
-        description: The SE Group brand that this session occurred on eg. SE Brand, Travelist.
-        expr: TOUCH_SE_BRAND
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - SE Brand
-          - Travelist
-      - name: TOUCH_EVENT_COUNT
-        description: The count of events sessionised.
-        expr: TOUCH_EVENT_COUNT
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "5"
-          - "33"
-      - name: IS_SE_INTERNAL_TOUCH
-        description: A flag indicating whether the session was performed by an SE employee.
-        expr: IS_SE_INTERNAL_TOUCH
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: USER_IPADDRESS
-        description: The IP address of the user.
-        expr: USER_IPADDRESS
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - 109.178.235.134
-      - name: GEO_COUNTRY
-        description: The country location where the session took place.
-        expr: GEO_COUNTRY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - DE
-          - PL
-      - name: GEO_CITY
-        description: The city location where the session took place.
-        expr: GEO_CITY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Berlin
-          - Vienna
-      - name: GEO_ZIPCODE
-        description: The zipcode location where the session took place.
-        expr: GEO_ZIPCODE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - "73061"
-          - LN5
-      - name: GEO_REGION_NAME
-        description: The region name where the session took place.
-        expr: GEO_REGION_NAME
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Oxfordshire
-          - Zurich
-      - name: USERAGENT
-        description: The user agent string of the client browser.
-        expr: USERAGENT
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Mozilla/5.0 (iPad; CPU OS 17_4_1 like Mac OS X)
+          - Camino
+          - Apple WebKit
+          - Chrome
+          - Downloading Tool
+          - Microsoft Edge
+          - Vivaldi
+          - Safari
+          - CFNetwork
+          - Unknown
+          - Mozilla
+          - Firefox
+          - Opera
+          - Internet Explorer
+          - Konqueror
       - name: BR_NAME
-        description: Browser name.
+        synonyms:
+          - browser engine
+          - browser family
+          - browser name
+          - browser type
+          - browser version family
+          - client browser
+          - user browser
+          - web browser
+        description: |
+          Identifies the browser family used by the user during the session. This field  captures the primary browser type (e.g., Chrome, Safari, Firefox, Edge) and  includes browser engine variants (e.g., WebKit, Chromium-based browsers).
+          Browser family information is essential for diagnosing browser-specific technical  issues, prioritizing cross-browser compatibility testing, and optimizing user  experience for the most common browser types. It helps identify rendering issues,  JavaScript compatibility problems, and performance variations across different  browser engines.
+          Use this field to segment traffic by browser type, identify browser-specific  conversion rate differences, prioritize QA testing efforts, and ensure feature  compatibility with your user base's most popular browsers.
         expr: BR_NAME
         data_type: VARCHAR(16777216)
         sample_values:
           - Chrome Mobile
           - Mobile Safari
-      - name: BR_FAMILY
-        description: Browser family.
-        expr: BR_FAMILY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Firefox
+          - Chrome 14
+          - CFNetwork
+          - Apple WebKit
           - Safari
-      - name: OS_NAME
-        description: The operating system name.
-        expr: OS_NAME
+          - Unknown
+          - Firefox 14
+          - Chrome 13
+          - Chrome 12
+          - Firefox Mobile
+          - Chrome 11
+          - Firefox Mobile (iOS)
+          - Chrome 10
+      - name: CHANNEL_CATEGORY
+        synonyms:
+          - last click attribution
+          - last click channel category
+        description: |2-
+            Categorises last click marketing channels into three investment-based groups: 
+            'Free' (organic and owned channels with no direct media spend), 
+            'Paid' (performance marketing channels with acquisition costs), 
+            and 'Other' (miscellaneous or partner channels). 
+            
+            This field enables high-level marketing ROI analysis by grouping granular 
+            channel names from both SE Brand and TVL Brand into unified categories. 
+            
+            Free channels include: Direct, Organic Social, Organic Search (Brand/Non-Brand), 
+            PPC Brand, Blog, Referral, Source SEO, and Magazyn.
+            
+            Paid channels include: Affiliate, Display (CPA/CPL), Paid Social (CPA/CPL), 
+            PPC Non-Brand (CPA/CPL), Google Ads variants, Remarketing, Video, and Mailing.
+            
+            Other channels include: Partner, Partner White Label, Email - Other, Media, 
+            YouTube, Newsletter, Push, and SMS.
+            
+            Channels not matching any predefined mapping retain their original channel value.
+        expr: CHANNEL_CATEGORY
         data_type: VARCHAR(16777216)
         sample_values:
-          - Mac OS X
-          - Android 1.x
-      - name: OS_FAMILY
-        description: The operating system family.
-        expr: OS_FAMILY
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Mac OS X
-          - Android
-      - name: OS_MANUFACTURER
-        description: The manufacturer of the operating system.
-        expr: OS_MANUFACTURER
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - Apple Inc.
-          - Google Inc.
-      - name: DVCE_SCREENWIDTH
-        description: The width of the screen in pixels.
-        expr: DVCE_SCREENWIDTH
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "412"
-          - "1536"
+          - Paid
+          - Free
+          - Email - Newsletter
+          - Other
+          - Email - Triggers
+          - App Push
+          - Test
       - name: DVCE_SCREENHEIGHT
-        description: The height of the screen in pixels.
+        synonyms:
+          - device height
+          - device screen height
+          - display height
+          - screen height
+          - screen resolution height
+          - vertical resolution
+          - viewport height
+        description: |
+          Captures the screen height in pixels of the device used during the session.  This field represents the vertical dimension of the user's display and is  essential for understanding device capabilities and optimizing responsive  design layouts.
+          Screen height, when combined with DVCE_SCREENWIDTH, provides complete screen  resolution information for identifying device types (mobile, tablet, desktop),  common aspect ratios, and viewport constraints. This data informs design  decisions around content layout, image sizing, and responsive breakpoints.
+          Use this field to analyze device resolution distribution, identify users on  unusually small or large screens, optimize content for common resolutions,  and ensure critical UI elements are visible across different screen sizes.  Particularly valuable for mobile optimization and responsive design validation.
         expr: DVCE_SCREENHEIGHT
         data_type: NUMBER(38,0)
         sample_values:
-          - "1067"
-          - "1112"
-      - name: APP_STATE_CONTEXT
-        description: The state of the native app.
-        expr: APP_STATE_CONTEXT
-        data_type: OBJECT
-        sample_values:
-          - '{"app_state": "foreground"}'
-      - name: LANDING_APP_STATE
-        description: The landing app state for this session.
-        expr: LANDING_APP_STATE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - foreground
-      - name: SPVS
+          - 1080
+          - 1920
+          - 2340
+          - 844
+          - 812
+          - 1280
+          - 667
+      - name: DVCE_SCREENWIDTH
         synonyms:
-          - product_page_views
-          - product_view_count
-          - sale_page_view_count
-          - sale_page_views
-          - sales page views
-          - spv_count
-        description: The number of sale page views (SPVs) that occurred in the session.
-        expr: SPVS
-        data_type: NUMBER(38,0)
-        is_enum: false
-      - name: HAS_SPV
-        description: Whether the session has a sale page view (SPV).
-        expr: HAS_SPV
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: UNIQUE_SPVS
-        description: Unique count of sale page views (SPVs) by se_sale_id.
-        expr: UNIQUE_SPVS
+          - device height
+          - device screen height
+          - display height
+          - screen height
+          - screen resolution height
+          - vertical resolution
+          - viewport height
+        description: |
+          Captures the screen height in pixels of the device used during the session.  This field represents the vertical dimension of the user's display and is  essential for understanding device capabilities and optimizing responsive  design layouts.
+          Screen height, when combined with DVCE_SCREENWIDTH, provides complete screen  resolution information for identifying device types (mobile, tablet, desktop),  common aspect ratios, and viewport constraints. This data informs design  decisions around content layout, image sizing, and responsive breakpoints.
+          Use this field to analyze device resolution distribution, identify users on  unusually small or large screens, optimize content for common resolutions,  and ensure critical UI elements are visible across different screen sizes.  Particularly valuable for mobile optimization and responsive design validation.
+        expr: DVCE_SCREENWIDTH
         data_type: NUMBER(38,0)
         sample_values:
-          - "3"
-          - "16"
-      - name: SPVS_HOTEL
-        description: The number of sale page views (SPVs) to a hotel product.
-        expr: SPVS_HOTEL
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "8"
-      - name: HAS_SPV_HOTEL
-        description: Whether the session has a hotel sale page view (SPV).
-        expr: HAS_SPV_HOTEL
-        data_type: BOOLEAN
-        sample_values:
-          - "FALSE"
-          - "TRUE"
-      - name: UNIQUE_SPVS_HOTEL
-        description: Unique count of hotel sale page views (SPVs) by se_sale_id.
-        expr: UNIQUE_SPVS_HOTEL
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "5"
-      - name: SPVS_HOTEL_PLUS
-        description: The number of sale page views (SPV) to a hotel plus product.
-        expr: SPVS_HOTEL_PLUS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "16"
-      - name: HAS_SPV_HOTEL_PLUS
-        description: Whether the session has a hotel plus sale page view (SPV).
-        expr: HAS_SPV_HOTEL_PLUS
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: UNIQUE_SPVS_HOTEL_PLUS
-        description: Unique count of hotel plus sale page views (SPVs) by se_sale_id.
-        expr: UNIQUE_SPVS_HOTEL_PLUS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "5"
-          - "3"
-      - name: SPVS_CATALOGUE
-        description: The number of sale page views (SPVs) to a catalogue product.
-        expr: SPVS_CATALOGUE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "7"
-          - "2"
-      - name: HAS_SPV_CATALOGUE
-        description: Whether the session has a catalogue sale page view (SPV).
-        expr: HAS_SPV_CATALOGUE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: UNIQUE_SPVS_CATALOGUE
-        description: Unique count of catalogue sale page views (SPVs) by se_sale_id.
-        expr: UNIQUE_SPVS_CATALOGUE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "3"
-          - "16"
-      - name: SPVS_PACKAGE
-        description: The number of sale page views (SPVs) to a package product. Package include Catalogue + IHP
-        expr: SPVS_PACKAGE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "1"
-      - name: HAS_SPV_PACKAGE
-        description: Whether the session has a package sale page view (SPV). Package include Catalogue + IHP
-        expr: HAS_SPV_PACKAGE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: UNIQUE_SPVS_PACKAGE
-        description: Unique count of package sale page views (SPVs) by se_sale_id. Package include Catalogue + IHP
-        expr: UNIQUE_SPVS_PACKAGE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-      - name: BOOKING_FORM_VIEWS
-        description: The number of booking form page views (BFVs) that occurred in the session.
-        expr: BOOKING_FORM_VIEWS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "3"
-          - "1"
-      - name: HAS_BOOKING_FORM_VIEW
-        description: Whether the session has a booking form page view (BFVs).
-        expr: HAS_BOOKING_FORM_VIEW
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: BOOKING_FORM_VIEWS_HOTEL
-        description: The number of booking form page views (BFVs) to a hotel product that occurred in the session.
-        expr: BOOKING_FORM_VIEWS_HOTEL
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "3"
-          - "1"
-      - name: HAS_BOOKING_FORM_VIEW_HOTEL
-        description: Whether the session has a booking form page view (BFVs) to a hotel product.
-        expr: HAS_BOOKING_FORM_VIEW_HOTEL
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: BOOKING_FORM_VIEWS_HOTEL_PLUS
-        description: The number of booking form page views (BFVs) to a hotel plus product that occurred in the session.
-        expr: BOOKING_FORM_VIEWS_HOTEL_PLUS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "3"
-      - name: HAS_BOOKING_FORM_VIEW_HOTEL_PLUS
-        description: Whether the session has a booking form page view (BFVs) to a hotel plus product.
-        expr: HAS_BOOKING_FORM_VIEW_HOTEL_PLUS
-        data_type: BOOLEAN
-        sample_values:
-          - "FALSE"
-          - "TRUE"
-      - name: BOOKING_FORM_VIEWS_CATALOGUE
-        description: The number of booking form page views (BFVs) to a catalogue product that occurred in the session.
-        expr: BOOKING_FORM_VIEWS_CATALOGUE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "3"
-      - name: HAS_BOOKING_FORM_VIEW_CATALOGUE
-        description: Whether the session has a booking form page view (BFVs) to a catalogue product.
-        expr: HAS_BOOKING_FORM_VIEW_CATALOGUE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: BOOKING_FORM_VIEWS_PACKAGE
-        description: The number of booking form page views (BFVs) to a package product that occurred in the session. Package include Catalogue + IHP
-        expr: BOOKING_FORM_VIEWS_PACKAGE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-      - name: HAS_BOOKING_FORM_VIEW_PACKAGE
-        description: Whether the session has a booking form page view (BFVs) to a package product. Package include Catalogue + IHP
-        expr: HAS_BOOKING_FORM_VIEW_PACKAGE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: BOOKINGS
-        synonyms:
-          - transactions
-        description: The number of bookings that occurred in the session. These bookings successfully completed at time of the session. Note that they may have since cancelled.
-        expr: BOOKINGS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-      - name: HAS_BOOKING
-        synonyms:
-          - converted session
-        description: Whether the session has a booking.
-        expr: HAS_BOOKING
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: BOOKINGS_HOTEL
-        description: The number of bookings to a hotel product that occurred in the session.
-        expr: BOOKINGS_HOTEL
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "1"
-      - name: HAS_BOOKING_HOTEL
-        description: Whether the session has a booking to a hotel product.
-        expr: HAS_BOOKING_HOTEL
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: BOOKINGS_HOTEL_PLUS
-        description: The number of bookings to a hotel plus product that occurred in the session.
-        expr: BOOKINGS_HOTEL_PLUS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "0"
-      - name: HAS_BOOKING_HOTEL_PLUS
-        description: Whether the session has a booking to a hotel plus product.
-        expr: HAS_BOOKING_HOTEL_PLUS
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: BOOKINGS_CATALOGUE
-        description: The number of bookings to a catalogue product that occurred in the session.
-        expr: BOOKINGS_CATALOGUE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-      - name: HAS_BOOKING_CATALOGUE
-        description: Whether the session has a booking to a catalogue product.
-        expr: HAS_BOOKING_CATALOGUE
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: BOOKINGS_PACKAGE
-        description: The number of bookings to a package product that occurred in the session. Package include Catalogue + IHP
-        expr: BOOKINGS_PACKAGE
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "1"
-      - name: HAS_BOOKING_PACKAGE
-        description: Whether the session has a booking to a catalogue product. Package include Catalogue + IHP
-        expr: HAS_BOOKING_PACKAGE
-        data_type: BOOLEAN
-        sample_values:
-          - "FALSE"
-          - "TRUE"
-      - name: MARGIN_GBP
-        description: Margin made on bookings within this session in British Pounds.
-        expr: MARGIN_GBP
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "153"
-      - name: SEARCHES
-        description: The number of searches that occurred in the session. This will include searches like pageLoad, user and Kronos.
-        expr: SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "12"
-          - "1"
-      - name: HAS_SEARCH
-        description: Whether the session has a search.
-        expr: HAS_SEARCH
-        data_type: BOOLEAN
-        sample_values:
-          - "FALSE"
-          - "TRUE"
-      - name: USER_SEARCHES
-        description: The number of searches performed using the search bar functionality.
-        expr: USER_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "3"
-      - name: HAS_USER_SEARCH
-        description: Whether the session has a search performed using the search bar functionality.
-        expr: HAS_USER_SEARCH
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: PAGE_LOAD_SEARCHES
-        description: The number of searches performed using predetermined search query functionality eg collection pages.
-        expr: PAGE_LOAD_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-      - name: HAS_PAGE_LOAD_SEARCH
-        description: Whether the session has a search performed using predetermined search query functionality eg collection pages.
-        expr: HAS_PAGE_LOAD_SEARCH
-        data_type: BOOLEAN
-        sample_values:
-          - "TRUE"
-          - "FALSE"
-      - name: MIN_PRICE_FILTER_SEARCHES
-        description: The minimum price filter applied to searches.
-        expr: MIN_PRICE_FILTER_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "0"
-          - "6"
-      - name: MAX_PRICE_FILTER_SEARCHES
-        description: The maximum price filter applied to searches.
-        expr: MAX_PRICE_FILTER_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "1"
-          - "5"
-      - name: SORT_BY_SEARCHES
-        description: The number of searches using the sort functionality.
-        expr: SORT_BY_SEARCHES
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "6"
-          - "4"
-      - name: PAY_BUTTON_CLICKS
-        description: The number of times the pay button was clicked.
-        expr: PAY_BUTTON_CLICKS
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-      - name: HAS_PAY_BUTTON_CLICK
-        description: Whether the session has a pay button click.
-        expr: HAS_PAY_BUTTON_CLICK
-        data_type: BOOLEAN
-        sample_values:
-          - "FALSE"
-          - "TRUE"
+          - 1080
+          - 1920
+          - 2340
+          - 844
+          - 812
+          - 1280
+          - 667
       - name: FEATURE_FLAG_TEST_ARRAY
         description: An array of feature flag that include abtest that appeared in the session.
         expr: FEATURE_FLAG_TEST_ARRAY
         data_type: ARRAY
         sample_values:
-          - '[{"feature_flag": "abtest.ltr.elasticsearch.second.variant", "test_group": "variant"}]'
+          - |-
+            [
+              {
+                "feature_flag": "abtest.ltr.elasticsearch.second.variant",
+                "min_tstamp": "2024-05-26 07:53:57.812",
+                "num_occurences": 1,
+                "test_group": "variant"
+              },
+              {
+                "feature_flag": "abtest.klarna.control",
+                "min_tstamp": "2024-05-26 07:53:57.812",
+                "num_occurences": 1,
+                "test_group": "control"
+              },
+              {
+                "feature_flag": "abtest.newnavigationdisplay.variant",
+                "min_tstamp": "2024-05-26 07:53:57.812",
+                "num_occurences": 1,
+                "test_group": "variant"
+              }
+            ]
+          - '[]'
       - name: FIRST_LOGIN_TYPE
         description: The first login method used by the user in this session.
         expr: FIRST_LOGIN_TYPE
@@ -640,40 +211,481 @@ tables:
         sample_values:
           - semi_manual_login
           - soft-login
-      - name: LAST_LOGIN_TYPE
-        description: The last login method used by the user in this session.
-        expr: LAST_LOGIN_TYPE
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - logged_out
-          - hard-login
-      - name: LOGIN_TYPES_LIST
-        description: The types of login methods used by a user.
-        expr: LOGIN_TYPES_LIST
-        data_type: VARCHAR(16777216)
-        sample_values:
-          - soft-login
-          - email_semi_login
-      - name: LOGIN_TYPES_ARRAY
-        description: The types of login methods used by users.
-        expr: LOGIN_TYPES_ARRAY
-        data_type: ARRAY
-        sample_values:
-          - '["logged_out"]'
-      - name: LOGIN_TYPES_COUNT
-        description: The count of different login types.
-        expr: LOGIN_TYPES_COUNT
-        data_type: NUMBER(38,0)
-        sample_values:
-          - "2"
-          - "1"
-      - name: SE_USER_ID
+      - name: GEO_CITY
         synonyms:
-          - se user id
-          - shiro user id
-          - user id
-        expr: IFF(stitched_identity_type = 'se_user_id', attributed_user_id, NULL)
-        data_type: VARCHAR(134217728)
+          - session city
+          - user city
+          - user city location
+          - user geographic city
+          - user location city
+          - user location city
+        description: |
+          Identifies the city from which the user's session originated, derived from  IP geolocation data. This field provides city-level geographic granularity  for understanding user distribution and local market performance.
+          City-level data enables hyper-local analysis of user behavior, conversion  patterns, and market penetration. It helps identify high-performing urban  markets, optimize local marketing campaigns, and understand regional travel  preferences and booking patterns.
+          Use this field to analyze city-level conversion rates, identify untapped  urban markets, evaluate local campaign effectiveness, understand destination  preferences by source city, and support geo-targeted marketing strategies.  Combine with GEO_COUNTRY and GEO_REGION_NAME for multi-level geographic
+        expr: GEO_CITY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Berlin
+          - Vienna
+          - Munich
+          - Warsaw
+          - Frankfurt am Main
+          - Stuttgart
+          - Hamburg
+          - Dublin
+          - Poznan
+          - Cologne
+          - Bielefeld
+          - Wroclaw
+          - Leipzig
+          - City of London
+      - name: GEO_COUNTRY
+        synonyms:
+          - nation
+          - session country
+          - user country
+          - user country location
+          - user geographic country
+          - user location country
+          - user location country
+        description: |
+          Identifies the country from which the user's session originated, derived from  IP geolocation data. This field provides country-level geographic identification  for understanding international user distribution and market performance.
+          Country-level data is fundamental for multi-market analysis, enabling comparison  of performance across different national markets, understanding cross-border  traffic patterns, and evaluating international expansion opportunities. It  supports compliance with country-specific regulations and enables localized  reporting strategies.
+          Use this field to analyze country-level conversion rates, compare market  maturity across nations, evaluate international marketing campaign effectiveness,  track cross-border booking behavior, and support strategic decisions around  market prioritization and resource allocation. Essential for understanding  which markets drive the most valuable traffic and conversions.
+        expr: GEO_COUNTRY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - DE
+          - GB
+          - PL
+          - AT
+          - US
+          - IT
+          - IE
+          - NL
+          - SE
+          - CH
+          - BE
+          - CN
+          - SG
+          - ES
+          - DK
+      - name: GEO_LATITUDE
+        synonyms:
+          - geo lat
+          - lat
+          - session latitude
+          - user geographic latitude
+          - user latitude
+          - user latitude coordinate
+          - user location latitude
+        description: |
+          Captures the geographic latitude coordinate of the user's location during the  session, derived from IP geolocation data. Latitude values range from -90  (South Pole) to +90 (North Pole) degrees and provide precise north-south  positioning.
+          Latitude coordinates enable advanced geographic analysis including distance  calculations, proximity-based segmentation, and mapping visualizations. When  combined with GEO_LONGITUDE, it provides exact geographic positioning for  spatial analysis and location-based insights.
+          Use this field to calculate distances between user locations and destinations,  create geographic heat maps, perform radius-based audience segmentation, analyze  travel distance patterns, and support location-based marketing strategies.  Particularly valuable for understanding regional clusters and travel preferences  based on proximity to destinations.
+        expr: GEO_LATITUDE
+        data_type: FLOAT
+        sample_values:
+          - '51.4535'
+          - '51.1068'
+          - '52.0618'
+      - name: GEO_LONGITUDE
+        synonyms:
+          - geo lng
+          - geo long
+          - lng
+          - long
+          - session longitude
+          - user location longitude
+          - user longitude
+          - user longitude coordinate
+        description: |
+          Captures the geographic longitude coordinate of the user's location during the  session, derived from IP geolocation data. Longitude values range from -180  to +180 degrees and provide precise east-west positioning, with 0° representing  the Prime Meridian.
+          Longitude coordinates enable advanced geographic analysis including distance  calculations, proximity-based segmentation, and mapping visualizations. When  combined with GEO_LATITUDE, it provides exact geographic positioning for  spatial analysis and location-based insights.
+          Use this field to calculate distances between user locations and destinations,  create geographic heat maps, perform radius-based audience segmentation, analyze  travel distance patterns, and support location-based marketing strategies.  Essential for understanding geographic distribution and enabling location-aware  personalization.
+        expr: GEO_LONGITUDE
+        data_type: FLOAT
+        sample_values:
+          - '16.5759'
+          - '8.0771'
+          - '8.4001'
+      - name: GEO_REGION_NAME
+        synonyms:
+          - administrative region
+          - geographic region
+          - session region
+          - session region name
+          - user location region
+          - user region
+          - user region name
+        description: |
+          Identifies the geographic region, state, or province from which the user's  session originated, derived from IP geolocation data. This field provides  sub-national geographic granularity between country and city levels.
+          Region-level data enables analysis of performance across states, provinces,  or administrative divisions within countries. It helps identify high-performing  regional markets, understand sub-national travel preferences, and optimize  regional marketing campaigns without the granularity challenges of city-level  data.
+          Use this field to analyze regional conversion rates within countries, compare  performance across states or provinces, evaluate regional campaign effectiveness,  understand destination preferences by source region, and support geo-targeted  marketing strategies. Particularly valuable for large markets like the UK  (England, Scotland, Wales), Germany (Bavaria, North Rhine-Westphalia), or  Italy (Lombardy, Lazio).
+        expr: GEO_REGION_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Oxfordshire
+          - Zurich
+          - Naples
+      - name: HAS_BOOKING
+        synonyms:
+          - booking completed
+          - booking flag
+          - booking indicator
+          - completed booking
+          - converted
+          - has booking
+          - made booking
+        description: |
+          Boolean flag indicating whether the session resulted in at least one completed  booking (regardless of product type). This is the primary conversion indicator  for session-level analysis.
+          TRUE indicates the session successfully converted with a completed booking  transaction. FALSE indicates the session did not result in a booking, regardless  of how far the user progressed through the funnel.
+          Use this field to filter for converted sessions, calculate overall conversion  rates (SESSION_CVR), identify high-value converting traffic segments, and  analyze the characteristics of sessions that lead to bookings versus those  that do not. Essential for conversion funnel analysis and revenue attribution.
+        expr: HAS_BOOKING
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_BOOKING_CATALOGUE
+        synonyms:
+          - catalogue booking flag
+          - catalogue booking indicator
+          - catalogue converted
+          - completed catalogue booking
+          - has catalogue booking
+          - made catalogue booking
+        description: |
+          Boolean flag indicating whether the session resulted in at least one completed  catalogue booking. Catalogue bookings represent a specific product type within  the Secret Escapes platform distinct from hotel-only or package bookings.
+          TRUE indicates the session successfully converted with a completed catalogue  booking. FALSE indicates the session either did not convert or converted with  a different product type (hotel, hotel plus, or package).
+          Use this field to analyze catalogue-specific conversion performance, compare  product type preferences across segments, calculate catalogue conversion rates,  and understand which channels or user behaviors drive catalogue bookings versus  other product types. Essential for product mix analysis and merchandising  strategy.
+        expr: HAS_BOOKING_CATALOGUE
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_BOOKING_FORM_VIEW
+        synonyms:
+          - BFV flag
+          - booking form view flag
+          - checkout initiated
+          - has BFV
+          - has booking form view
+          - reached booking form
+          - viewed booking form
+        description: |
+          Boolean flag indicating whether the session included at least one Booking Form  View (BFV), representing the user reaching the checkout page. This is a critical  funnel milestone indicating strong purchase intent.
+          TRUE indicates the user initiated the checkout process by viewing the booking  form. FALSE indicates the session never reached the checkout stage, regardless  of earlier funnel progression.
+          Use this field to identify high-intent sessions, calculate checkout initiation  rates, analyze cart abandonment (when TRUE but HAS_BOOKING is FALSE), and  understand which traffic segments reach the checkout stage. Essential for  mid-to-bottom funnel analysis and identifying sessions with abandoned carts  for remarketing campaigns.
+        expr: HAS_BOOKING_FORM_VIEW
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_BOOKING_FORM_VIEW_CATALOGUE
+        synonyms:
+          - catalogue BFV flag
+          - catalogue booking form flag
+          - catalogue checkout initiated
+          - has catalogue BFV
+          - has catalogue booking form view
+          - reached catalogue booking form
+          - viewed catalogue booking form
+        description: |
+          Boolean flag indicating whether the session included at least one Booking Form  View (BFV) specifically for a catalogue product. This represents the user  reaching the checkout page for catalogue offerings, indicating strong purchase  intent for this product type.
+          TRUE indicates the user initiated the checkout process for a catalogue booking.  FALSE indicates the session either never reached checkout or reached checkout  for a different product type (hotel, hotel plus, or package).
+          Use this field to analyze catalogue-specific checkout initiation rates,  calculate catalogue cart abandonment (when TRUE but HAS_BOOKING_CATALOGUE is  FALSE), understand which traffic segments show catalogue purchase intent, and  compare checkout behavior across different product types. Essential for  product-specific funnel optimization and abandoned cart recovery strategies.
+        expr: HAS_BOOKING_FORM_VIEW_CATALOGUE
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_BOOKING_FORM_VIEW_HOTEL
+        synonyms:
+          - has hotel BFV
+          - has hotel booking form view
+          - hotel BFV flag
+          - hotel checkout flag
+          - hotel checkout initiated
+          - reached hotel checkout
+          - viewed hotel booking form
+        description: |
+          Boolean flag indicating whether the session included at least one Booking Form  View (BFV) specifically for a hotel product. This represents the user reaching  the checkout page for hotel offerings, indicating strong purchase intent for  this product type.
+          TRUE indicates the user initiated the checkout process for a hotel booking.  FALSE indicates the session either never reached checkout or reached checkout  for a different product type (catalogue, hotel plus, or package).
+          Use this field to analyze hotel-specific checkout initiation rates, calculate  hotel cart abandonment (when TRUE but HAS_BOOKING_HOTEL is FALSE), understand  which traffic segments show hotel purchase intent, and compare checkout behavior  across different product types. Essential for product-specific funnel optimization  and abandoned cart recovery strategies targeting hotel browsers.
+        expr: HAS_BOOKING_FORM_VIEW_HOTEL
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_BOOKING_FORM_VIEW_HOTEL_PLUS
+        description: Whether the session has a booking form page view (BFVs) to a hotel plus product.
+        expr: HAS_BOOKING_FORM_VIEW_HOTEL_PLUS
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: HAS_BOOKING_FORM_VIEW_PACKAGE
+        synonyms:
+          - has package BFV
+          - has package booking form view
+          - package BFV flag
+          - package checkout flag
+          - package checkout initiated
+          - reached package checkout
+          - viewed package booking form
+        description: |
+          Boolean flag indicating whether the session included at least one Booking Form  View (BFV) specifically for a package product. This represents the user  reaching the checkout page for package offerings (typically bundled deals  combining accommodation with other travel components), indicating strong  purchase intent for this product type.
+          TRUE indicates the user initiated the checkout process for a package booking.  FALSE indicates the session either never reached checkout or reached checkout  for a different product type (hotel, catalogue, or hotel plus).
+          Use this field to analyze package-specific checkout initiation rates, calculate  package cart abandonment (when TRUE but HAS_BOOKING_PACKAGE is FALSE), understand  which traffic segments show package purchase intent, and compare checkout  behavior across different product types. Essential for product-specific funnel  optimization and understanding bundled product engagement.
+        expr: HAS_BOOKING_FORM_VIEW_PACKAGE
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_BOOKING_HOTEL
+        synonyms:
+          - completed hotel booking
+          - has hotel booking
+          - hotel booking flag
+          - hotel booking indicator
+          - hotel converted
+          - made hotel booking
+        description: |
+          Boolean flag indicating whether the session resulted in at least one completed  hotel booking. Hotel bookings represent a core product type within the Secret  Escapes platform, distinct from catalogue, package, or hotel plus offerings.
+          TRUE indicates the session successfully converted with a completed hotel booking.  FALSE indicates the session either did not convert or converted with a different  product type (catalogue, hotel plus, or package).
+          Use this field to analyze hotel-specific conversion performance, compare product  type preferences across segments, calculate hotel conversion rates, and understand  which channels or user behaviors drive hotel bookings versus other product types.  Essential for product mix analysis, merchandising strategy, and understanding  the performance of core hotel inventory.
+        expr: HAS_BOOKING_HOTEL
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_BOOKING_HOTEL_PLUS
+        synonyms:
+          - completed hotel plus booking
+          - has hotel plus booking
+          - hotel plus booking flag
+          - hotel plus booking indicator
+          - hotel plus converted
+          - made hotel plus booking
+        description: |
+          Boolean flag indicating whether the session resulted in at least one completed  hotel plus booking. Hotel plus bookings represent an enhanced product type  within the Secret Escapes platform, distinct from standard hotel, catalogue,  or package offerings.
+          TRUE indicates the session successfully converted with a completed hotel plus  booking. FALSE indicates the session either did not convert or converted with  a different product type (hotel, catalogue, or package).
+          Use this field to analyze hotel plus-specific conversion performance, compare  product type preferences across segments, calculate hotel plus conversion rates,  and understand which channels or user behaviors drive premium hotel plus bookings  versus other product types. Essential for product mix analysis, premium product  merchandising strategy, and understanding the performance of enhanced hotel  inventory.
+        expr: HAS_BOOKING_HOTEL_PLUS
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_BOOKING_PACKAGE
+        synonyms:
+          - completed hotel plus booking
+          - has hotel plus booking
+          - hotel plus booking flag
+          - hotel plus booking indicator
+          - hotel plus converted
+          - made hotel plus booking
+        description: |
+          Boolean flag indicating whether the session resulted in at least one completed  hotel plus booking. Hotel plus bookings represent an enhanced product type  within the Secret Escapes platform, distinct from standard hotel, catalogue,  or package offerings.
+          TRUE indicates the session successfully converted with a completed hotel plus  booking. FALSE indicates the session either did not convert or converted with  a different product type (hotel, catalogue, or package).
+          Use this field to analyze hotel plus-specific conversion performance, compare  product type preferences across segments, calculate hotel plus conversion rates,  and understand which channels or user behaviors drive premium hotel plus bookings  versus other product types. Essential for product mix analysis, premium product  merchandising strategy, and understanding the performance of enhanced hotel  inventory.
+        expr: HAS_BOOKING_PACKAGE
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: HAS_NON_VOUCHER_PAY_BUTTON_CLICK
+        synonyms:
+          - cash_payment_button_click
+          - direct_pay_button_flag
+          - has_cash_pay_button_click
+          - has_direct_payment_click
+          - has_regular_pay_click
+          - has_standard_payment_click
+          - non_promotional_pay_click
+          - non_voucher_payment_flag
+          - regular_payment_indicator
+          - standard_pay_click_flag
+        description: Indicates whether a non-voucher pay button was clicked during the session.
+        expr: HAS_NON_VOUCHER_PAY_BUTTON_CLICK
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_PAGE_LOAD_SEARCH
+        synonyms:
+          - automatic search
+          - default search
+          - has page load search
+          - landing search flag
+          - pre-filled search
+          - predetermined search flag
+        description: |
+          Boolean flag indicating whether the session included at least one page load  search. Page load searches are predetermined or pre-filled searches that occur  automatically when a user lands on a page, as opposed to user-initiated manual  searches.
+          TRUE indicates the session included at least one automatic/predetermined search  that loaded with the page. FALSE indicates no page load searches occurred,  though the session may still have included user-initiated searches.
+          Use this field to distinguish between passive browsing behavior (predetermined  search results shown on landing) versus active search behavior (user-initiated  queries). Essential for understanding search engagement patterns, evaluating  the effectiveness of pre-filtered landing pages, and segmenting users by search  activity type. Compare with HAS_USER_SEARCH to understand the balance between  guided and exploratory search behavior.
+        expr: HAS_PAGE_LOAD_SEARCH
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_PAY_BUTTON_CLICK
+        synonyms:
+          - clicked pay
+          - has pay button click
+          - pay button flag
+          - payment attempt flag
+          - payment button clicked
+          - payment initiated
+        description: |
+          Boolean flag indicating whether the session included at least one pay button  click, representing the user's explicit attempt to submit payment and complete  the booking. This is the final user action before payment processing.
+          TRUE indicates the user clicked the pay/submit button to attempt to complete  their booking. FALSE indicates the session never reached this final action,  even if the user viewed the booking form.
+          Use this field to identify sessions where users attempted to complete payment,  analyze the final step of checkout abandonment (when TRUE but HAS_BOOKING is  FALSE), diagnose payment processing issues, and understand which sessions  experienced payment failures versus never attempting payment. Essential for  identifying technical payment failures, declined transactions, and final-stage  abandonment requiring immediate intervention.
+        expr: HAS_PAY_BUTTON_CLICK
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: HAS_SEARCH
+        synonyms:
+          - has search
+          - performed search
+          - search activity
+          - search flag
+          - search indicator
+          - searched
+        description: |
+          Boolean flag indicating whether the session included at least one search of  any type (either user-initiated or page load search). This is a comprehensive  search indicator that captures all search activity regardless of how it was  triggered.
+          TRUE indicates the session included at least one search event, whether manually  entered by the user or automatically loaded with a page. FALSE indicates no  search activity occurred during the session.
+          Use this field to identify sessions with any search engagement, calculate  overall search participation rates, segment users by search behavior, and  analyze the relationship between search activity and conversion. Essential for  understanding search funnel performance and the role of search in the customer  journey. This is the broadest search indicator, encompassing both HAS_USER_SEARCH  and HAS_PAGE_LOAD_SEARCH.
+        expr: HAS_SEARCH
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: HAS_SPV
+        synonyms:
+          - has product view
+          - has sale page view
+          - has SPV
+          - product view flag
+          - sale page viewed
+          - SPV flag
+          - viewed product
+        description: |
+          Boolean flag indicating whether the session included at least one Sales Page  View (SPV) of any product type. This represents the critical first step in  product engagement where users view detailed offer pages, regardless of whether  it's a hotel, catalogue, package, or hotel plus product.
+          TRUE indicates the session included at least one product page view, demonstrating  active product browsing behavior. FALSE indicates the session never progressed  to viewing any product details.
+          Use this field to identify sessions with product engagement, calculate browse  initiation rates (SESSION_TO_SPV_CVR), segment users by browsing behavior,  and analyze the relationship between product viewing and conversion. Essential  for understanding top-of-funnel performance and measuring how effectively  sessions transition from landing to active product consideration. This is the  broadest product engagement indicator, encompassing all product types.
+        expr: HAS_SPV
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_SPV_CATALOGUE
+        synonyms:
+          - catalogue product view flag
+          - catalogue SPV flag
+          - has catalogue product view
+          - has catalogue sale page view
+          - has catalogue SPV
+          - viewed catalogue product
+        description: |
+          Boolean flag indicating whether the session included at least one Sales Page  View (SPV) specifically for a catalogue product. This represents product  engagement with catalogue offerings, indicating user interest in this specific  product type.
+          TRUE indicates the session included at least one catalogue product page view,  demonstrating browsing behavior for catalogue inventory. FALSE indicates the  session either never viewed any products or only viewed other product types  (hotel, package, or hotel plus).
+          Use this field to analyse catalogue-specific browsing behavior, calculate  catalogue browse rates, understand product type preferences, and measure  catalogue browse-to-book conversion when combined with HAS_BOOKING_CATALOGUE.  Essential for product mix analysis, merchandising strategy, and understanding  which traffic segments engage with catalogue inventory versus other product  types.
+        expr: HAS_SPV_CATALOGUE
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_SPV_HOTEL
+        synonyms:
+          - has hotel product view
+          - has hotel sale page view
+          - has hotel SPV
+          - hotel product view flag
+          - hotel SPV flag
+          - viewed hotel product
+        description: |
+          Boolean flag indicating whether the session included at least one Sales Page  View (SPV) specifically for a hotel product. This represents product engagement  with hotel offerings, indicating user interest in this core product type.
+          TRUE indicates the session included at least one hotel product page view,  demonstrating browsing behavior for hotel inventory. FALSE indicates the  session either never viewed any products or only viewed other product types  (catalogue, package, or hotel plus).
+          Use this field to analyze hotel-specific browsing behavior, calculate hotel  browse rates, understand product type preferences, and measure hotel browse-to-book  conversion when combined with HAS_BOOKING_HOTEL. Essential for product mix  analysis, merchandising strategy, and understanding which traffic segments  engage with hotel inventory versus other product types.
+        expr: HAS_SPV_HOTEL
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
+      - name: HAS_SPV_HOTEL_PLUS
+        synonyms:
+          - has hotel plus product view
+          - has hotel plus sale page view
+          - has hotel plus SPV
+          - hotel plus product view flag
+          - hotel plus SPV flag
+          - viewed hotel plus product
+        description: |
+          Boolean flag indicating whether the session included at least one Sales Page  View (SPV) specifically for a hotel plus product. This represents product  engagement with hotel plus offerings, indicating user interest in this enhanced  product type.
+          TRUE indicates the session included at least one hotel plus product page view,  demonstrating browsing behavior for premium hotel plus inventory. FALSE indicates  the session either never viewed any products or only viewed other product types  (hotel, catalogue, or package).
+          Use this field to analyze hotel plus-specific browsing behavior, calculate  hotel plus browse rates, understand premium product type preferences, and  measure hotel plus browse-to-book conversion when combined with HAS_BOOKING_HOTEL_PLUS.  Essential for product mix analysis, premium merchandising strategy, and  understanding which traffic segments engage with enhanced hotel inventory
+        expr: HAS_SPV_HOTEL_PLUS
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_SPV_PACKAGE
+        synonyms:
+          - has package product view
+          - has package sale page view
+          - has package SPV
+          - package product view flag
+          - package SPV flag
+          - viewed package product
+        description: |
+          Boolean flag indicating whether the session included at least one Sales Page  View (SPV) specifically for a package product. This represents product  engagement with package offerings (bundled travel deals), indicating user  interest in this product type.
+          TRUE indicates the session included at least one package product page view,  demonstrating browsing behavior for package inventory. FALSE indicates the  session either never viewed any products or only viewed other product types  (hotel, catalogue, or hotel plus).
+          Use this field to analyze package-specific browsing behavior, calculate package  browse rates, understand bundled product type preferences, and measure package  browse-to-book conversion when combined with HAS_BOOKING_PACKAGE. Essential  for product mix analysis, package merchandising strategy, and understanding  which traffic segments engage with package inventory versus other product types.
+          Package include Catalogue + IHP
+        expr: HAS_SPV_PACKAGE
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_USER_SEARCH
+        synonyms:
+          - active search
+          - active search flag
+          - has user search
+          - manual search flag
+          - performed manual search
+          - user search flag
+          - user-initiated search
+        description: |
+          Boolean flag indicating whether the session included at least one user-initiated  manual search. This represents active search behavior where the user deliberately  entered search criteria, as opposed to predetermined or automatic page load  searches.
+          TRUE indicates the session included at least one manual search entered by the  user, demonstrating active product discovery behavior. FALSE indicates no  user-initiated searches occurred, though the session may have included automatic  page load searches.
+          Use this field to identify sessions with active search engagement, distinguish  between exploratory (active) versus passive (guided) browsing behavior, calculate  manual search participation rates, and analyze the relationship between active  search behavior and conversion. Essential for understanding search functionality  effectiveness, user intent signals, and the role of active product discovery  in the customer journey. Compare with HAS_PAGE_LOAD_SEARCH to understand the  balance between guided and exploratory behavior.
+        expr: HAS_USER_SEARCH
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: HAS_VOUCHER_PAY_BUTTON_CLICK
+        synonyms:
+          - coupon_payment_clicked
+          - discount_payment_clicked
+          - has_coupon_pay_button_click
+          - has_discount_pay_button_click
+          - has_promo_pay_button_click
+          - has_voucher_payment_click
+          - voucher_checkout_clicked
+          - voucher_pay_clicked
+          - voucher_payment_button_pressed
+          - voucher_payment_clicked
+        description: Indicates whether a voucher pay button was clicked during the session.
+        expr: HAS_VOUCHER_PAY_BUTTON_CLICK
+        data_type: BOOLEAN
+        sample_values:
+          - 'FALSE'
+          - 'TRUE'
       - name: IS_ABANDONED_CART_SESSION
         synonyms:
           - abandoned_checkout_flag
@@ -689,9 +701,838 @@ tables:
         description: The Session has a booking form view but no transaction
         expr: IFF(HAS_BOOKING_FORM_VIEW = TRUE AND HAS_BOOKING = FALSE, TRUE, FALSE)
         data_type: BOOLEAN
+      - name: IS_SE_INTERNAL_TOUCH
+        description: A flag indicating whether the session was performed by an SE employee.
+        expr: IS_SE_INTERNAL_TOUCH
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: LANDING_APP_STATE
+        description: The app state of the native app for the first event of the session. This will show whether the session was foreground or background
+        expr: LANDING_APP_STATE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - foreground
+          - background
+      - name: LANDING_PAGE_CATEGORY
+        description: The category of the landing page.
+        expr: LANDING_PAGE_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - booking flow flight selection
+          - other
+          - filter page
+      - name: LANDING_SCREEN_CATEGORY
+        synonyms:
+          - app_landing_category
+          - app_screen_category
+          - entry_point_category
+          - entry_screen_category
+          - first_screen_category
+          - initial_screen_category
+          - initial_view_category
+          - mobile_screen_category
+          - screen_category
+          - screen_view_category
+        description: The category of the landing screen displayed when users first open the application during a session.
+        expr: LANDING_SCREEN_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - filter page
+          - home page
+          - search results
+          - sale page
+          - search results
+      - name: LAST_NON_DIRECT_CHANNEL_CATEGORY
+        synonyms:
+          - channel category
+        description: |2-
+            Categorises last non direct marketing channels into three investment-based groups: 
+            'Free' (organic and owned channels with no direct media spend), 
+            'Paid' (performance marketing channels with acquisition costs), 
+            and 'Other' (miscellaneous or partner channels). 
+            
+            This field enables high-level marketing ROI analysis by grouping granular 
+            channel names from both SE Brand and TVL Brand into unified categories. 
+            
+            Free channels include: Direct, Organic Social, Organic Search (Brand/Non-Brand), 
+            PPC Brand, Blog, Referral, Source SEO, and Magazyn.
+            
+            Paid channels include: Affiliate, Display (CPA/CPL), Paid Social (CPA/CPL), 
+            PPC Non-Brand (CPA/CPL), Google Ads variants, Remarketing, Video, and Mailing.
+            
+            Other channels include: Partner, Partner White Label, Email - Other, Media, 
+            YouTube, Newsletter, Push, and SMS.
+            
+            Channels not matching any predefined mapping retain their original channel value.
+        expr: LAST_NON_DIRECT_CHANNEL_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Free
+          - Paid
+          - Email - Newsletter
+          - Email - Triggers
+          - Other
+          - App Push
+          - Test
+      - name: LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
+        synonyms:
+          - channel
+          - lnd channel
+        description: The marketing channel assigned to the session via last non direct attribution. Last non direct attribution will reattribute any session with a last click channel of direct to the user's previous non direct channel within a 30 day look back window.
+        expr: LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Email - Newsletter
+          - Direct
+          - PPC - Non Brand CPA
+          - Email - Triggers
+          - PPC - Brand
+          - App Push
+          - Paid Social CPA
+          - Organic Search Non-Brand
+          - Display CPA
+          - Newsletter
+          - Display CPL
+          - Other
+          - PPC - Non Brand CPL
+          - Organic Search Brand
+          - Google Ads Inne
+          - Google Ads Brand
+          - Source SEO
+          - Organic Social
+          - Affiliate Program
+          - Display
+          - Paid Social
+          - PPC - Undefined
+          - Remarketing
+          - Paid Social CPL
+          - Media
+          - Partner
+          - Afiliacja
+          - Mailing
+          - Blog
+          - Partner White Label
+          - Referral
+          - Google Ads Generic
+          - Push
+          - Email - Other
+          - YouTube
+          - Video
+          - Test
+          - SMS
+          - Magazyn
+      - name: LAST_PAID_CHANNEL_CATEGORY
+        description: |2-
+            Categorises last paid marketing channels into three investment-based groups: 
+            'Free' (organic and owned channels with no direct media spend), 
+            'Paid' (performance marketing channels with acquisition costs), 
+            and 'Other' (miscellaneous or partner channels). 
+            
+            This field enables high-level marketing ROI analysis by grouping granular 
+            channel names from both SE Brand and TVL Brand into unified categories. 
+            
+            Free channels include: Direct, Organic Social, Organic Search (Brand/Non-Brand), 
+            PPC Brand, Blog, Referral, Source SEO, and Magazyn.
+            
+            Paid channels include: Affiliate, Display (CPA/CPL), Paid Social (CPA/CPL), 
+            PPC Non-Brand (CPA/CPL), Google Ads variants, Remarketing, Video, and Mailing.
+            
+            Other channels include: Partner, Partner White Label, Email - Other, Media, 
+            YouTube, Newsletter, Push, and SMS.
+            
+            Channels not matching any predefined mapping retain their original channel value.
+        expr: LAST_PAID_CHANNEL_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Free
+          - Paid
+          - Email - Newsletter
+          - Email - Triggers
+          - Other
+          - App Push
+          - Test
+      - name: LAST_PAID_TOUCH_MKT_CHANNEL
+        synonyms:
+          - last paid channel
+          - lp channel
+        description: The marketing channel assigned to the session via last paid attribution. Last paid attribution will reattribute any session with a last click channel that is NOT a paid channel to the user's previous paid channel within a 30 day look back window.
+        expr: LAST_PAID_TOUCH_MKT_CHANNEL
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Email - Newsletter
+          - Direct
+          - PPC - Non Brand CPA
+          - Email - Triggers
+          - PPC - Brand
+          - App Push
+          - Paid Social CPA
+          - Organic Search Non-Brand
+          - Display CPA
+          - Newsletter
+          - Display CPL
+          - Other
+          - PPC - Non Brand CPL
+          - Organic Search Brand
+          - Google Ads Inne
+          - Google Ads Brand
+          - Source SEO
+          - Organic Social
+          - Affiliate Program
+          - Display
+          - Paid Social
+          - PPC - Undefined
+          - Remarketing
+          - Paid Social CPL
+          - Media
+          - Partner
+          - Afiliacja
+          - Mailing
+          - Blog
+          - Partner White Label
+          - Referral
+          - Google Ads Generic
+          - Push
+          - Email - Other
+          - YouTube
+          - Video
+          - Test
+          - SMS
+          - Magazyn
+      - name: LOGIN_TYPES_LIST
+        description: The types of login methods used by a user.
+        expr: LOGIN_TYPES_LIST
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - logged_out
+          - email_semi_login
+          - remembered
+          - unknown
+          - semi_manual_login
+          - lead-em
+          - lead_form
+          - lead-modal-close
+          - logged_out, semi_manual_login
+          - semi_manual_login, logged_out
+          - url-email
+          - no-lead
+          - google
+          - hard-login
+          - registered
+      - name: OS_FAMILY
+        description: The operating system family.
+        expr: OS_FAMILY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Android
+          - iOS
+          - Mac OS X
+          - Windows
+          - Linux
+          - Unknown
+          - Chrome OS
+          - Mac OS
+          - Tizen
+          - Unknown mobile
+          - Unknown tablet
+          - PalmOS
+          - Sony Playstation
+          - Sony Ericsson
+          - BlackBerryOS
+      - name: OS_MANUFACTURER
+        description: The manufacturer of the operating system.
+        expr: OS_MANUFACTURER
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Google Inc.
+          - Apple Inc.
+          - Microsoft Corporation
+          - Other
+          - Canonical Ltd.
+          - Linux Foundation
+          - Sony Computer Entertainment, Inc.
+          - Hewlett Packard
+          - Sony Ericsson Mobile Communications AB
+          - Research In Motion Limited
+      - name: OS_NAME
+        description: The operating system name.
+        expr: OS_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Android 1.x
+          - Mac OS X (iPhone)
+          - Mac OS X
+          - Windows 10
+          - Android
+          - Mac OS X (iPad)
+          - Linux
+          - Unknown
+          - Android Mobile
+          - iOS 11 (iPhone)
+      - name: PLATFORM
+        description: A categorisation of the touch experience used in the session.
+        expr: PLATFORM
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Mobile Web
+          - Web
+          - Native App
+          - Tablet Web
+          - Not Specified
+          - Digital Media Receiver
+          - Wrap App
+          - Game Console
+      - name: SE_USER_ID
+        synonyms:
+          - se user id
+          - shiro user id
+          - user id
+        expr: IFF(stitched_identity_type = 'se_user_id', attributed_user_id, NULL)
+        data_type: VARCHAR(134217728)
+      - name: SESSION_DEPTH_CATEGORY
+        synonyms:
+          - depth_classification
+          - engagement_depth_class
+          - interaction_level_segment
+          - session_activity_level
+          - session_engagement_level
+          - session_intensity_category
+          - user_engagement_type
+          - user_interaction_tier
+          - visit_depth_group
+          - visit_engagement_tier
+        description: Measures session engagement by categorizing the number of events/interactions performed during a visit. Segments range from single-event sessions to very high activity sessions with 30+ events. This field identifies how deeply users engage with the platform beyond simple page views.
+        expr: |-
+          CASE 
+              WHEN touch_event_count <= 1 THEN 'Single Event'
+              WHEN touch_event_count BETWEEN 2 AND 5 THEN 'Light Activity (2-5 events)'
+              WHEN touch_event_count BETWEEN 6 AND 15 THEN 'Moderate Activity (6-15 events)'
+              WHEN touch_event_count BETWEEN 16 AND 30 THEN 'High Activity (16-30 events)'
+              WHEN touch_event_count > 30 THEN 'Very High Activity (30+ events)'
+              ELSE 'Unknown'
+          END
+        data_type: VARCHAR(31)
+        sample_values:
+          - Moderate Activity (6-15 events)
+          - Single Event
+          - Light Activity (2-5 events)
+          - High Activity (16-30 events)
+          - Very High Activity (30+ events)
+      - name: SESSION_FUNNEL_ENGAGEMENT
+        synonyms:
+          - conversion_funnel_activity
+          - conversion_path_activity
+          - conversion_stage_interaction
+          - engagement
+          - funnel_participation
+          - journey_engagement_metric
+          - session_interaction_level
+          - session_pathway_engagement
+          - user_engagement_flow
+          - user_funnel_behavior
+          - user_journey_interaction
+        description: A session-level engagement classification that segments users into five intent categories based on their deepest point of interaction. It prioritises completed transactions ('Converted') and checkout attempts ('High Engagement'), followed by active browsing or searching ('Medium Engagement'), basic product or list discovery ('Low Engagement'), and simply searching without any further progression as ('Browsing'). Any session without these specific signals is classified as 'Minimal Engagement'.
+        expr: |-
+          CASE 
+              -- Converted: Has completed booking
+              WHEN has_booking = TRUE THEN 'Converted'
+              
+              -- High Engagement: Reached booking form (checkout intent)
+              WHEN has_booking_form_view = TRUE THEN 'High Engagement'
+              
+              -- Medium Engagement: Multiple product views (3+) OR active search with product views
+              WHEN unique_spvs >= 3 THEN 'Medium Engagement'
+              WHEN unique_spvs >= 2 AND has_user_search = TRUE THEN 'Medium Engagement'
+              
+              -- Low Engagement: Some product browsing (1-2 views) OR search that led to views
+              WHEN unique_spvs >= 1 THEN 'Low Engagement'
+              WHEN has_user_search = TRUE AND has_spv = TRUE THEN 'Low Engagement'
+
+                  -- Minimal Engagement: Search or page load activity only, no product views
+              WHEN has_search = TRUE THEN 'Browsing'
+              ELSE 'Minimal Engagement'
+          END
+        data_type: VARCHAR(18)
+        sample_values:
+          - Low Engagement
+          - Medium Engagement
+          - Minimal Engagement
+          - Converted
+          - High Engagement
+          - Browsing
+        is_enum: false
+      - name: SORT_BY_SEARCHES
+        description: The number of searches using the sort functionality.
+        expr: SORT_BY_SEARCHES
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '6'
+          - '4'
+          - '0'
+      - name: STITCHED_IDENTITY_TYPE
+        description: The type method of identity stitching used for this session.
+        expr: STITCHED_IDENTITY_TYPE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - unique_browser_id
+          - se_user_id
+          - cookie_id
+          - tvl_user_id
+          - idfv
+          - booking_id
+          - email_address
+          - session_userid
+      - name: TOUCH_AFFILIATE_TERRITORY
+        description: The affiliate territory of the session, this is based on logic that includes hostname categorisations and the presence of an affiliate url parameter.
+        expr: TOUCH_AFFILIATE_TERRITORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - DE
+          - UK
+          - PL
+          - IT
+          - SE
+          - NL
+          - IE
+          - BE
+          - CH
+          - DK
+          - TB-BE_NL
+          - 'NO'
+          - TB-NL
+          - NA
+          - NP
+          - AT
+          - SE TECH
+          - ANOMALOUS
+          - Other
+          - US
+          - TP
+          - SG
+          - FR
+          - TB-BE_FR
+          - ID
+          - MP
+          - ES
+          - HK
+          - SK
+          - MY
+          - PP
+          - TA
+          - AU
+      - name: TOUCH_EXIT_PAGEPATH
+        description: The URL path to the page that the user exited the session on.
+        expr: TOUCH_EXIT_PAGEPATH
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - /breaktaking-ionian-island-suite-stay-anadeo-villas-and-suites-lefkada-greece/sale-hotel
+          - /121905/slowacja-velka-lomnica-tatragolf-mountain-resort/
+          - /stilvolle-residenz-in-der-muenchner-altstadt-kostenfrei-stornierbar-living-hotel-prinzessin-elisabeth-muenchen-bayern-deutschland/sale-hotel
+      - name: TOUCH_EXPERIENCE
+        synonyms:
+          - device experience
+          - device platform
+          - device type
+          - experience type
+          - platform type
+          - touch experience
+          - user experience platform
+        description: |
+          Identifies the specific device platform and experience type used during the  session. This field captures granular platform distinctions including web  (desktop), mobile web, tablet web, native iOS app, native Android app, mobile  wrap iOS, and mobile wrap Android.
+          This field is essential for understanding device-specific user behaviour,  conversion performance, and technical experience variations across different  platforms. It enables detailed analysis of how users interact with the platform  across various device types and application experiences.
+          Use this field to segment traffic by device platform, compare conversion rates  across native apps versus web experiences, analyze mobile versus desktop  performance, prioritize platform-specific optimization efforts, and understand  user preferences for different access methods. Critical for UX optimization,  app versus web strategy, and responsive design decisions.
+        expr: TOUCH_EXPERIENCE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - mobile web
+          - native app ios
+          - web
+          - native app android
+          - tablet web
+          - mobile wrap android
+          - mobile wrap ios
+          - digital media receiver
+      - name: TOUCH_HOSTNAME
+        synonyms:
+          - domain name
+          - host domain
+          - hostname
+          - site hostname
+          - touch hostname
+          - web domain
+          - website domain
+        description: |
+          Captures the hostname/domain of the website where the session occurred. This  field identifies the specific Secret Escapes domain or subdomain the user  visited, enabling analysis across different web properties and brand sites.
+          The hostname provides critical context for multi-brand analysis, territory-specific  domains, and subdomain performance tracking. It enables identification of  traffic patterns across different web properties and supports cross-domain  analysis.
+          Use this field to segment traffic by domain/subdomain, compare performance  across different Secret Escapes web properties, analyze territory-specific  domains, identify cross-domain user journeys, and support brand-specific  reporting. Essential for multi-brand organizations and understanding how users  interact with different web properties within the platform ecosystem.
+        expr: TOUCH_HOSTNAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - www.secretescapes.de
+          - www.secretescapes.com
+          - travelist.pl
+          - de.sales.secretescapes.com
+          - co.uk.sales.secretescapes.com
+          - it.secretescapes.com
+          - www.secretescapes.se
+          - nl.secretescapes.com
+          - www.pigsback.com
+          - it.sales.secretescapes.com
+          - ch.secretescapes.com
+          - be.sales.secretescapes.com
+          - dk.secretescapes.com
+          - be.secretescapes.com
+          - nl.sales.secretescapes.com
+      - name: TOUCH_ID
+        synonyms:
+          - session ID
+          - session identifier
+          - session key
+          - touch ID
+          - touch identifier
+          - unique session ID
+        description: |
+          Unique identifier for each individual session on the platform. This is the  primary key for session-level analysis and represents a single continuous  user visit from landing through exit.
+          Each TOUCH_ID corresponds to one distinct session and serves as the grain  for all session-level metrics and analysis. A single user can have multiple  TOUCH_IDs across different visits, and this field enables tracking of individual  session characteristics, behaviors, and outcomes.
+          Use this field to count unique sessions, join session-level data, deduplicate  session records, and perform granular session-by-session analysis. Essential  for calculating session-level metrics like conversion rates, identifying  specific high-value or problematic sessions, and tracking individual user  journeys through the platform.
+        expr: TOUCH_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 4cdd474f15a350f655a66fa904b10b14e71712c6ee03862b2608f0aa82466f8a
+          - e7e3b2f4afa92cb2c761084d52001d26bf7231230e9e4d9f741b89ac6e3abea4
+          - f4e33ff5c3e82b3119b61061a1c7aacbd86eba96aabd313825ff68b716a25577
+      - name: TOUCH_LANDING_PAGE
+        synonyms:
+          - entry page
+          - entry URL
+          - first page
+          - initial page
+          - landing page
+          - landing URL
+          - touch landing page
+        description: |
+          Captures the complete URL of the first page where the user landed to initiate  the session. This field includes the full URL with all query parameters,  providing detailed context about the user's entry point into the platform.
+          Landing page analysis is critical for understanding traffic source effectiveness,  campaign performance, and entry point optimization. It enables identification  of which pages and campaigns drive the most valuable traffic and where users  begin their journey on the platform.
+          Use this field to analyze landing page performance, evaluate campaign-specific  entry points, identify high-converting versus high-bounce landing pages,  optimize paid media landing experiences, and understand how different entry  points influence session outcomes. Essential for marketing attribution, A/B  test analysis, and landing page optimization strategies.
+        expr: TOUCH_LANDING_PAGE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - https://travelist.pl/119068/polska-karkonosze-kazalnica-family-conference/
+          - https://travelist.pl/booking/117902/polska-wybrzeze-kolobrzeg-hotel-arka-medical-spa/
+          - https://de.sales.secretescapes.com/118575/sueden-gran-canaria-hotels-de/?checkin=2025-07-26&checkout=2025-08-09&offerId=118575&urlSlug=sueden-gran-canaria-hotels-de
+      - name: TOUCH_LANDING_PAGE_UTM_CAMPAIGN
+        synonyms:
+          - campaign parameter
+          - campaign tag
+          - landing page campaign
+          - marketing campaign parameter
+          - UTM campaign
+          - UTM campaign name
+        description: |
+          Captures the utm_campaign parameter from the landing page URL, identifying  the specific marketing campaign that drove the session. This field extracts  campaign-level attribution data from URL query strings.
+          UTM campaign tracking is essential for measuring campaign-specific performance,  ROI analysis, and understanding which marketing initiatives drive the most  valuable traffic. It enables granular attribution beyond channel-level analysis.
+          Use this field to analyze individual campaign performance, compare effectiveness  across different marketing initiatives, calculate campaign-specific conversion  rates and ROI, track seasonal or promotional campaign success, and attribute  revenue to specific marketing efforts. Essential for campaign optimization,  budget allocation decisions, and demonstrating marketing effectiveness.
+        expr: PARSE_URL(TOUCH_LANDING_PAGE)['parameters']['utm_campaign']::VARCHAR
+        data_type: VARCHAR(134217728)
+        sample_values:
+          - DE_CPA_Advantage_Plus_ALLNF_0923
+          - DE_Advantage_Plus_CPA_ALLNF_0923
+          - DE_Broad_CAROUSEL_City_1025
+          - prospecting
+          - DECPA+PerformanceM+All-Pages+All-Destinations+Dynamic+Non-Member
+          - 15138366
+          - DECPL+Brand+Pure+All-Destinations+Exact+Non-Member+Combined
+          - prospecting-lead
+          - UK_Advantage_CPA_ALLNF_0923
+          - 15585091
+          - 14618435
+          - brak
+          - 16294228
+          - rtbhouse-retargeting
+          - 15137120
+      - name: TOUCH_LANDING_PAGE_UTM_CONTENT
+        synonyms:
+          - ad content parameter
+          - content parameter
+          - creative identifier
+          - landing page content
+          - UTM content
+          - UTM content tag
+        description: |
+          Captures the utm_content parameter from the landing page URL, identifying  the specific ad creative, content variant, or A/B test version that drove  the session. This field extracts creative-level attribution data from URL  query strings.
+          UTM content tracking enables differentiation between multiple ads or content  variations within the same campaign, supporting A/B testing, creative optimization,  and understanding which specific messages or visuals drive the best performance.
+          Use this field to compare ad creative performance, analyze A/B test results,  identify winning creative variants, optimize messaging and visual elements,  and track link-level performance within email campaigns. Essential for creative  optimization, understanding which content resonates with audiences, and refining  marketing messages based on performance data.
+        expr: PARSE_URL(TOUCH_LANDING_PAGE)['parameters']['utm_content']::VARCHAR
+        data_type: VARCHAR(134217728)
+        sample_values:
+          - DE_Video_Performance_INFLU_Partnership_Duichundiewelt_Xmas
+          - DE_Avdantage_DAT_0923_Single
+          - 120231995284430400
+          - DE_Video_Performance_INFLU_Partership_Lena_Germany
+          - SEGMENT_CORE_DE_ACT_01M_ATHENA_PoC_B
+          - SEGMENT_CORE_DE_ACT_01M_ATHENA_PoC_A
+          - __brand_wyszukiwarka_TRA_PL_GPB_GOO_0000_PRO_0004_SEA_BRA_0_053_0000_000_20200201
+          - UK_Avdantage_DAT_0923
+          - SEGMENT_CORE_DE_ACT_WKLY
+          - DE_Avdantage_DAT_0923_Car
+          - DE_Video_Performance_INFLU_Traveliving_Germany_Spa
+          - AMTE_AbandonBrowseDaily_DE
+          - AMTE_AbandonBrowseWeekly_DE
+          - DE_Video_Performance_INFLU_Partership_Frankfurt
+          - SEGMENT_CORE_UK_ACT_WKLY
+      - name: TOUCH_LANDING_PAGE_UTM_SOURCE
+        synonyms:
+          - landing page source
+          - referral source
+          - source parameter
+          - traffic source parameter
+          - UTM source
+          - UTM source tag
+        description: |
+          Captures the utm_source parameter from the landing page URL, identifying  the specific traffic source or referrer that drove the session (e.g., google,  facebook, newsletter, partner_site). This field extracts source-level attribution  data from URL query strings.
+          UTM source tracking is fundamental for understanding which external platforms,  partners, or referrers drive traffic to the platform. It provides the highest-level  attribution dimension for marketing analysis and enables source-specific  performance evaluation.
+          Use this field to analyze traffic source performance, compare effectiveness  across different referring platforms, calculate source-specific conversion  rates and ROI, understand partner or affiliate contributions, and track which  external platforms drive the most valuable traffic. Essential for attribution  modeling, channel strategy, and understanding the complete customer acquisition  ecosystem.
+        expr: PARSE_URL(TOUCH_LANDING_PAGE)['parameters']['utm_source']::VARCHAR
+        data_type: VARCHAR(134217728)
+        sample_values:
+          - facebook
+          - newsletter
+          - google
+          - ame
+          - criteo
+          - email
+          - dbm-open-marketplace
+          - native
+          - afjfyfggfe
+          - facebook_facebook
+          - bing
+          - impactuk
+          - impactde
+          - facebook_instagram
+          - travelscoopuk
+      - name: TOUCH_LANDING_PAGEPATH
+        synonyms:
+          - entry page path
+          - entry path
+          - initial page path
+          - landing page path
+          - landing path
+          - touch landing page path
+        description: |
+          Captures the URL path (excluding domain and query parameters) of the first  page where the user landed to initiate the session. This field provides a  cleaner view of landing pages by removing query strings and focusing on the  core page structure.
+          Landing page path analysis enables simplified landing page performance tracking  without the noise of campaign parameters or dynamic query strings. It groups  traffic by core page types and site sections, making it easier to identify  structural navigation patterns and content performance.
+          Use this field to analyze landing page performance by site section, identify  high-traffic entry points, compare conversion rates across different page  types, understand site structure effectiveness, and optimize key landing pages  without campaign-level granularity. Essential for content strategy, site  architecture analysis, and identifying which core pages serve as effective  entry points versus those that cause immediate bounce.
+        expr: TOUCH_LANDING_PAGEPATH
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - /majestic-harrogate-hilton-hotel-stay-with-a-delicious-chateaubriand-refundable-hotel-doubletree-by-hilton-harrogate-majestic-hotel-and-spa-north-yorkshire/sale-hotel
+          - /luxurioser-inselzauber-auf-bali-the-royal-purnama-art-suites-and-villas-sukawati-bali-indonesien/sale-hotel
+          - /122462/uk-3pp-core-zd-cruise-flash-msc-virtuosa-caribbean/ - /search/search
+          - /current-sales
+          - /elegantes-ambiente-an-der-mosel-victors-residenz-hotel-schloss-berg-perl-nennig-saarland-deutschland/sale-hotel
+          - /city-hotels/filter
+          - /erholen-im-ehemaligen-kloster-kostenfrei-stornierbar-das-marienhoh-langweiler-rheinland-pfalz-deutschland/sale-hotel
+          - /hotele
+          - /spa/filter
+          - /
+          - /117902/polska-wybrzeze-kolobrzeg-hotel-arka-medical-spa/
+          - /aktuelle-angebote
+          - /121951/tromso-northern-lights-bonanza-de/
+          - /odkryj/ZloteDni
+          - /entspannung-pur-im-4-star-hotel-nahe-frankfurt-hotel-zeller-kahl-am-main-unterfranken-bayern-deutschland/sale-hotel
+          - /instant-access/goo-cpl-brand-de
+          - /119020/tenuta-la-bandita-toskana-de/
+      - name: TOUCH_LANDING_SCREEN_VIEW_NAME
+        synonyms:
+          - app_landing_screen
+          - entry_point_screen
+          - entry_screen_name
+          - first_app_view
+          - first_screen_view
+          - initial_app_screen
+          - initial_screen_view
+          - landing_screen_name
+          - landing_view_name
+          - session_entry_screen
+        description: The name of the landing screen view for application sessions.
+        expr: TOUCH_LANDING_SCREEN_VIEW_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - other
+          - instant access
+          - home page
+          - sale page
+          - search page
+          - search location selection
+      - name: TOUCH_LOGGED_IN
+        synonyms:
+          - authenticated session
+          - authentication status
+          - logged in status
+          - login status
+          - member session flag
+          - touch logged in
+          - user logged in
+        description: |
+          Boolean flag indicating whether the user was logged into their account during  the session. This field distinguishes between authenticated member sessions  and guest/logged-out browsing experiences.
+          TRUE indicates the user was authenticated and logged into their account throughout  (or for a portion of) the session. FALSE indicates the session was conducted  as a guest without authentication.
+          Use this field to segment traffic by authentication status, compare member  versus guest behavior and conversion rates, measure login wall effectiveness,  evaluate personalization impact, and understand how authentication affects  user engagement and purchasing behavior. Essential for analyzing member value,  optimizing login strategies, and measuring the effectiveness of personalized  experiences for authenticated users.
+        expr: TOUCH_LOGGED_IN
+        data_type: BOOLEAN
+        sample_values:
+          - 'TRUE'
+          - 'FALSE'
+      - name: TOUCH_MKT_CHANNEL
+        synonyms:
+          - acquisition channel
+          - attribution channel
+          - last click channel
+          - last touch channel
+          - marketing channel
+          - touch marketing channel
+        description: |
+          Identifies the marketing channel attributed to the session based on last-click  attribution. This field captures the final touchpoint that drove the user to  the platform, representing the last interaction before the session began.
+          Last-click channel attribution provides a straightforward view of which marketing  channels directly precede conversions and sessions. It enables performance  analysis of different acquisition channels and supports marketing investment  decisions based on final-touch attribution.
+          Use this field to analyze last-click channel performance, calculate channel-specific  conversion rates and ROI, compare effectiveness across different marketing  channels, understand which channels drive direct conversions versus assist  earlier in the journey, and support budget allocation based on last-touch  attribution. Essential for channel performance reporting, marketing mix optimization,  and understanding direct channel impact on session initiation.
+        expr: TOUCH_MKT_CHANNEL
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Email - Newsletter
+          - Direct
+          - PPC - Non Brand CPA
+          - Email - Triggers
+          - PPC - Brand
+          - App Push
+          - Paid Social CPA
+          - Organic Search Non-Brand
+          - Display CPA
+          - Newsletter
+          - Display CPL
+          - Other
+          - PPC - Non Brand CPL
+          - Organic Search Brand
+          - Google Ads Inne
+          - Google Ads Brand
+          - Source SEO
+          - Organic Social
+          - Affiliate Program
+          - Display
+          - Paid Social
+          - PPC - Undefined
+          - Remarketing
+          - Paid Social CPL
+          - Media
+          - Partner
+          - Afiliacja
+          - Mailing
+          - Blog
+          - Partner White Label
+          - Referral
+          - Google Ads Generic
+          - Push
+          - Email - Other
+          - YouTube
+          - Video
+          - Test
+          - SMS
+          - Magazyn
+      - name: TOUCH_REFERRER_HOSTNAME
+        synonyms:
+          - referrer domain
+          - referrer hostname
+          - referring domain
+          - referring site
+          - source hostname
+          - touch referrer hostname
+        description: |
+          Captures the hostname/domain of the external website that referred the user  to the platform. This field identifies which external domains are sending  traffic, providing visibility into referral sources beyond UTM-tagged campaigns.
+          Referrer hostname enables identification of organic referral traffic, partner  sites, aggregators, review sites, and other external sources that link to  the platform. It complements UTM tracking by capturing referral data even  when campaign parameters are not present.
+          Use this field to identify top referring domains, discover unexpected traffic  sources, evaluate partner and affiliate performance, track earned media and  PR impact, identify link-building opportunities, and understand the broader  referral ecosystem beyond paid campaigns. Essential for understanding organic  referral patterns, evaluating partnership value, and discovering new traffic  acquisition opportunities.
+        expr: PARSE_URL(TOUCH_REFERRER_URL,1)['host']::VARCHAR
+        data_type: VARCHAR(134217728)
+        sample_values:
+          - www.secretescapes.de
+          - www.google.com
+          - www.facebook.com
+          - www.secretescapes.de
+          - com.google.android.googlequicksearchbox
+          - travelist.pl
+          - com.google.android.gm
+          - www.secretescapes.com
+          - instagram.com
+          - ams.creativecdn.com
+          - de.sales.secretescapes.com
+          - paid.outbrain.com
+          - trc.taboola.com
+          - www.bing.com
+          - co.uk.sales.secretescapes.com
+          - www.tiktok.com
+      - name: TOUCH_REFERRER_URL
+        synonyms:
+          - referrer link
+          - referrer URL
+          - referring page URL
+          - referring URL
+          - source URL
+          - touch referrer URL
+        description: |
+          Captures the complete URL of the external page that referred the user to the  platform, including the full path and query parameters. This field provides  detailed context about the specific page or content that linked to the platform.
+          Referrer URL enables granular analysis of which specific pages, articles, or  content pieces on external sites drive traffic. It provides deeper insight  than TOUCH_REFERRER_HOSTNAME by showing the exact referring page, supporting  detailed partnership analysis and content performance tracking.
+          Use this field to identify specific referring pages, analyze which content  types drive referrals, evaluate partner placement effectiveness, track specific  social media posts or articles, understand PR and earned media impact at the  page level, and optimize partnership strategies based on referring content  performance. Essential for detailed referral analysis, partnership optimization,  and understanding which specific external content drives valuable traffic.
+        expr: TOUCH_REFERRER_URL
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - https://www.secretescapes.de/current-sales?saff=mobile_maldives2&affiliate=taboola-de&utm_medium=display&utm_source=native&utm_campaign=taboola-de-mobile&tblci=GiAw9542RblQfRdoDo1XBo4pFa2TjoakLjwCDaDqoqEu8yC--z4oyoPCypSa8_Mw&affiliateUrlString=taboola-de
+          - https://travelist.pl/search/channel:/dates:/price:0,1000/sortType:/tags:/rooms:[2,[]]/page:1?utm_campaign=prospecting&utm_source=google&utm_medium=sem-brand&utm_term=prospecting_pure_travelist__sem-brand&utm_content=__brand_wyszukiwarka_TRA_PL_GPB_GOO_0000_PRO_0004_SEA_BRA_0_053_0000_000_20200201&MWID=TRA_PL_GPB_GOO_0000_PRO_0004_SEA_BRA_0_053_0000_000_20200201&gclid=EAIaIQobChMIyIi4nqejgAMVmdwYCh0n_A4iEAAYASAAEgJwt_D_BwE&gclsrc=aw.ds
+      - name: TOUCH_SE_BRAND
+        synonyms:
+          - brand
+          - brand identifier
+          - platform brand
+          - SE brand
+          - Secret Escapes brand
+          - touch SE brand
+        description: |
+          Identifies which Secret Escapes Group brand the session belongs to. This field  distinguishes between different brand entities within the Secret Escapes portfolio,  primarily 'SE Brand' (Secret Escapes) and 'TVL Brand' (Travelist).
+          Brand segmentation is essential for multi-brand organizations to analyze  performance separately across different brand properties, understand brand-specific  user behaviors, and report on individual brand contribution to overall business  metrics.
+          Use this field to segment all analysis by brand, compare performance across  different Secret Escapes Group brands, calculate brand-specific KPIs, understand  brand positioning and audience differences, and support brand-level strategic  decisions. Essential for portfolio management, brand performance tracking,  and ensuring accurate reporting in multi-brand contexts.
+        expr: TOUCH_SE_BRAND
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - SE Brand
+          - Travelist
+      - name: USERAGENT
+        synonyms:
+          - browser user agent
+          - client user agent
+          - device user agent
+          - UA string
+          - user agent
+          - user agent string
+        description: |
+          Captures the complete user agent string provided by the user's browser or  application. This field contains detailed technical information about the  browser version, operating system, device type, and rendering engine used  during the session.
+          User agent strings provide comprehensive technical context for session analysis,  enabling detailed device fingerprinting, browser version tracking, bot detection,  and technical compatibility analysis. The string contains encoded information  about the client environment that can be parsed for various technical attributes.
+          Use this field for advanced technical diagnostics, bot and crawler identification,  detailed browser/OS version analysis, device capability assessment, and  troubleshooting version-specific issues. Essential for security analysis,  fraud detection, identifying automated traffic, and performing deep technical  investigations when BR_NAME, BR_FAMILY, and OS_NAME fields don't provide  sufficient detail.
+        expr: USERAGENT
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Mozilla/5.0 (iPad; CPU OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1 musical_ly_34.5.1 JsSdk/2.0 NetType/WIFI Channel/App Store ByteLocale/en Region/GB isDarkMode/0 WKWebView/1 RevealType/Dialog
+          - Mozilla/5.0 (Linux; Android 11; M2007J20CG Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/142.0.7444.94 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/538.0.0.53.70;IABMV/1;]
+          - Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1
     time_dimensions:
       - name: TOUCH_END_TSTAMP
-        description: The timestamp when the session ended.
+        synonyms:
+          - end timestamp
+          - exit timestamp
+          - session close time
+          - session end time
+          - session end timestamp
+          - touch end timestamp
+        description: |
+          Captures the exact timestamp when the session ended. This field records the  precise date and time of the user's last activity or session termination,  marking the conclusion of the user's visit.
+          Session end timestamps enable calculation of session duration, time-of-day  analysis for session completion patterns, and identification of session boundaries.  When combined with TOUCH_START_TSTAMP, it provides the complete temporal  window of user engagement.
+          Use this field to calculate session duration (TOUCH_END_TSTAMP - TOUCH_START_TSTAMP),  analyze time-of-day patterns for session endings, identify sessions that ended  at specific times, understand peak activity completion times, and support  time-based segmentation of user behavior. Essential for engagement analysis,  understanding user activity patterns throughout the day, and calculating accurate  session length metrics.
         expr: TOUCH_END_TSTAMP
         data_type: TIMESTAMP_NTZ(9)
         sample_values:
@@ -701,16 +1542,30 @@ tables:
       - name: TOUCH_START_DATE
         synonyms:
           - session date
+          - session day
+          - session start date
           - start date
-        description: The date when the session started
+          - touch date
+          - touch start date
+        description: |
+          Captures the calendar date when the session began, extracted from the session  start timestamp. This field provides date-level granularity for time-series  analysis and daily performance tracking without time-of-day details.
+          Session start date is the primary temporal dimension for most reporting and  analysis, enabling daily trend tracking, period-over-period comparisons, and  date-based filtering. It represents the business day on which the session  occurred.
+          Use this field to aggregate sessions by day, analyze daily performance trends,  calculate day-over-day or week-over-week changes, filter sessions by date  ranges, track seasonal patterns, and create time-series visualizations. Essential  for all temporal analysis, trending reports, and understanding performance  over time. This is the standard date dimension for session analysis.
+          Always exclude current date by default using WHERE touch_start_date < CURRENT_DATE
         expr: TOUCH_START_TSTAMP::DATE
         data_type: DATE
       - name: TOUCH_START_TSTAMP
         synonyms:
-          - session begin
-          - session date
-          - session start
-        description: The timestamp when the session was first interacted with.
+          - session begin time
+          - session start time
+          - session start timestamp
+          - start timestamp
+          - touch start timestamp
+          - touch timestamp
+        description: |
+          Captures the exact timestamp when the session began, including both date and  time components. This field records the precise moment the user initiated  their visit to the platform, marking the start of their session.
+          Session start timestamps enable precise temporal analysis including time-of-day  patterns, intraday performance tracking, and exact session timing. When combined  with TOUCH_END_TSTAMP, it supports accurate session duration calculations.
+          Use this field to analyze hour-of-day and minute-level patterns, identify  peak traffic times, calculate exact session durations, perform intraday trend  analysis, filter sessions by specific time windows, and understand user activity  patterns throughout the day. Essential for detailed temporal analysis, understanding  traffic patterns by hour, optimizing site performance during peak times, and  calculating precise engagement metrics like TOUCH_DURATION_SECONDS.
         expr: TOUCH_START_TSTAMP
         data_type: TIMESTAMP_NTZ(9)
         sample_values:
@@ -718,24 +1573,421 @@ tables:
           - 2023-06-27T18:48:16.753+0000
           - 2023-03-26T14:27:20.261+0000
     facts:
-      - name: GEO_LATITUDE
-        description: The latitude location where the session took place.
-        expr: GEO_LATITUDE
-        data_type: FLOAT
+      - name: BOOKING_FORM_VIEWS
+        synonyms:
+          - BFV count
+          - booking form view count
+          - booking form views
+          - number of BFVs
+          - total BFVs
+        description: |
+          Count of total Booking Form Views (BFVs) within the session, representing  the number of times the user viewed checkout pages during their visit. This  metric captures repeated checkout page views, indicating browsing intensity  at the consideration stage.
+          Multiple BFVs within a single session may indicate comparison shopping behavior,  hesitation, form complexity issues, or users reviewing multiple products before  deciding. A count greater than 1 suggests the user viewed checkout pages for  multiple products or returned to the booking form multiple times.
+          Use this field to analyze checkout engagement intensity, identify sessions  with multiple checkout attempts, understand comparison shopping behavior at  the booking stage, calculate average BFVs per session, and detect potential  friction or confusion in the checkout process. Higher BFV counts may indicate  either strong engagement (comparing options) or friction (repeated attempts  due to issues).
+        expr: BOOKING_FORM_VIEWS
+        data_type: NUMBER(38,0)
         access_modifier: public_access
         sample_values:
-          - "51.4535"
-          - "51.1068"
-          - "52.0618"
-      - name: GEO_LONGITUDE
-        description: The latitude location where the session took place.
-        expr: GEO_LONGITUDE
-        data_type: FLOAT
+          - '3'
+          - '1'
+          - '0'
+      - name: BOOKING_FORM_VIEWS_CATALOGUE
+        synonyms:
+          - booking form views catalogue
+          - catalogue BFV count
+          - catalogue booking form view count
+          - catalogue checkout views
+          - number of catalogue BFVs
+          - total catalogue BFVs
+        description: |
+          Count of total Booking Form Views (BFVs) specifically for catalogue products  within the session. This metric captures the number of times the user viewed  catalogue checkout pages, indicating browsing intensity and consideration  depth for this product type.
+          Multiple catalogue BFVs within a single session may indicate comparison shopping  behavior across catalogue offerings, hesitation, or users reviewing multiple  catalogue products before deciding. A count greater than 1 suggests the user  viewed checkout pages for multiple catalogue items or returned to catalogue  booking forms multiple times.
+          Use this field to analyze catalogue-specific checkout engagement intensity,  identify sessions with multiple catalogue checkout attempts, understand comparison  shopping behavior for catalogue products, calculate average catalogue BFVs  per session, and detect potential friction in the catalogue checkout process.  Essential for product-specific funnel analysis and understanding catalogue  browsing patterns at the consideration stage.
+        expr: BOOKING_FORM_VIEWS_CATALOGUE
+        data_type: NUMBER(38,0)
         access_modifier: public_access
         sample_values:
-          - "16.5759"
-          - "8.0771"
-          - "8.4001"
+          - '1'
+          - '3'
+          - '0'
+      - name: BOOKING_FORM_VIEWS_HOTEL
+        synonyms:
+          - booking form views hotel
+          - hotel BFV count
+          - hotel booking form view count
+          - hotel checkout views
+          - number of hotel BFVs
+          - total hotel BFVs
+        description: |
+          Count of total Booking Form Views (BFVs) specifically for hotel products  within the session. This metric captures the number of times the user viewed  hotel checkout pages, indicating browsing intensity and consideration depth  for this core product type.
+          Multiple hotel BFVs within a single session may indicate comparison shopping  behavior across hotel offerings, hesitation, or users reviewing multiple hotel  products before deciding. A count greater than 1 suggests the user viewed  checkout pages for multiple hotels or returned to hotel booking forms multiple  times.
+          Use this field to analyze hotel-specific checkout engagement intensity, identify  sessions with multiple hotel checkout attempts, understand comparison shopping  behavior for hotel products, calculate average hotel BFVs per session, and  detect potential friction in the hotel checkout process. Essential for  product-specific funnel analysis and understanding hotel browsing patterns  at the consideration stage.
+        expr: BOOKING_FORM_VIEWS_HOTEL
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '3'
+          - '0'
+          - '1'
+      - name: BOOKING_FORM_VIEWS_HOTEL_PLUS
+        synonyms:
+          - booking form views hotel plus
+          - hotel plus BFV count
+          - hotel plus booking form view count
+          - hotel plus checkout views
+          - number of hotel plus BFVs
+          - total hotel plus BFVs
+        description: |
+          Count of total Booking Form Views (BFVs) specifically for hotel plus products  within the session. This metric captures the number of times the user viewed  hotel plus checkout pages, indicating browsing intensity and consideration  depth for this enhanced product type.
+          Multiple hotel plus BFVs within a single session may indicate comparison shopping  behavior across hotel plus offerings, hesitation, or users reviewing multiple  premium hotel products before deciding. A count greater than 1 suggests the  user viewed checkout pages for multiple hotel plus items or returned to hotel  plus booking forms multiple times.
+          Use this field to analyze hotel plus-specific checkout engagement intensity,  identify sessions with multiple hotel plus checkout attempts, understand  comparison shopping behavior for premium hotel products, calculate average  hotel plus BFVs per session, and detect potential friction in the hotel plus  checkout process. Essential for premium product-specific funnel analysis and  understanding hotel plus browsing patterns at the consideration stage.
+        expr: BOOKING_FORM_VIEWS_HOTEL_PLUS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '1'
+          - '3'
+          - '0'
+      - name: BOOKING_FORM_VIEWS_PACKAGE
+        synonyms:
+          - booking form views package
+          - number of package BFVs
+          - package BFV count
+          - package booking form view count
+          - package checkout views
+          - total package BFVs
+        description: |
+          Count of total Booking Form Views (BFVs) specifically for package products  within the session. This metric captures the number of times the user viewed  package checkout pages, indicating browsing intensity and consideration depth  for bundled travel offerings.
+          Multiple package BFVs within a single session may indicate comparison shopping  behavior across package offerings, hesitation, or users reviewing multiple  package deals before deciding. A count greater than 1 suggests the user viewed  checkout pages for multiple packages or returned to package booking forms  multiple times.
+          Use this field to analyze package-specific checkout engagement intensity,  identify sessions with multiple package checkout attempts, understand comparison  shopping behavior for bundled products, calculate average package BFVs per  session, and detect potential friction in the package checkout process. Essential  for product-specific funnel analysis and understanding package browsing patterns  at the consideration stage.
+          Package include Catalogue + IHP
+        expr: BOOKING_FORM_VIEWS_PACKAGE
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '0'
+          - '1'
+      - name: BOOKINGS
+        synonyms:
+          - booking count
+          - bookings
+          - completed bookings
+          - number of bookings
+          - total bookings
+          - transactions
+        description: |
+          Count of total completed bookings within the session, representing the number  of successful transactions the user completed during their visit. This metric  captures the session's conversion volume, with values typically being 0 (no  conversion) or 1+ (converted with one or more bookings).
+          Multiple bookings within a single session indicate high-value users who completed  multiple purchases during one visit. A count greater than 1 is relatively  rare but represents exceptionally valuable conversion behavior.
+          Use this field to calculate total booking volume, identify multi-booking sessions  (high-value users), analyze booking intensity patterns, calculate average  bookings per converted session, and measure overall transaction volume. Essential  for revenue analysis, understanding booking behavior patterns, and identifying  exceptionally valuable sessions. Most sessions have 0 bookings (non-converted)  or 1 booking (single conversion). Note that they may have since cancelled.
+        expr: BOOKINGS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '1'
+          - '0'
+      - name: BOOKINGS_CATALOGUE
+        synonyms:
+          - bookings catalogue
+          - catalogue booking count
+          - catalogue transactions
+          - completed catalogue bookings
+          - number of catalogue bookings
+          - total catalogue bookings
+        description: |
+          Count of total completed catalogue bookings within the session, representing  the number of successful catalogue transactions the user completed during  their visit. This metric captures catalogue-specific conversion volume for  the session.
+          Multiple catalogue bookings within a single session indicate users who purchased  multiple catalogue products during one visit. A count greater than 1 represents  valuable multi-purchase behavior specific to catalogue offerings.
+          Use this field to calculate total catalogue booking volume, identify multi-catalogue-booking  sessions, analyze catalogue purchase intensity patterns, calculate average  catalogue bookings per converted session, and measure catalogue-specific  transaction volume. Essential for product-specific revenue analysis, understanding  catalogue booking behavior, and comparing booking patterns across different  product types.
+        expr: BOOKINGS_CATALOGUE
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '1'
+          - '0'
+      - name: BOOKINGS_HOTEL
+        synonyms:
+          - bookings hotel
+          - completed hotel bookings
+          - hotel booking count
+          - hotel transactions
+          - number of hotel bookings
+          - total hotel bookings
+        description: |
+          Count of total completed hotel bookings within the session, representing  the number of successful hotel transactions the user completed during their  visit. This metric captures hotel-specific conversion volume for the session.
+          Multiple hotel bookings within a single session indicate users who purchased  multiple hotel products during one visit. A count greater than 1 represents  valuable multi-purchase behavior specific to hotel offerings, which is the  core product type on the platform.
+          Use this field to calculate total hotel booking volume, identify multi-hotel-booking  sessions, analyze hotel purchase intensity patterns, calculate average hotel  bookings per converted session, and measure hotel-specific transaction volume.  Essential for product-specific revenue analysis, understanding hotel booking  behavior, and comparing booking patterns across different product types.
+        expr: BOOKINGS_HOTEL
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '0'
+          - '1'
+          - '2'
+      - name: BOOKINGS_HOTEL_PLUS
+        synonyms:
+          - bookings hotel plus
+          - completed hotel plus bookings
+          - hotel plus booking count
+          - hotel plus transactions
+          - number of hotel plus bookings
+          - total hotel plus bookings
+        description: |
+          Count of total completed hotel plus bookings within the session, representing  the number of successful hotel plus transactions the user completed during  their visit. This metric captures hotel plus-specific conversion volume for  the session.
+          Multiple hotel plus bookings within a single session indicate users who purchased  multiple premium hotel products during one visit. A count greater than 1 represents  valuable multi-purchase behavior specific to enhanced hotel offerings.
+          Use this field to calculate total hotel plus booking volume, identify multi-hotel-plus-booking  sessions, analyze premium hotel purchase intensity patterns, calculate average  hotel plus bookings per converted session, and measure hotel plus-specific  transaction volume. Essential for premium product-specific revenue analysis,  understanding hotel plus booking behavior, and comparing booking patterns  across different product types.
+        expr: BOOKINGS_HOTEL_PLUS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '1'
+          - '0'
+          - '2'
+      - name: BOOKINGS_PACKAGE
+        synonyms:
+          - bookings package
+          - completed package bookings
+          - number of package bookings
+          - package booking count
+          - package transactions
+          - total package bookings
+        description: |
+          Count of total completed package bookings within the session, representing  the number of successful package transactions the user completed during their  visit. This metric captures package-specific conversion volume for bundled  travel offerings.
+          Multiple package bookings within a single session indicate users who purchased  multiple package deals during one visit. A count greater than 1 represents  valuable multi-purchase behavior specific to package offerings.
+          Use this field to calculate total package booking volume, identify multi-package-booking  sessions, analyze package purchase intensity patterns, calculate average package  bookings per converted session, and measure package-specific transaction volume.  Essential for product-specific revenue analysis, understanding package booking  behavior, and comparing booking patterns across different product types.
+          Package include Catalogue + IHP
+        expr: BOOKINGS_PACKAGE
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '0'
+          - '1'
+          - '2'
+      - name: LOGIN_TYPES_COUNT
+        description: The count of different login types.
+        expr: LOGIN_TYPES_COUNT
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '1'
+          - '0'
+      - name: MARGIN_GBP
+        description: Margin made on bookings within this session in British Pounds.
+        expr: MARGIN_GBP
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '0'
+          - '153'
+          - '36'
+      - name: MAX_PRICE_FILTER_SEARCHES
+        description: The maximum price filter applied to searches.
+        expr: MAX_PRICE_FILTER_SEARCHES
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '1'
+          - '0'
+          - '5'
+      - name: MIN_PRICE_FILTER_SEARCHES
+        description: The minimum price filter applied to searches.
+        expr: MIN_PRICE_FILTER_SEARCHES
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '0'
+          - '6'
+          - '5'
+      - name: PAGE_LOAD_SEARCHES
+        description: The number of searches performed using predetermined search query functionality eg collection pages.
+        expr: PAGE_LOAD_SEARCHES
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '1'
+          - '0'
+      - name: PAY_BUTTON_CLICKS
+        description: The number of times the pay button was clicked.
+        expr: PAY_BUTTON_CLICKS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '1'
+          - '0'
+      - name: PAY_BUTTON_CLICKS_NON_VOUCHER
+        synonyms:
+          - non_voucher_pay_clicks
+          - non_voucher_payment_clicks
+          - pay_btn_clicks_non_voucher
+          - pay_button_non_voucher_count
+          - payment_button_clicks_non_voucher
+          - payment_button_non_voucher_total
+          - payment_clicks_excluding_voucher
+          - regular_pay_button_clicks
+          - standard_payment_button_clicks
+        description: The number of times the pay button was clicked for non-voucher payments.
+        expr: PAY_BUTTON_CLICKS_NON_VOUCHER
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        default_aggregation: 1
+        sample_values:
+          - '4'
+          - '0'
+          - '1'
+      - name: PAY_BUTTON_CLICKS_VOUCHER
+        synonyms:
+          - coupon_checkout_interactions
+          - coupon_pay_clicks
+          - coupon_payment_interactions
+          - discount_code_pay_clicks
+          - discount_payment_button_clicks
+          - promo_pay_button_clicks
+          - promotional_payment_clicks
+          - voucher_checkout_clicks
+          - voucher_payment_clicks
+          - voucher_transaction_clicks
+        description: The number of times the pay button was clicked for voucher payments.
+        expr: PAY_BUTTON_CLICKS_VOUCHER
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        default_aggregation: 1
+        sample_values:
+          - '2'
+          - '1'
+          - '0'
+      - name: SEARCHES
+        description: The number of searches that occurred in the session. This will include searches like pageLoad, user and Kronos.
+        expr: SEARCHES
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '12'
+          - '5'
+          - '1'
+      - name: SPVS
+        synonyms:
+          - product_page_views
+          - product_view_count
+          - sale_page_view_count
+          - sale_page_views
+          - sales page views
+          - spv_count
+        description: The number of sale page views (SPVs) that occurred in the session.
+        expr: SPVS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+      - name: SPVS_CATALOGUE
+        description: The number of sale page views (SPVs) to a catalogue product.
+        expr: SPVS_CATALOGUE
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '7'
+          - '2'
+          - '0'
+      - name: SPVS_HOTEL
+        description: The number of sale page views (SPVs) to a hotel product.
+        expr: SPVS_HOTEL
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '8'
+          - '10'
+      - name: SPVS_HOTEL_PLUS
+        description: The number of sale page views (SPV) to a hotel plus product.
+        expr: SPVS_HOTEL_PLUS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '1'
+          - '16'
+          - '0'
+      - name: SPVS_PACKAGE
+        description: The number of sale page views (SPVs) to a package product. Package include Catalogue + IHP
+        expr: SPVS_PACKAGE
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '0'
+          - '1'
+          - '2'
+      - name: TOUCH_DURATION_SECONDS
+        description: The duration of time a user spent interacting with the system in seconds.
+        expr: TOUCH_DURATION_SECONDS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '127'
+          - '3'
+          - '57'
+      - name: TOUCH_EVENT_COUNT
+        description: The count of events sessionised.
+        expr: TOUCH_EVENT_COUNT
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '5'
+          - '6'
+          - '33'
+      - name: UNIQUE_SPVS
+        description: Unique count of sale page views (SPVs) by se_sale_id.
+        expr: UNIQUE_SPVS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '3'
+          - '16'
+          - '0'
+      - name: UNIQUE_SPVS_CATALOGUE
+        description: Unique count of catalogue sale page views (SPVs) by se_sale_id.
+        expr: UNIQUE_SPVS_CATALOGUE
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '3'
+          - '16'
+          - '0'
+      - name: UNIQUE_SPVS_HOTEL
+        description: Unique count of hotel sale page views (SPVs) by se_sale_id.
+        expr: UNIQUE_SPVS_HOTEL
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '1'
+          - '5'
+      - name: UNIQUE_SPVS_HOTEL_PLUS
+        description: Unique count of hotel plus sale page views (SPVs) by se_sale_id.
+        expr: UNIQUE_SPVS_HOTEL_PLUS
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '5'
+          - '3'
+          - '2'
+      - name: UNIQUE_SPVS_PACKAGE
+        description: Unique count of package sale page views (SPVs) by se_sale_id. Package include Catalogue + IHP
+        expr: UNIQUE_SPVS_PACKAGE
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '2'
+          - '0'
+          - '1'
+      - name: USER_SEARCHES
+        description: The number of searches performed using the search bar functionality.
+        expr: USER_SEARCHES
+        data_type: NUMBER(38,0)
+        access_modifier: public_access
+        sample_values:
+          - '0'
+          - '3'
+          - '2'
     filters:
       - name: MEMBER_SESSION
         synonyms:
@@ -743,6 +1995,13 @@ tables:
           - member traffic
         description: Sessions that can be associated to a member
         expr: stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+      - name: SE_BRAND_SESSIONS
+        synonyms:
+          - main brand sessions
+          - se brand only
+          - secret escapes brand
+        description: Apply to sessions to include only Secret Escapes brand traffic, excluding other brands like Travelist
+        expr: touch_se_brand = 'SE Brand'
       - name: VALID_SESSION
         synonyms:
           - valid session
@@ -761,13 +2020,50 @@ tables:
           - session_abandonment_percentage
           - session_dropout_rate
           - session_falloff_rate
-        description: The rate of sessions that have an abandoned cart
+        description: |-
+          Pre-calculated rate measuring the percentage of sessions that viewed the Booking Form View (BFV) but did not complete a booking. This is the inverse of SESSION_BFV_TO_BOOKING_CVR and represents lost conversion opportunities at the final funnel stage.
+
+          Calculated as: (Sessions with BFV but no Booking / Sessions with BFV) × 100
+
+          This metric quantifies checkout abandonment and represents high-intent users who initiated the booking process but did not complete it. These are the most valuable recovery opportunities as users demonstrated clear purchase intent.
+
+          A high ABANDONED_CART_SESSION_RATE indicates friction in the checkout process, which may stem from unexpected costs (fees, taxes), payment issues, form complexity, technical errors, lack of trust signals, limited payment options, or competitive price checking behaviour.
+
+          Use this metric to prioritise cart abandonment reduction initiatives, evaluate checkout optimisation experiments, and identify high-value remarketing audiences for recovery campaigns.
         expr: COUNT_IF(HAS_BOOKING_FORM_VIEW = TRUE AND HAS_BOOKING = FALSE) / COUNT(*)
+        access_modifier: public_access
+      - name: CONVERTED_USERS
+        synonyms:
+          - booking_users
+          - purchasing_users
+        description: Counts unique users who completed at least one booking in their sessions. Apply when measuring conversion success and tracking actual revenue-generating users, essential for understanding user conversion performance and calculating user-level conversion rates across different segments and time periods.
+        expr: COUNT(DISTINCT CASE WHEN session_funnel_engagement = 'Converted' THEN session_metrics.attributed_user_id END)
+        access_modifier: public_access
+      - name: HIGH_ENGAGEMENT_USERS
+        synonyms:
+          - bfv_users
+          - checkout_intent_users
+        description: Counts unique users who reached high engagement level (booking form views) in their sessions. Apply when analyzing user intent and measuring how many users progress to the checkout stage, helping identify conversion potential and optimize the booking funnel for users showing strong purchase intent.
+        expr: COUNT(DISTINCT CASE WHEN session_funnel_engagement = 'High Engagement' THEN session_metrics.attributed_user_id END)
+        access_modifier: public_access
+      - name: MONTHLY_ACTIVE_USERS
+        synonyms:
+          - active_users
+          - maus
+        description: Counts the number of unique users who had at least one session during a given time period. Apply when measuring user engagement, tracking platform growth, and analyzing user retention patterns. Essential for understanding active user base size and monthly user activity trends across different segments and channels.
+        expr: COUNT(DISTINCT session_metrics.attributed_user_id)
         access_modifier: public_access
       - name: SESSION_BFV_TO_BOOKING_CVR
         synonyms:
           - bfv to booking conversion
-        description: The conversion rate of sessions that have a bfv and booking from sessions that have a bfv
+        description: |-
+          Pre-calculated conversion rate measuring the percentage of sessions that viewed the Booking Form View (BFV) and successfully completed a booking. This represents the final and most critical step in the conversion funnel, measuring checkout effectiveness.
+
+          Calculated as: (Sessions with both BFV and Booking / Sessions with BFV) × 100
+
+          This metric indicates how effectively the checkout process converts intent into completed transactions. A low SESSION_BFV_TO_BOOKING_CVR suggests issues with payment friction, form complexity, unexpected costs, technical errors, trust signals, or payment method availability. A high rate indicates a smooth, trustworthy checkout experience.
+
+          Use this metric to evaluate checkout optimization, payment gateway performance, form usability, and cart abandonment reduction strategies.
         expr: SUM(IFF(has_booking AND has_booking_form_view, 1, 0)) / SUM(IFF(has_booking_form_view, 1, 0))
         access_modifier: public_access
       - name: SESSION_CVR
@@ -777,8 +2073,43 @@ tables:
           - cvr
           - session conversion
           - session_conversion
-        description: The conversion rate of sessions
+        description: |-
+          Pre-calculated overall conversion rate measuring the percentage of sessions that resulted in a completed booking. This is the primary conversion metric representing end-to-end funnel performance from initial session to completed transaction.
+
+          Calculated as: (Sessions with Booking / Total Sessions) × 100
+
+          This metric provides the complete picture of session effectiveness and is the most important KPI for overall platform performance. It combines all funnel stages (session → SPV → BFV → booking) into a single outcome measure. 
+
+          A low SESSION_CVR may indicate issues at any funnel stage: poor traffic quality, weak product discovery, insufficient product appeal, or checkout friction. Use in conjunction with stage-specific conversion rates (SESSION_TO_SPV_CVR, SESSION_SPV_TO_BFV_CVR,  SESSION_BFV_TO_BOOKING_CVR) to diagnose where drop-offs occur.
+
+          Use this metric for overall performance tracking, channel ROI evaluation, and strategic decision-making around traffic acquisition and user experience investments.
         expr: SUM(IFF(has_booking, 1, 0)) / COUNT(DISTINCT touch_id)
+        access_modifier: public_access
+      - name: SESSION_PAY_BUTTON_CLICK_TO_BOOKING_CVR
+        synonyms:
+          - booking_conversion_from_pay_click
+          - click_to_purchase_cvr
+          - pay_button_success_rate
+          - pay_click_booking_conversion
+          - pay_cta_conversion_rate
+          - pay_funnel_conversion_rate
+          - payment_button_to_booking_rate
+          - payment_click_cvr
+          - payment_to_booking_conversion
+          - session_payment_conversion_rate
+        description: |-
+          Pre-calculated conversion rate measuring the percentage of sessions that pressed the Pay button and successfully completed a booking. This represents the final step in the conversion funnel and is used to measure a user conversion through the Payment Service Provider.
+
+          Calculated as: (Sessions with both BFV and Booking / Sessions with BFV) × 100
+
+          This metric indicates how effectively the checkout process converts intent into completed transactions. A low SESSION_PAY_BUTTON_CLICK_TO_BOOKING_CVR suggests issues with payment service provider, technical errors, payment confirmation errors, or technical issues loading payment service provider payment portal. A high rate indicates a smooth, trustworthy payment experience.
+
+          Use this metric to evaluate checkout optimisation, payment service provider efficiency, and payment issues.
+
+          This metric uses Non Voucher based flags to exclude voucher pay button click conversion rate.
+        expr: |-
+          COUNT(DISTINCT IFF(HAS_NON_VOUCHER_PAY_BUTTON_CLICK AND HAS_BOOKING, TOUCH_ID, NULL))
+          / COUNT(DISTINCT IFF(HAS_NON_VOUCHER_PAY_BUTTON_CLICK, TOUCH_ID, NULL))
         access_modifier: public_access
       - name: SESSION_SEARCH_TO_SPV_CVR
         synonyms:
@@ -796,34 +2127,60 @@ tables:
       - name: SESSION_SPV_TO_BFV_CVR
         synonyms:
           - spv to bfv conversion
-        description: The conversion rate of sessions that have a spv and bfv from sessions that have a spv
+        description: |-
+          Pre-calculated conversion rate measuring the percentage of sessions with at least one Sales Page View (SPV) that progressed to viewing the Booking Form View (BFV). This represents the critical mid-funnel conversion from product browsing to checkout initiation.
+
+          Calculated as: (Sessions with both SPV and BFV / Sessions with SPV) × 100
+
+          This metric indicates how effectively product pages convert browsers into potential bookers. A low SESSION_SPV_TO_BFV_CVR suggests issues with product information quality, pricing perception, availability, imagery, reviews, or call-to-action effectiveness. A high rate indicates strong product appeal and clear conversion pathways.
+
+          Use this metric to evaluate product page optimization, pricing strategy effectiveness, and the strength of product-to-purchase intent conversion.
         expr: SUM(IFF(has_spv AND has_booking_form_view, 1, 0)) / SUM(IFF(has_spv, 1, 0))
-        access_modifier: public_access
-      - name: SESSION_SPV_TO_BFV_CVR_CATALOGUE
-        synonyms:
-          - Catalogue SPV to BFV CVR
-        expr: SUM(IFF(HAS_SPV_CATALOGUE AND BOOKING_FORM_VIEWS_CATALOGUE, 1, 0)) / SUM(IFF(HAS_SPV_CATALOGUE, 1, 0))
         access_modifier: public_access
       - name: SESSION_TO_SPV_CVR
         synonyms:
           - session spv conversion
-        description: The conversion rate of sessions that have a spv from all sessions
+        description: |-
+          Pre-calculated conversion rate measuring the percentage of sessions that progressed to viewing at least one Sales Page View (SPV). This is the first critical step in the conversion funnel, indicating how effectively sessions are transitioning from initial visit to active product browsing.
+
+          Calculated as: (Sessions with SPV / Total Sessions) × 100
+
+          This metric represents the "browse initiation rate" and is essential for understanding top-of-funnel performance. A low SESSION_TO_SPV_CVR may indicate issues with homepage engagement, search functionality, navigation, or landing page relevance. A high rate suggests effective product discovery and user intent alignment.
+
+          Use this metric to evaluate the effectiveness of search, merchandising, navigation flows, and initial engagement strategies.
         expr: COUNT_IF(has_spv) / COUNT(*)
         access_modifier: public_access
-      - name: SESSION_WITH_USER_SEARCH_CVR
+      - name: SESSION_USER_SEARCH_CVR
         synonyms:
           - Search conversion
           - search cvr
-        description: The percentage of sessions with an spv and booking of sessions with an spv
+        description: The percentage of sessions with an user search and booking from sessions with an search. This is used to understand the conversion rate of sessions that interacted with User Search.
         expr: SUM(IFF(has_booking AND has_user_search, 1, 0)) / SUM(IFF(has_user_search, 1, 0))
+        access_modifier: public_access
+      - name: SESSIONS_WITH_BOOKING
+        description: Counts the total number of sessions that resulted in at least one booking. Use when questions ask about 'sessions with bookings', 'converting sessions', 'how many sessions had a booking', or 'successful sessions'. Helps measure the absolute volume of converting sessions, track booking session trends over time, and analyze conversion performance across different segments.
+        expr: SUM(IFF(has_booking, 1, 0))
         access_modifier: public_access
       - name: SPV_CVR
         synonyms:
           - Spv conversion
           - spv conversion rate
           - SPV CVR
-        description: The percentage of sessions with an spv and booking of sessions with an spv
+        description: |-
+          Pre-calculated conversion rate measuring the percentage of sessions with at least one Sales Page View (SPV) that resulted in a completed booking. This metric isolates conversion performance for users who actively engaged with product pages, excluding sessions that never reached the browsing stage.
+
+          Calculated as: (Sessions with both SPV and Booking / Sessions with SPV) × 100
+
+          This metric provides a cleaner view of conversion quality by focusing only on engaged browsers, removing the noise of bounce traffic and non-engaged sessions. It measures how effectively product engagement translates to completed bookings across the entire consideration-to-purchase journey.
+
+          A low SPV_CVR indicates issues with product appeal, pricing competitiveness, inventory quality, or the checkout process among engaged users. A high rate suggests strong product-market fit and effective conversion optimisation for qualified traffic.
+
+          Use this metric to evaluate the effectiveness of product merchandising, pricing strategies, and conversion optimisation for engaged audiences, independent of top-of-funnel traffic quality issues.
         expr: SUM(IFF(has_booking AND has_spv, 1, 0)) / SUM(IFF(has_spv, 1, 0))
+        access_modifier: public_access
+      - name: TOTAL_SESSIONS
+        description: Counts the total number of unique sessions. Use when questions ask about 'how many sessions', 'total sessions', 'session volume', 'traffic', or 'session count by device/channel/time period'. Helps measure website traffic volume, track user engagement levels, and analyze session patterns across different dimensions like device types, marketing channels, or time periods.
+        expr: COUNT(DISTINCT touch_id)
         access_modifier: public_access
   - name: SE_CALENDAR
     description: This table provides a comprehensive calendar view for business intelligence and analytics purposes, offering various date-related attributes and filters to support time-based analysis and reporting. It includes columns for date values, day and month names, year, quarter, and week information, as well as flags for year-to-date, quarter-to-date, month-to-date, and week-to-date periods, allowing for easy comparison and aggregation of data across different time periods.
@@ -837,28 +2194,25 @@ tables:
         expr: DATE_VALUE
         data_type: DATE
         sample_values:
-          - "1970-04-09"
-          - "1970-01-30"
-          - "1970-01-02"
-    facts:
+          - '1970-04-09'
+          - '1970-01-30'
+          - '1970-01-02'
       - name: SE_WEEK
         description: The week of the semester, with 1 being the first week and increasing sequentially, and 29 representing a non-standard or break week.
         expr: SE_WEEK
         data_type: NUMBER(2,0)
-        access_modifier: public_access
         sample_values:
-          - "29"
-          - "1"
-          - "2"
+          - '29'
+          - '1'
+          - '2'
       - name: SE_YEAR
         description: The year in which a specific event or data point occurred, allowing for analysis and comparison of trends and patterns over time.
         expr: SE_YEAR
         data_type: NUMBER(5,0)
-        access_modifier: public_access
         sample_values:
-          - "1972"
-          - "1971"
-          - "1970"
+          - '1972'
+          - '1971'
+          - '1970'
     primary_key:
       columns:
         - DATE_VALUE
@@ -868,6 +2222,14 @@ tables:
       schema: DATA
       table: SE_USER_ATTRIBUTES
     dimensions:
+      - name: COHORT_ID
+        description: A unique identifier for a group of users who share similar characteristics or experiences, used for analysis and reporting purposes.
+        expr: COHORT_ID
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '24'
+          - '64'
+          - '94'
       - name: COHORT_YEAR_MONTH
         description: The year and month in which a user was first active on the platform, used to group users into cohorts for analysis and comparison.
         expr: COHORT_YEAR_MONTH
@@ -942,6 +2304,14 @@ tables:
           - ID
           - DE
           - FR
+      - name: SHIRO_USER_ID
+        description: Unique identifier for a user in the Shiro authentication system.
+        expr: SHIRO_USER_ID
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '8223726'
+          - '37230093'
+          - '67696515'
     time_dimensions:
       - name: SIGNUP_TSTAMP
         synonyms:
@@ -955,25 +2325,6 @@ tables:
           - 2014-12-16T13:40:26.000+0000
           - 2017-08-09T13:13:39.000+0000
           - 2015-07-09T13:11:22.000+0000
-    facts:
-      - name: COHORT_ID
-        description: A unique identifier for a group of users who share similar characteristics or experiences, used for analysis and reporting purposes.
-        expr: COHORT_ID
-        data_type: NUMBER(38,0)
-        access_modifier: public_access
-        sample_values:
-          - "24"
-          - "64"
-          - "94"
-      - name: SHIRO_USER_ID
-        description: Unique identifier for a user in the Shiro authentication system.
-        expr: SHIRO_USER_ID
-        data_type: NUMBER(38,0)
-        access_modifier: public_access
-        sample_values:
-          - "8223726"
-          - "37230093"
-          - "67696515"
     filters:
       - name: LIVE_ACCOUNT
         synonyms:
@@ -997,8 +2348,7 @@ relationships:
       - left_column: SE_USER_ID
         right_column: SHIRO_USER_ID
 verified_queries:
-  - name: what was our conversion by device yesterday
-    question: what was our conversion by device yesterday
+  - name: '"what was our conversion by device yesterday"'
     sql: |-
       SELECT
         touch_experience AS device,
@@ -1020,11 +2370,11 @@ verified_queries:
         touch_experience
       ORDER BY
         conversion_rate_pct DESC NULLS LAST
-    use_as_onboarding_question: false
-    verified_by: robin patel
+    question: what was our conversion by device yesterday
     verified_at: 1764845226
-  - name: how many sessions had a booking last week
-    question: how many sessions had a booking last week
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"how many sessions had a booking last week"'
     sql: |-
       SELECT
         COUNT(DISTINCT touch_id) AS sessions_with_booking
@@ -1036,11 +2386,11 @@ verified_queries:
         AND has_booking = TRUE
         AND touch_start_tstamp >= DATE_TRUNC('WEEK', CURRENT_DATE - INTERVAL '1 WEEK')
         AND touch_start_tstamp < DATE_TRUNC('WEEK', CURRENT_DATE)
-    use_as_onboarding_question: false
-    verified_by: robin patel
+    question: how many sessions had a booking last week
     verified_at: 1764243981
-  - name: what were our maus last month
-    question: what were our maus last month
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"what were our maus last month"'
     sql: |-
       SELECT
         COUNT(DISTINCT attributed_user_id) AS maus
@@ -1051,11 +2401,11 @@ verified_queries:
         AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
         AND touch_start_tstamp >= DATE_TRUNC('MONTH', CURRENT_DATE - INTERVAL '1 MONTH')
         AND touch_start_tstamp < DATE_TRUNC('MONTH', CURRENT_DATE)
-    use_as_onboarding_question: false
-    verified_by: robin patel
+    question: what were our maus last month
     verified_at: 1764667706
-  - name: Based on sessions yesterday create some cohorts based on their sign up
-    question: Based on sessions yesterday create some cohorts based on their sign up
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Based on sessions yesterday create some cohorts based on their sign up"'
     sql: |-
       SELECT
         ua.cohort_year_month,
@@ -1079,11 +2429,11 @@ verified_queries:
         ua.cohort_year_month
       ORDER BY
         ua.cohort_year_month DESC NULLS LAST
-    use_as_onboarding_question: false
-    verified_by: robin patel
+    question: Based on sessions yesterday create some cohorts based on their sign up
     verified_at: 1764845287
-  - name: How many sessions did we have over the last 7 days by day
-    question: How many sessions did we have over the last 7 days by day
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"How many sessions did we have over the last 7 days by day"'
     sql: |-
       SELECT
         TO_DATE(touch_start_tstamp) AS session_date,
@@ -1099,11 +2449,11 @@ verified_queries:
         TO_DATE(touch_start_tstamp)
       ORDER BY
         session_date DESC NULLS LAST
-    use_as_onboarding_question: false
-    verified_by: robin patel
+    question: How many sessions did we have over the last 7 days by day
     verified_at: 1764844996
-  - name: How many abandoned sessions did we have yesterday
-    question: How many abandoned sessions did we have yesterday
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"How many abandoned sessions did we have yesterday"'
     sql: |-
       WITH __session_metrics AS (
         SELECT
@@ -1128,11 +2478,11 @@ verified_queries:
         AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
         AND touch_start_tstamp >= CURRENT_DATE - INTERVAL '12 MONTHS'
         AND is_abandoned_cart_session = TRUE
-    use_as_onboarding_question: false
-    verified_by: robin patel
+    question: How many abandoned sessions did we have yesterday
     verified_at: 1765302578
-  - name: What is our funnel conversion like?
-    question: What is our funnel conversion like?
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"What is our funnel conversion like?"'
     sql: |-
       SELECT
         'Funnel Conversion Rates for 2026' AS metric_category,
@@ -1151,11 +2501,11 @@ verified_queries:
             AND NOT session_metrics.touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
             AND session_metrics.stitched_identity_type IN ('se_user_id', 'tvl_user_id')
         ) AS sv
-    use_as_onboarding_question: false
-    verified_by: robin patel
+    question: What is our funnel conversion like?
     verified_at: 1767807452
-  - name: how many ios sessions did we have yesterday
-    question: how many ios sessions did we have yesterday
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"how many ios sessions did we have yesterday"'
     sql: |-
       SELECT
         COUNT(DISTINCT touch_id) AS ios_sessions
@@ -1167,44 +2517,678 @@ verified_queries:
         AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
         AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
         AND touch_experience = 'native app ios'
-    use_as_onboarding_question: false
-    verified_by: robin patel
+    question: how many ios sessions did we have yesterday
     verified_at: 1767972485
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"funnel conversion rates by day for the last 10 days including session CVR, session to SPV CVR, SPV to BFV CVR, and BFV to booking CVR"'
+    sql: |-
+      SELECT
+        touch_start_date,
+        DAYNAME(touch_start_date) AS day_name,
+        COUNT(DISTINCT touch_id) AS total_sessions,
+        COUNT(
+          DISTINCT CASE
+            WHEN has_spv THEN touch_id
+          END
+        ) AS sessions_with_spv,
+          COUNT(
+          DISTINCT CASE
+            WHEN has_booking_form_view THEN touch_id
+          END
+        ) AS sessions_with_bfv,
+        COUNT(
+          DISTINCT CASE
+            WHEN has_booking THEN touch_id
+          END
+        ) AS sessions_with_booking,
+        (
+          COUNT(
+            DISTINCT CASE
+              WHEN has_booking THEN touch_id
+            END
+          ) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+        ) * 100 AS session_cvr,
+        (
+          COUNT(
+            DISTINCT CASE
+              WHEN has_spv THEN touch_id
+            END
+          ) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+        ) * 100 AS session_to_spv_cvr,
+        (
+          COUNT(
+            DISTINCT CASE
+              WHEN has_spv
+              AND has_booking_form_view THEN touch_id
+            END
+          ) / NULLIF(
+            NULLIF(
+              COUNT(
+                DISTINCT CASE
+                  WHEN has_spv THEN touch_id
+                END
+              ),
+              0
+            ),
+            0
+          )
+        ) * 100 AS spv_to_bfv_cvr,
+        (
+          COUNT(
+            DISTINCT CASE
+              WHEN has_booking_form_view
+              AND has_booking THEN touch_id
+            END
+          ) / NULLIF(
+            NULLIF(
+              COUNT(
+                DISTINCT CASE
+                  WHEN has_booking_form_view THEN touch_id
+                END
+              ),
+              0
+            ),
+            0
+          )
+        ) * 100 AS bfv_to_booking_cvr
+      FROM
+        session_metrics
+      WHERE
+        touch_se_brand = 'SE Brand'
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND touch_start_date >= CURRENT_DATE - INTERVAL '11 DAYS'
+        AND touch_start_tstamp < CURRENT_DATE
+      GROUP BY
+        touch_start_date
+      ORDER BY
+        touch_start_date DESC
+    question: funnel conversion rates by day for the last 10 days including session CVR, session to SPV CVR, SPV to BFV CVR, and BFV to booking CVR
+    verified_at: 1768216697
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"What week number was last week?"'
+    sql: |-
+      SELECT
+        DISTINCT sc2.se_week
+      FROM
+        se_calendar AS sc2
+      WHERE
+        sc2.date_value < DATE_TRUNC('WEEK', CURRENT_DATE)
+        AND sc2.date_value >= DATE_TRUNC('WEEK', CURRENT_DATE - INTERVAL '1 WEEK')
+      LIMIT
+        1
+    question: What week number was last week?
+    verified_at: 1768217243
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"how many sessions did we make yesterday"'
+    sql: |-
+      SELECT
+        COUNT(DISTINCT touch_id) AS total_sessions
+      FROM
+        session_metrics
+      WHERE
+        TO_DATE(touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+    question: how many sessions did we make yesterday
+    verified_at: 1768217322
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Show me a count of users yesterday by their engagement level"'
+    sql: |-
+      SELECT
+        sm.session_funnel_engagement,
+        COUNT(DISTINCT sm.se_user_id) AS user_count
+      FROM
+        (
+          SELECT
+            DISTINCT sm.se_user_id,
+            sm.session_funnel_engagement
+          FROM
+            session_metrics AS sm
+          WHERE
+            TO_DATE(sm.touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+            AND sm.touch_se_brand = 'SE Brand'
+            AND sm.stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+            AND NOT sm.touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+            AND NOT sm.session_funnel_engagement IS NULL
+        ) AS sm
+      GROUP BY
+        sm.session_funnel_engagement
+      ORDER BY
+        CASE
+          sm.session_funnel_engagement
+          WHEN 'Minimal Engagement' THEN 1
+          WHEN 'Browsing' THEN 2
+          WHEN 'Low Engagement' THEN 3
+          WHEN 'Medium Engagement' THEN 4
+          WHEN 'High Engagement' THEN 5
+          WHEN 'Converted' THEN 6
+        END
+    question: Show me a count of users yesterday by their engagement level
+    verified_at: 1769018862
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"Show me a count of users by their engagement level plot me these categories as columns and then add daily values for the last 7 days"'
+    sql: |-
+      SELECT
+        TO_DATE(sm.touch_start_tstamp) AS session_date,
+        COUNT(
+          DISTINCT CASE
+            WHEN sm.session_funnel_engagement = 'Minimal Engagement' THEN sm.se_user_id
+          END
+        ) AS minimal_engagement,
+        COUNT(
+          DISTINCT CASE
+            WHEN sm.session_funnel_engagement = 'Browsing' THEN sm.se_user_id
+          END
+        ) AS browsing,
+        COUNT(
+          DISTINCT CASE
+            WHEN sm.session_funnel_engagement = 'Low Engagement' THEN sm.se_user_id
+          END
+        ) AS low_engagement,
+        COUNT(
+          DISTINCT CASE
+            WHEN sm.session_funnel_engagement = 'Medium Engagement' THEN sm.se_user_id
+          END
+        ) AS medium_engagement,
+        COUNT(
+          DISTINCT CASE
+            WHEN sm.session_funnel_engagement = 'High Engagement' THEN sm.se_user_id
+          END
+        ) AS high_engagement,
+        COUNT(
+          DISTINCT CASE
+            WHEN sm.session_funnel_engagement = 'Converted' THEN sm.se_user_id
+          END
+        ) AS converted
+      FROM
+        session_metrics AS sm
+      WHERE
+        sm.touch_se_brand = 'SE Brand'
+        AND sm.stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT sm.touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+        AND TO_DATE(sm.touch_start_tstamp) >= CURRENT_DATE - INTERVAL '7 DAYS'
+        AND TO_DATE(sm.touch_start_tstamp) < CURRENT_DATE
+        AND NOT sm.session_funnel_engagement IS NULL
+      GROUP BY
+        TO_DATE(sm.touch_start_tstamp)
+      ORDER BY
+        session_date DESC NULLS LAST
+    question: Show me a count of users by their engagement level plot me these categories as columns and then add daily values for the last 7 days
+    verified_at: 1769018903
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"what was the conversion rate from sessions to bookings yesterday\"'
+    sql: |2-
+          SELECT
+            COUNT(DISTINCT touch_id) AS total_sessions,
+            COUNT(DISTINCT CASE WHEN has_booking THEN touch_id END) AS sessions_with_booking,
+            ROUND((COUNT(DISTINCT CASE WHEN has_booking THEN touch_id END) / 
+              NULLIF(COUNT(DISTINCT touch_id), 0)) * 100, 2) AS conversion_rate_pct
+          FROM session_metrics
+          WHERE TO_DATE(touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+            AND touch_se_brand = 'SE Brand'
+            AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+            AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+    question: what was the conversion rate from sessions to bookings yesterday
+    verified_at: 1769019034
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"show me the full funnel metrics for last week"'
+    sql: |-
+      SELECT
+        COUNT(DISTINCT touch_id) AS total_sessions,
+        COUNT_IF(has_spv) AS sessions_with_spv,
+        COUNT_IF(has_booking_form_view) AS sessions_with_bfv,
+        COUNT_IF(has_booking) AS sessions_with_booking,
+        ROUND(
+          (
+            COUNT_IF(has_spv) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS session_to_spv_cvr_pct,
+        ROUND(
+          (
+            COUNT_IF(has_booking_form_view) / NULLIF(NULLIF(COUNT_IF(has_spv), 0), 0)
+          ) * 100,
+          2
+        ) AS spv_to_bfv_cvr_pct,
+        ROUND(
+          (
+            COUNT_IF(has_booking) / NULLIF(NULLIF(COUNT_IF(has_booking_form_view), 0), 0)
+          ) * 100,
+          2
+        ) AS bfv_to_booking_cvr_pct,
+        ROUND(
+          (
+            COUNT_IF(has_booking) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS overall_session_cvr_pct
+      FROM
+        session_metrics
+      WHERE
+        touch_start_tstamp >= DATE_TRUNC('WEEK', CURRENT_DATE - INTERVAL '1 WEEK')
+        AND touch_start_tstamp < DATE_TRUNC('WEEK', CURRENT_DATE)
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+    question: show me the full funnel metrics for last week
+    verified_at: 1769019048
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"which marketing channel drove the most sessions yesterday"'
+    sql: |-
+      SELECT
+        last_non_direct_touch_mkt_channel AS marketing_channel,
+        COUNT(DISTINCT touch_id) AS total_sessions
+      FROM
+        session_metrics
+      WHERE
+        TO_DATE(touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+      GROUP BY
+        last_non_direct_touch_mkt_channel
+      ORDER BY
+        total_sessions DESC NULLS LAST
+      LIMIT
+        1
+    question: which marketing channel drove the most sessions yesterday
+    verified_at: 1769019094
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"what was the conversion rate for paid channels last week"'
+    sql: |-
+      SELECT
+        ROUND(
+          (
+            SUM(IFF(has_booking, 1, 0)) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS conversion_rate_pct
+      FROM
+        session_metrics
+      WHERE
+        touch_start_tstamp >= DATE_TRUNC('WEEK', CURRENT_DATE - INTERVAL '1 WEEK')
+        AND touch_start_tstamp < DATE_TRUNC('WEEK', CURRENT_DATE)
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+        AND last_non_direct_channel_category = 'Paid'
+    question: what was the conversion rate for paid channels last week
+    verified_at: 1769019129
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"compare conversion rates between mobile app and web yesterday"'
+    sql: |-
+      SELECT
+        CASE
+          WHEN touch_experience IN ('native app ios', 'native app android') THEN 'Mobile App'
+          WHEN touch_experience IN ('web', 'mobile web') THEN 'Web'
+          ELSE 'Other'
+        END AS platform_type,
+        COUNT(DISTINCT touch_id) AS total_sessions,
+        SUM(IFF(has_booking, 1, 0)) AS sessions_with_booking,
+        ROUND(
+          (
+            SUM(IFF(has_booking, 1, 0)) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS conversion_rate_pct
+      FROM
+        session_metrics
+      WHERE
+        TO_DATE(touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+        AND touch_experience IN (
+          'native app ios',
+          'native app android',
+          'web',
+          'mobile web'
+        )
+      GROUP BY
+        platform_type
+      ORDER BY
+        conversion_rate_pct DESC NULLS LAST
+    question: compare conversion rates between mobile app and web yesterday
+    verified_at: 1769019168
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"how many android sessions had bookings last week"'
+    sql: |-
+      SELECT
+        COUNT(DISTINCT touch_id) AS android_sessions_with_booking
+      FROM
+        session_metrics
+      WHERE
+        touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+        AND has_booking = TRUE
+        AND touch_experience = 'native app android'
+        AND touch_start_tstamp >= DATE_TRUNC('WEEK', CURRENT_DATE - INTERVAL '1 WEEK')
+        AND touch_start_tstamp < DATE_TRUNC('WEEK', CURRENT_DATE)
+    question: how many android sessions had bookings last week
+    verified_at: 1769019196
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"What were the top 5 territories with the highest conversion rate yesterday"'
+    sql: |-
+      SELECT
+        touch_affiliate_territory AS territory,
+        COUNT(DISTINCT touch_id) AS total_sessions,
+        SUM(IFF(has_booking, 1, 0)) AS sessions_with_booking,
+        ROUND(
+          (
+            SUM(IFF(has_booking, 1, 0)) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS conversion_rate_pct
+      FROM
+        session_metrics
+      WHERE
+        TO_DATE(touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+      GROUP BY
+        touch_affiliate_territory
+      ORDER BY
+        conversion_rate_pct DESC NULLS LAST
+      LIMIT
+        5
+    question: What were the top 5 territories with the highest conversion rate yesterday
+    verified_at: 1769019253
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"show me sessions by engagement level yesterday"'
+    sql: |-
+      SELECT
+        session_funnel_engagement,
+        COUNT(DISTINCT touch_id) AS total_sessions
+      FROM
+        session_metrics
+      WHERE
+        TO_DATE(touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+        AND NOT session_funnel_engagement IS NULL
+      GROUP BY
+        session_funnel_engagement
+      ORDER BY
+        CASE
+          session_funnel_engagement
+          WHEN 'Minimal Engagement' THEN 1
+          WHEN 'Browsing' THEN 2
+          WHEN 'Low Engagement' THEN 3
+          WHEN 'Medium Engagement' THEN 4
+          WHEN 'High Engagement' THEN 5
+          WHEN 'Converted' THEN 6
+        END
+    question: show me sessions by engagement level yesterday
+    verified_at: 1769019285
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"show me daily sessions for the last 7 days"'
+    sql: |2-
+          SELECT
+            TO_DATE(touch_start_tstamp) AS session_date,
+            COUNT(DISTINCT touch_id) AS total_sessions,
+            COUNT(DISTINCT CASE WHEN has_spv THEN touch_id END) AS sessions_with_spv,
+            COUNT(DISTINCT CASE WHEN has_booking THEN touch_id END) AS sessions_with_booking,
+            ROUND((COUNT(DISTINCT CASE WHEN has_booking THEN touch_id END) / 
+              NULLIF(COUNT(DISTINCT touch_id), 0)) * 100, 2) AS conversion_rate_pct
+          FROM session_metrics
+          WHERE touch_start_tstamp >= CURRENT_DATE - INTERVAL '7 DAYS'
+            AND touch_start_tstamp < CURRENT_DATE
+            AND touch_se_brand = 'SE Brand'
+            AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+            AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+          GROUP BY TO_DATE(touch_start_tstamp)
+          ORDER BY session_date DESC NULLS LAST
+    question: show me daily sessions for the last 7 days
+    verified_at: 1769019321
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"what percentage of sessions viewed hotel products yesterday"'
+    sql: |-
+      SELECT
+        COUNT(DISTINCT touch_id) AS total_sessions,
+        COUNT(
+          DISTINCT CASE
+            WHEN has_spv_hotel = TRUE THEN touch_id
+          END
+        ) AS sessions_with_hotel_spv,
+        ROUND(
+          (
+            COUNT(
+              DISTINCT CASE
+                WHEN has_spv_hotel = TRUE THEN touch_id
+              END
+            ) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS hotel_spv_percentage
+      FROM
+        session_metrics
+      WHERE
+        TO_DATE(touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+    question: what percentage of sessions viewed hotel products yesterday
+    verified_at: 1769019351
+    verified_by: robin patel
+    use_as_onboarding_question: false
+  - name: '"compare logged in vs logged out session performance yesterday"'
+    sql: |-
+      SELECT
+        touch_logged_in,
+        CASE
+          WHEN touch_logged_in = TRUE THEN 'Logged In'
+          ELSE 'Logged Out'
+        END AS login_status,
+        COUNT(DISTINCT touch_id) AS total_sessions,
+        SUM(IFF(has_spv, 1, 0)) AS sessions_with_spv,
+        SUM(IFF(has_booking_form_view, 1, 0)) AS sessions_with_bfv,
+        SUM(IFF(has_booking, 1, 0)) AS sessions_with_booking,
+        ROUND(
+          (
+            SUM(IFF(has_spv, 1, 0)) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS session_to_spv_cvr_pct,
+        ROUND(
+          (
+            SUM(IFF(has_booking_form_view, 1, 0)) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS session_to_bfv_cvr_pct,
+        ROUND(
+          (
+            SUM(IFF(has_booking, 1, 0)) / NULLIF(NULLIF(COUNT(DISTINCT touch_id), 0), 0)
+          ) * 100,
+          2
+        ) AS session_cvr_pct,
+        ROUND(AVG(touch_duration_seconds), 2) AS avg_session_duration_seconds
+      FROM
+        session_metrics
+      WHERE
+        TO_DATE(touch_start_tstamp) = CURRENT_DATE - INTERVAL '1 DAY'
+        AND touch_se_brand = 'SE Brand'
+        AND stitched_identity_type IN ('se_user_id', 'tvl_user_id')
+        AND NOT touch_affiliate_territory IN ('ANOMALOUS', 'SE TECH', 'NON_VERIFIED')
+      GROUP BY
+        touch_logged_in
+      ORDER BY
+        touch_logged_in DESC NULLS LAST
+    question: compare logged in vs logged out session performance yesterday
+    verified_at: 1769019483
+    verified_by: robin patel
+    use_as_onboarding_question: false
 module_custom_instructions:
   sql_generation: |-
-    # --- SECTION 1: IDENTITY & SCOPE ---
-    - You are an expert analyst for Web Analytics and Attribution.
+    # ============================================================================
+    # SECTION 1: IDENTITY & SCOPE
+    # ============================================================================
+    - You are an expert analyst for Web Analytics, Attribution, and User Engagement.
+    - Primary focus: Analyzing session traffic, funnel conversion, user engagement behavior, and channel performance.
     - [Standard Rule]: Use ILIKE for all string comparisons to ensure case-insensitivity.
-    - [Standard Rule]: Never sum ID columns (e.g., `session_id`, `user_id`).
-    - Always apply the filter `touch_se_brand = 'SE Brand'` unless the user explicitly requests another brand or all brands.
-    - Always exclude `touch_affiliate_territory` values 'ANOMALOUS', 'SE TECH', and 'NON_VERIFIED' from all queries by default.
+    - [Standard Rule]: Never sum or aggregate ID columns (e.g., `session_id`, `user_id`).
 
-    # --- SECTION 2: BUSINESS VOCABULARY ---
-    - "Channel" or "Attribution" refers to Last Non-Direct Attribution logic unless specified otherwise.
-    - "Sessions" refers to "Member Sessions" by default.
-    - "Search Metrics" refers to "User Search" data/columns by default.
-    - [Synonym]: "Traffic", "Visits", and "Activity" refer to the session-based columns.
-    - "iOS" filter requests are referring to "TOUCH_EXPERIENCE" is 'native app ios'
-    - A standard user conversion funnel through the website would be: Sessions -> Sessions with sales page view (SPV) -> Sessions with booking form view (BFV) -> Sessions with transaction (booking)
-    - When someone asks for channel they are conventionally asking for LAST_NON_DIRECT_TOUCH_MKT_CHANNEL
+    # ============================================================================
+    # SECTION 2: DEFAULT FILTERS (Auto-Apply Unless Overridden)
+    # ============================================================================
+    - **Brand Filter**: Always apply `touch_se_brand = 'SE Brand'` unless another brand or "all brands" is requested.
+    - **Member Filter**: Always apply `MEMBER_SESSION = TRUE` unless "non-member", "guest", or "all traffic" is explicitly requested.
+    - **Territory Quality Filter**: Always exclude `touch_affiliate_territory` values 'ANOMALOUS', 'SE TECH', and 'NON_VERIFIED' from all queries.
+    - **Date Range**: If no date range is specified, default to the last 12 months based on `TOUCH_START_DATE`.
+    - **Future/Current Exclusion**: Never include the current date or future dates in `TOUCH_START_DATE` filters by default.
+    - **Row Limit**: Always limit raw row queries to 100 rows unless "all" is explicitly requested.
 
-    # --- SECTION 3: METRIC LOGIC & MATH SAFETY ---
+    # ============================================================================
+    # SECTION 3: BUSINESS VOCABULARY & TERM MAPPING
+    # ============================================================================
+
+    ## Traffic & Session Definitions
+    - "Member Sessions", "Traffic", "Visits", "Activity" → Default to `MEMBER_SESSION = TRUE`.
+    - "Non-Member Traffic" / "Guest Traffic" → Must use filter `MEMBER_SESSION = FALSE`.
+
+    ## Attribution & Device Terms
+    - "Channel" / "Attribution" / "Marketing Channel" → `LAST_NON_DIRECT_TOUCH_MKT_CHANNEL`.
+    - "Search Metrics" → `user_search` data.
+    - "iOS" → `TOUCH_EXPERIENCE = 'native app ios'`.
+
+    ## Funnel & Engagement Terms
+    - "Engagement" → `SESSION_FUNNEL_ENGAGEMENT` column.
+    - **Standard Conversion Funnel**: Sessions → Sessions with SPV → Sessions with BFV → Sessions with Transaction.
+
+    ## Pay Button Metrics (Default Behavior)
+    - "Pay Button Click Sessions" → Use `HAS_NON_VOUCHER_PAY_BUTTON_CLICK` (Boolean).
+    - "Pay Button Click Counts" → Use `PAY_BUTTON_CLICKS_NON_VOUCHER` (Numeric Count).
+
+    # ============================================================================
+    # SECTION 4: METRIC CALCULATION RULES
+    # ============================================================================
+
+    ## Math Safety
     - [Standard Rule]: Use `NULLIF(denominator, 0)` for all ratios to prevent division by zero errors.
-    - For search metrics, default to the `user_search` calculation/table unless specified otherwise.
-    - When asked about funnel conversion rates, ALWAYS use these pre-defined metrics:
-      * SESSION_TO_SPV_CVR: SPV sessions that convert to bookings
-      * SESSION_SPV_TO_BFV_CVR: SPV sessions that progress to BFV
-      * SESSION_BFV_TO_BOOKING_CVR: BFV sessions that convert to bookings
-      * SESSION_CVR: Overall session-to-booking conversion rate
-      - NEVER manually calculate these rates; use the defined metric names directly
 
-    # --- SECTION 4: DEFAULT BEHAVIORS ---
-    - If no date range is specified, default to sessions that started in the last 12 months.
+    ## Pre-Calculated Funnel Metrics (Do Not Manually Calculate)
+    - `SESSION_TO_SPV_CVR`
+    - `SESSION_SPV_TO_BFV_CVR`
+    - `SESSION_BFV_TO_BOOKING_CVR`
+    - `SESSION_CVR`
+
+    ## User Counting Rules (Critical)
+    - Target Table: `SESSION_METRICS`
+    - 1) Only count users where `stitched_identity_type = 'se_user_id'`.
+    - 2) Exclude NULL engagement values.
+    - 3) Deduplicate at user-session level (user_id, date, engagement_level).
+
+    # ============================================================================
+    # SECTION 5: DATE & TIME HANDLING
+    # ============================================================================
+
+    ## Default Date Column Selection
+    - **Session/Traffic analysis** → `TOUCH_START_DATE`.
+    - **Truncation Rule**: When using `DATE_TRUNC`, compare timestamps directly; do not cast timestamp columns to DATE.
+
+    ## Time Granularity Selection (Auto-choose appropriate grouping)
+    - Date range <= 31 days → Group by DAY (DATE_TRUNC('DAY', TOUCH_START_DATE)).
+    - Date range 32-180 days → Group by WEEK (use SE_WEEK, SE_YEAR from SE_CALENDAR).
+    - Date range 181-730 days → Group by MONTH (DATE_TRUNC('MONTH', TOUCH_START_DATE)).
+    - Date range > 730 days → Group by QUARTER or YEAR.
+
+    # ============================================================================
+    # SECTION 6: RANKING & TOP N QUERIES
+    # ============================================================================
     - If the user asks for "Top" items, default to Top 5 unless specified.
-    - Always limit raw row queries to 100 rows unless "all" is explicitly requested.
-    - [Standard Rule]: Default filter to not include current date in TOUCH_START_DATE and not be in the future
+    - "Top Channels" → Top 5 by session count or CVR.
+    - Always include ranking number: `ROW_NUMBER() OVER (ORDER BY metric DESC)`.
 
-    # --- SECTION 5: PRESENTATION ---
-    - [Standard Rule]: Format percentages as (Value * 100) displayed with 2 decimal places and a '%' sign.
-    - [Standard Rule]: Format currency columns to 2 decimal places.
-    - Always return the primary name/label column when the user asks for an entity (e.g., Territory Name, Channel Name).
+    # ============================================================================
+    # SECTION 7: RESULT PRESENTATION & FORMATTING
+    # ============================================================================
+
+    ## Numeric Formatting
+    - **Currency**: Format to 2 decimal places.
+    - **Ratios/Percentages**: Multiply by 100, show 2 decimal places (add '%').
+    - **Counts**: Always integers.
+
+    ## Labeling
+    - Always return the primary name/label column when an entity is requested (e.g., Territory Name).
+
+    ## Ordering Logic (Custom Sorts)
+    - **Session Funnel Engagement**:
+      `ORDER BY CASE SESSION_FUNNEL_ENGAGEMENT WHEN 'Minimal Engagement' THEN 1 WHEN 'Browsing' THEN 2 WHEN 'Low Engagement' THEN 3 WHEN 'Medium Engagement' THEN 4 WHEN 'High Engagement' THEN 5 WHEN 'Converted' THEN 6 END`
+      
+    - **Session Depth Category**:
+      `ORDER BY CASE SESSION_DEPTH_CATEGORY WHEN 'Single Event' THEN 1 WHEN 'Light Activity' THEN 2 WHEN 'Moderate Activity' THEN 3 WHEN 'High Activity' THEN 4 WHEN 'Very High Activity' THEN 5 END`
+
+    # ============================================================================
+    # SECTION 8: COMMON ANALYSIS PATTERNS
+    # ============================================================================
+
+    ## Year-over-Year Comparisons
+    - Use same calendar period from previous year (e.g., Jan 2026 vs Jan 2025).
+    - Include absolute change and percentage change.
+
+    ## Performance Metrics Priority Order
+    When user asks "how are we performing?", show in this order:
+    1. Total Sessions (Traffic)
+    2. Overall Conversion Rate (SESSION_CVR)
+    3. Total Bookings (Transactions)
+    4. Pay Button Click Sessions (Non-Voucher)
+
+    # ============================================================================
+    # SECTION 9: EDGE CASES & ERROR HANDLING
+    # ============================================================================
+
+    ## Data Quality Rules
+    - Exclude `touch_affiliate_territory` values 'ANOMALOUS', 'SE TECH', and 'NON_VERIFIED' (Internal/Test traffic).
+    - Ensure `NULLIF` is used for all custom ratio calculations to prevent zero-division errors.
+
+    ## Ambiguous Requests
+    - "Conversion" → Refers to `SESSION_CVR` (Session-to-Booking), not individual step conversion unless specified.
+    - "Pay Button Clicks" → Assume Non-Voucher variants unless specifically asked for "Voucher Clicks".
+
+    # ============================================================================
+    # SECTION 10: MULTI-TABLE QUERY GUIDANCE
+    # ============================================================================
+
+    ## When to Join Tables
+    - **SESSION_METRICS + SE_CALENDAR**: When needing `SE_WEEK` or `SE_YEAR` for weekly aggregation.
+    - **SESSION_METRICS + SE_USER_ATTRIBUTES**: When analyzing user demographics or acquisition source.
+
+    ## Join Keys
+    - `SESSION_METRICS.TOUCH_START_DATE = SE_CALENDAR.DATE_VALUE`.
+    - `SESSION_METRICS.stitched_user_id = SE_USER_ATTRIBUTES.SHIRO_USER_ID`.
+
+    # ============================================================================
+    # SECTION 11: SPECIFIC USE CASES
+    # ============================================================================
+
+    ## "Show me the standard funnel"
+    - **Metrics**: Count distinct sessions at each stage:
+      1. Total Sessions
+      2. Sessions with SPV (`has_spv = TRUE`)
+      3. Sessions with BFV (`has_booking_form_view = TRUE`)
+      4. Sessions with Transaction (`has_booking = TRUE`)
+    - **Calculations**: Use pre-defined CVR metrics between stages.
+
+    ## "Analyze engagement by device"
+    - **Group by**: `TOUCH_EXPERIENCE` (iOS, Android, Web).
+    - **Metrics**: Session Count, `SESSION_CVR`, `SESSION_FUNNEL_ENGAGEMENT` distribution.
+    - **Ordering**: Use the custom Engagement Order defined in Section 7.

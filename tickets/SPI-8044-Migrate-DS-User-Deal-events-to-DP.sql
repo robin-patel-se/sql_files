@@ -920,7 +920,15 @@ ALTER TASK scratch.robinpatel.snapshot_pipeline_user_deal_events RESUME
 ;
 
 
-SELECT *
+SELECT
+	source,
+	snapshot_time::DATE as snapshot_date,
+	evt_date,
+	row_count,
+	users,
+	deal_view__users,
+	book_form__users,
+	orders__users
 FROM scratch.robinpatel.user_deal_events_snapshots
 ;
 
@@ -937,4 +945,12 @@ SELECT
 FROM data_science.predictive_modeling.user_deal_events
 WHERE user_deal_events.evt_date >= CURRENT_DATE - 10
 GROUP BY ALL
+;
+
+
+
+ALTER TASK scratch.robinpatel.snapshot_data_science_user_deal_events SUSPEND
+;
+
+ALTER TASK scratch.robinpatel.snapshot_pipeline_user_deal_events SUSPEND
 ;

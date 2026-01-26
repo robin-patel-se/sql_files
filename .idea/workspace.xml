@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="ana">
-      <change afterPath="$PROJECT_DIR$/semantic_views/current_crm_analysis.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tickets/SPI-8196-update-session-metrics.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cortex/trading_decks_stage.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cortex/cortex_agent_permissions.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/cortex_agent_permissions.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cortex/semantic_view.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/semantic_view.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/semantic_views/current_booking_analysis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/semantic_views/current_booking_analysis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/semantic_views/current_session_analysis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/semantic_views/current_session_analysis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets/SPI-8158-ppc-brand-user-search-session-split.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/SPI-8158-ppc-brand-user-search-session-split.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets/SPI-8044-Migrate-DS-User-Deal-events-to-DP.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/SPI-8044-Migrate-DS-User-Deal-events-to-DP.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

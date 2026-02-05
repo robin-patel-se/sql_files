@@ -5,15 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="ana">
-      <change afterPath="$PROJECT_DIR$/cortex/trading_decks_stage.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tickets/SPI-8044-Migrate-DS-User-Deal-events-to-DP.sql" beforeDir="false" afterPath="$PROJECT_DIR$/tickets/SPI-8044-Migrate-DS-User-Deal-events-to-DP.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cheat_sheet/time_travel.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cheat_sheet/time_travel.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cortex/cortex_search.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/cortex_search.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cortex/trading_decks_stage.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/trading_decks_stage.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/Users/robin/myrepos/sql_files" value="2LovTbKPgZpHrtsK5NasfrOntIU" />
+    </persistenceIdMap>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -45,7 +51,7 @@
     &quot;database.data.extractors.current.id&quot;: &quot;01e62ca9-8b58-4213-9e0c-7cab89d1ffbb&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/robin/myrepos/sql_files/ad_hoc&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;database.data.views.appearance&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;settings.editor.splitter.proportion&quot;: &quot;0.15877771&quot;,
     &quot;two.files.diff.last.used.file&quot;: &quot;/Users/robin.patel/Library/Application Support/JetBrains/DataGrip2024.2/consoles/db/9561d350-2f64-4ed1-be51-82313536b813/console_2.sql&quot;
   },
@@ -109,5 +115,13 @@
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

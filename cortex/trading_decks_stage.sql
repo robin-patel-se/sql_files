@@ -61,8 +61,10 @@ ENCRYPTION = (TYPE = 'SNOWFLAKE_SSE')
 LIST @SCRATCH.ROBINPATEL.TRADING_DECKS
 ;
 
+USE ROLE ai_admin
+;
 -- Refresh the directory so the AI tools can find the new files
-ALTER STAGE se.data.trading_decks REFRESH
+ALTER STAGE scratch.robinpatel.trading_decks REFRESH
 ;
 
 
@@ -85,8 +87,12 @@ SELECT
 FROM DIRECTORY(@SE.DATA.TRADING_DECKS);
 */
 
-TRUNCATE scratch.robinpatel.trading_decks_text;
-USE WAREHOUSE pipe_xlarge;
+TRUNCATE scratch.robinpatel.trading_decks_text
+;
+
+USE WAREHOUSE pipe_xlarge
+;
+
 CREATE OR REPLACE TABLE scratch.robinpatel.trading_decks_text AS
 SELECT
 	relative_path                               AS file_name,
@@ -112,11 +118,11 @@ Add Metadata: When you create your table in Step 2, add columns for Region, Fisc
 Update the Agent Instructions: Tell SnowMind: "When asked about historical context or trading commentary, refer to the 'trading_decks' tool."
 
 */
+USE role ai_admin
+SELECT *
+FROM scratch.robinpatel.trading_decks_text;
 
-SELECT * FROM scratch.robinpatel.trading_decks_text
-
-CREATE OR REPLACE
-CORTEX SEARCH SERVICE SE.DATA.TRADING_DECKS_SEARCH_SERVICE
+CREATE OR REPLACE CORTEX SEARCH SERVICE SE.DATA.TRADING_DECKS_SEARCH_SERVICE
   ON DECK_CONTENT                  -- The column containing the slide text
   ATTRIBUTES FILE_NAME             -- Allows filtering by specific decks
   WAREHOUSE = <YOUR_WAREHOUSE_NAME> -- e.g., COMPUTE_WH
@@ -127,4 +133,3 @@ CORTEX SEARCH SERVICE SE.DATA.TRADING_DECKS_SEARCH_SERVICE
           DECK_CONTENT
       FROM SCRATCH.ROBINPATEL.TRADING_DECKS_TEXT
   );
-

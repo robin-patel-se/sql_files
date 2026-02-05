@@ -3,7 +3,9 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/DDoS compromise investigation.sql" dialect="Snowflake" />
     <file url="file://$PROJECT_DIR$/ad_hoc/object_relationships.sql" dialect="Snowflake" />
+    <file url="file://$PROJECT_DIR$/cheat_sheet/time_travel.sql" dialect="Snowflake" />
     <file url="file://$PROJECT_DIR$/cortex/cortex_agent_permissions.sql" dialect="Snowflake" />
+    <file url="file://$PROJECT_DIR$/cortex/cortex_search.sql" dialect="Snowflake" />
     <file url="file://$PROJECT_DIR$/cortex/semantic_view.sql" dialect="Snowflake" />
     <file url="file://$PROJECT_DIR$/cortex/trading_decks_stage.sql" dialect="Snowflake" />
     <file url="file://$PROJECT_DIR$/tickets/SPI-8044-Migrate-DS-User-Deal-events-to-DP.sql" dialect="Snowflake" />

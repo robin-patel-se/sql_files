@@ -1,0 +1,27 @@
+SELECT
+	promotion_promotion_translation.promotion_id,
+	promotion_promotion_translation.promotion_translations_id,
+	promotion_promotion_translation.promotion_translation_id,
+	promotion_translation.id,
+	promotion_translation.version,
+	promotion_translation.description,
+	promotion_translation.font_awesome_code,
+	promotion_translation.hex_code,
+	promotion_translation.label,
+	promotion_translation.territory_id
+
+FROM latest_vault.cms_mysql.promotion_promotion_translation promotion_promotion_translation
+INNER JOIN latest_vault.cms_mysql.promotion_translation promotion_translation
+	ON promotion_promotion_translation.promotion_translation_id = promotion_translation.id
+	AND promotion_translation.territory_id = 1
+WHERE promotion_promotion_translation.promotion_translations_id = 841
+;
+
+
+SELECT *
+FROM latest_vault.cms_mysql.promotion_promotion_translation promotion_promotion_translation
+LEFT JOIN latest_vault.cms_mysql.promotion_translation promotion_translation
+	ON promotion_promotion_translation.promotion_translation_id = promotion_translation.id
+WHERE promotion_promotion_translation.promotion_translations_id = 841
+-- AND promotion_translation.territory_id = 1
+;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/ad_hoc/emma-editorial-active-sales-non-uk.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+    <file url="file://$PROJECT_DIR$/ad_hoc/james-conway-fornova-90-days.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+    <file url="file://$PROJECT_DIR$/cortex/ai_roles.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+    <file url="file://$PROJECT_DIR$/cortex/cortex_agent.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+    <file url="file://$PROJECT_DIR$/cortex/cortex_search.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+    <file url="file://$PROJECT_DIR$/cortex/semantic_view.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+    <file url="file://$PROJECT_DIR$/snowflake_ltv_predictor.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+    <file url="file://$PROJECT_DIR$/tickets/SPI-8336-update-session-metrics.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+    <file url="file://$PROJECT_DIR$/tickets/SPI-8354-promo-calendar.sql" value="9561d350-2f64-4ed1-be51-82313536b813" />
+  </component>
+</project>

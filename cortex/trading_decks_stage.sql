@@ -93,7 +93,7 @@ TRUNCATE scratch.robinpatel.trading_decks_text
 USE WAREHOUSE pipe_xlarge
 ;
 
-CREATE OR REPLACE TABLE scratch.robinpatel.trading_decks_text AS
+CREATE OR REPLACE TABLE scratch.robinpatel.trading_decks_text COPY GRANTS AS
 SELECT
 	relative_path                               AS file_name,
 	snowflake.cortex.parse_document(

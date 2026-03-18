@@ -4,11 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="ana">
+    <list default="true" id="2099886a-5203-4a4f-8305-71428f7af353" name="Changes" comment="wip">
+      <change afterPath="$PROJECT_DIR$/ad_hoc/CES.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/abs_hotel_pooling.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/bogdan_fixed_se_calculated_rate.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/booking_form_view_booking_id_tracy.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/emma-editorial-active-sales-non-uk.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/feature-flag-investigation.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/james-conway-fornova-90-days.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/juniper_checks_on_whitelabel_spvs.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/promotions-airflow-error.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ad_hoc/sfsc_audit.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cortex/ai_roles.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/snowflake_ltv_predictor.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tickets/SPI-8336-update-session-metrics.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tickets/SPI-8354-promo-calendar.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cheat_sheet/time_travel.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cheat_sheet/time_travel.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cortex/cortex_agent.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/cortex_agent.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cortex/cortex_search.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/cortex_search.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cortex/semantic_view.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/semantic_view.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cortex/trading_decks_stage.sql" beforeDir="false" afterPath="$PROJECT_DIR$/cortex/trading_decks_stage.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,6 +35,13 @@
     <persistenceIdMap>
       <entry key="_/Users/robin/myrepos/sql_files" value="2LovTbKPgZpHrtsK5NasfrOntIU" />
     </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="edit-panel" value="GPT-4.1" />
+      <entry key="chat-panel" value="GPT-5.2-Codex" />
+      <entry key="agent-panel" value="GPT-5.2-Codex" />
+    </selectedModels>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -50,6 +72,7 @@
     &quot;database.data.extractors.current.export.id&quot;: &quot;01e62ca9-8b58-4213-9e0c-7cab89d1ffbb&quot;,
     &quot;database.data.extractors.current.id&quot;: &quot;01e62ca9-8b58-4213-9e0c-7cab89d1ffbb&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;grid.search.filter.rows&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/robin/myrepos/sql_files/ad_hoc&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;settings.editor.splitter.proportion&quot;: &quot;0.15877771&quot;,
@@ -78,10 +101,10 @@
       <recent name="$PROJECT_DIR$/netsuite_data_extract/uploads" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ad_hoc" />
       <recent name="$PROJECT_DIR$/tickets" />
       <recent name="$PROJECT_DIR$/cortex" />
       <recent name="$PROJECT_DIR$/tvl_discrepancies" />
-      <recent name="$PROJECT_DIR$/ad_hoc" />
       <recent name="$PROJECT_DIR$/marc_booking_intent" />
     </key>
   </component>
@@ -110,7 +133,8 @@
   <component name="VcsManagerConfiguration">
     <option name="SHOW_DIRTY_RECURSIVELY" value="true" />
     <MESSAGE value="gian" />
-    <option name="LAST_COMMIT_MESSAGE" value="gian" />
+    <MESSAGE value="wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
